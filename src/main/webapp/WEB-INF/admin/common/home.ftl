@@ -20,7 +20,7 @@
                     <span class="easyui-linkbutton setTheme">peppergrinder</span>
                     <span class="easyui-linkbutton setTheme">sunny</span>
                     <br/>
-                    <span class="realName"></span>你好,您是<span class="roleName"></span>&nbsp;&nbsp;<span
+                    <span class="realName"></span>你好,${userInfo.nickName} ,您是<span class="roleName">${roleInfo.roleName}</span>&nbsp;&nbsp;<span
                         class="logout">注销</span>
                 </td>
             </tr>
@@ -70,7 +70,7 @@
         </div>
     </div>
     <div data-options="region:'south',split:true" style="height:30px; text-align: center;line-height: 23px;">
-        <span>Copyright &copy; &nbsp; 深圳第七大道科技有限公司 &nbsp;自主运营部网站开发后台组 </span>
+        <span>Copyright &copy; &nbsp; 深圳###########科技有限公司 &nbsp;cutter.li </span>
     </div>
 </div>
 <script type="text/javascript" src="${req.contextPath}/static/js/sys/common.js"></script>

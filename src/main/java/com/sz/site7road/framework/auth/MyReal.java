@@ -95,7 +95,7 @@ public class MyReal extends AuthorizingRealm {
         }
 
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(username, userInfoEntity.getPassword(), getName());
-        authenticationInfo.setCredentialsSalt(ByteSource.Util.bytes(userInfoEntity.getPasssalt()));
+//        authenticationInfo.setCredentialsSalt(ByteSource.Util.bytes(userInfoEntity.getPasssalt()));
         return authenticationInfo;
     }
 }

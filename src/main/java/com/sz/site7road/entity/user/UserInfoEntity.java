@@ -62,9 +62,9 @@ public class UserInfoEntity implements Serializable {
      */
     private int userStatus;
     /**
-     * 角色集合
+     * 角色id
      */
-    private Set<RoleInfoEntity> roleSet;
+    private int roleId;
 
     @Id
     @GeneratedValue(generator = "increment")
@@ -167,13 +167,13 @@ public class UserInfoEntity implements Serializable {
     public void setUserStatus(int userStatus) {
         this.userStatus = userStatus;
     }
-//    @Column(name = "role_set_str")
-//    @ManyToMany(targetEntity = RoleInfoEntity.class,mappedBy ="role_set_str" )
-//    public Set<RoleInfoEntity> getRoleSet() {
-//        return roleSet;
-//    }
-//
-//    public void setRoleSet(Set<RoleInfoEntity> roleSet) {
-//        this.roleSet = roleSet;
-//    }
+    @Column(name = "role_id")
+//    @OneToOne(targetEntity = RoleInfoEntity.class,mappedBy ="role_id" )
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
 }

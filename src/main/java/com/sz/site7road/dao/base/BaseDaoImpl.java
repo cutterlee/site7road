@@ -1,8 +1,6 @@
 package com.sz.site7road.dao.base;
 
 import com.google.common.base.Strings;
-import com.google.common.primitives.Ints;
-import com.sz.site7road.entity.companyInfo.CompanyEntity;
 import com.sz.site7road.entity.system.PageEntity;
 import com.sz.site7road.framework.grid.GridQueryCondition;
 import com.sz.site7road.framework.grid.RequestGridEntity;
@@ -13,7 +11,6 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.*;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -22,14 +19,14 @@ import java.util.List;
 /**
  * USER： cutter.li
  * CREATE TIME： 2014-07-30 17:27
- * REMARK：
+ * REMARK：通用的dao实现类
  */
 @Component
 public class BaseDaoImpl<T> implements BaseDao<T> {
     @Resource
-    private SessionFactory sessionFactory;
+    protected SessionFactory sessionFactory;
 
-    private Class<T> entityClass = null;
+    protected Class<T> entityClass = null;
 
     public BaseDaoImpl() {
         Class c = getClass();

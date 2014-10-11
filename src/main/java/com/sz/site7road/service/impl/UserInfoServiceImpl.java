@@ -30,7 +30,7 @@ public class UserInfoServiceImpl extends AbstractBaseServiceImpl<UserInfoEntity>
      */
     @Override
     public UserInfoEntity findUserInfoByUserName(String username) {
-        return null;
+        return usrDao.findUserByUserName(username);
     }
 
     /**

@@ -6,18 +6,22 @@
 
 
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-        <property name="loginUrl" value="/admin/login"/>
-        <property name="unauthorizedUrl" value="/admin/unauthorized"/>
-        <property name="successUrl" value="/admin/home"/>
+        <property name="loginUrl" value="/login"/>
+        <property name="unauthorizedUrl" value="/noRight"/>
+        <property name="successUrl" value="/home"/>
         <property name="securityManager" ref="mySecurityManager"/>
         <property name="filterChainDefinitions">
             <value>
+                /captchaImage=anon
+                /noRight=anon
+                /home=anon
+                /static/js/**=anon
                 /**=authc
             </value>
         </property>
     </bean>
     <bean id="mySecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <property name="realm" ref="myReal"/>
+       <property name="realm" ref="myReal"></property>
     </bean>
     <bean id="myReal" class="com.sz.site7road.framework.auth.MyReal"/>
 

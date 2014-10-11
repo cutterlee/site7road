@@ -19,10 +19,8 @@
     <!--开放后台系统的资源-->
     <mvc:default-servlet-handler/>
     <context:annotation-config/>
-    <!--扫描，注入到springmvc容器中-->
+    <!--扫描，注入controller到springmvc容器中-->
     <context:component-scan base-package="com.sz.site7road.controller"/>
-    <context:component-scan base-package="com.sz.site7road.dao"/>
-    <context:component-scan base-package="com.sz.site7road.service"/>
 
     <!--设置freemarker为默认视图-->
     <bean id="FreeMarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
@@ -43,23 +41,22 @@
     </bean>
 
 
-    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
-    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" >
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
         <property name="messageConverters">
             <util:list id="beanList">
                 <ref bean="mappingJacksonHttpMessageConverter"/>
             </util:list>
         </property>
     </bean>
-    <bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+    <bean id="mappingJacksonHttpMessageConverter"
+          class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
         <property name="supportedMediaTypes">
             <list>
                 <value>text/html;charset=UTF-8</value>
             </list>
         </property>
     </bean>
-
-
 
 
 </beans>

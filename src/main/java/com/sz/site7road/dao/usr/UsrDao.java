@@ -9,4 +9,10 @@ import com.sz.site7road.entity.user.UserInfoEntity;
  * remark: 后台用户的到接口
  */
 public interface UsrDao extends BaseDao<UserInfoEntity> {
+    /**
+     * 根据用户名查找用户信息
+     * @param username
+     * @return
+     */
+    UserInfoEntity findUserByUserName(String username);
 }

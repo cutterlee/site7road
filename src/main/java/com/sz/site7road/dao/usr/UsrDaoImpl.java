@@ -2,6 +2,11 @@ package com.sz.site7road.dao.usr;
 
 import com.sz.site7road.dao.base.BaseDaoImpl;
 import com.sz.site7road.entity.user.UserInfoEntity;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,4 +16,24 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class UsrDaoImpl  extends BaseDaoImpl<UserInfoEntity> implements UsrDao{
+    /**
+     * 根据用户名查找用户信息
+     *
+     * @param username
+     * @return
+     */
+    @Override
+    public UserInfoEntity findUserByUserName(String username) {
+        Session session =  sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            UserInfoEntity entity= (UserInfoEntity) session.createCriteria(entityClass).add(Restrictions.eq("username",username)).uniqueResult();
+            transaction.commit();
+            return entity;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            transaction.rollback();
+        }
+        return null;
+    }
 }

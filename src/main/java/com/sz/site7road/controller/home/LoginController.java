@@ -1,7 +1,15 @@
 package com.sz.site7road.controller.home;
 
 import com.google.code.kaptcha.Producer;
+import com.sz.site7road.entity.user.UserInfoEntity;
+import com.sz.site7road.framework.config.AppConstant;
 import com.sz.site7road.service.ResourceService;
+import com.sz.site7road.service.RoleInfoService;
+import com.sz.site7road.service.UsrService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,13 +34,21 @@ public class LoginController {
     private  Producer captchaProducer;
     @Resource
     private ResourceService resourceService;
+    @Resource
+    private RoleInfoService roleInfoService;
+    @Resource
+    private UsrService usrService;
+
+    Session subjectSession =null;
 
     @RequestMapping(value = "/login",method = RequestMethod.GET)
     public ModelAndView login() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("common/login");
-        modelAndView.addObject("systemName", ResourceBundle.getBundle("message").getString("system.name"));
-
+        subjectSession=SecurityUtils.getSubject().getSession(true);
+        subjectSession.setAttribute("version", System.currentTimeMillis());//用户信息
+        subjectSession.setAttribute("systemName", ResourceBundle.getBundle("message").getString("system.name"));
+        subjectSession.setAttribute("errorMsg", "");
         return modelAndView;
     }
 
@@ -49,20 +65,42 @@ public class LoginController {
     public ModelAndView noRight() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("common/noRight");
-        modelAndView.addObject("systemName", ResourceBundle.getBundle("message").getString("system.name"));
         return modelAndView;
     }
 
     @RequestMapping(value = "/home")
-    public ModelAndView loginSubmit(String username,String password,String code) {
+    public ModelAndView loginSubmit(String username, String password, String code) {
         ModelAndView modelAndView = new ModelAndView();
 
-        //判断登录的密码和用户名
+       Subject subject= SecurityUtils.getSubject();
 
+        if(!subject.isAuthenticated())
+        {
+            modelAndView.setViewName("redirect:/login");
+        }
+        try{
+            subject.login(new UsernamePasswordToken(username,password));
+        }catch (Exception ex)
+        {
 
-        modelAndView.setViewName("common/home");
-        modelAndView.addObject("systemName", ResourceBundle.getBundle("message").getString("system.name"));
-        modelAndView.addObject("authList", resourceService.getTreeNodeListByPid(0));
+        }finally {
+            //判断登录的密码和用户名
+            if(subject.isAuthenticated())
+            {
+                modelAndView.setViewName("common/home");
+                subjectSession=SecurityUtils.getSubject().getSession(true);
+                UserInfoEntity userInfoEntity= usrService.findUserInfoByUserName(username);
+                subjectSession.setAttribute("systemName", ResourceBundle.getBundle("message").getString("system.name"));
+                subjectSession.setAttribute("userInfo", userInfoEntity);//用户信息
+                subjectSession.setAttribute("roleInfo", roleInfoService.findEntityById(userInfoEntity.getRoleId()));//角色信息
+                subjectSession.setAttribute("authList", resourceService.getTreeNodeListByPid(0));//权限列表
+            }else{
+                modelAndView.setViewName("common/login");
+                subjectSession.setAttribute("systemName", ResourceBundle.getBundle("message").getString("system.name"));
+                subjectSession.setAttribute("errorMsg", ResourceBundle.getBundle(AppConstant.MESSAGE_NAME).getString("login.error"));
+            }
+        }
+
         return modelAndView;
     }
 
