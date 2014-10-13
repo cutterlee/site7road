@@ -63,7 +63,7 @@
                 重构公司官网
             <ul>
                 <li>后台采用的技术是springMVC,Hibernate,freemarker</li>
-                <li>前端使用js库 easyui</li>
+                <li>前端使用js库 easyui,富文本编辑器使用百度编辑器ueditor</li>
                 <li> 把公司官网的现有业务都转移过来</li>
             </ul>
             </p>

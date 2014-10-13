@@ -68,7 +68,7 @@ public class LoginController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/home")
+    @RequestMapping(value = "/home",method = RequestMethod.POST)
     public ModelAndView loginSubmit(String username, String password, String code) {
         ModelAndView modelAndView = new ModelAndView();
 

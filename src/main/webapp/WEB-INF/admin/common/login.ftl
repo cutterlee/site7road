@@ -18,11 +18,11 @@
         <table>
             <tr>
                 <td>用户名:</td>
-                <td><input name="username" class="f1 easyui-textbox" data-options="required:true"></input></td>
+                <td><input name="username" class="f1 easyui-textbox" data-options="required:true,iconCls:'icon-man',iconAlign:'left'"></input></td>
             </tr>
             <tr>
                 <td>密码:</td>
-                <td><input name="password" class="f1 easyui-textbox" data-options="required:true"></input></td>
+                <td><input name="password" class="f1 easyui-textbox" data-options="required:true,iconCls:'icon-lock',iconAlign:'left'"></input></td>
             </tr>
             <tr>
                 <td>验证码:</td>
@@ -32,7 +32,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td><input type="submit" value="登陆" class="easyui-linkbutton" style="width: 100px;height: 30px;"></input></td>
+                <td><button class="easyui-linkbutton"  data-options="iconCls:'icon-ok'"  style="width: 200px;height: 32px;">登陆</button></td>
             </tr>
             <tr>
                 <td colspan="2">${errorMsg}</td>
