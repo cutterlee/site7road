@@ -46,6 +46,15 @@ public abstract class BaseController<T> {
         return responseGridEntity;
     }
 
+    @RequestMapping(value = "/create",method = RequestMethod.GET)
+    protected String create( ModelMap map) throws IllegalAccessException, InstantiationException {
+        map.addAttribute("entity", getService().createEmptyEntity());
+        map.addAttribute("title", "增加"+getTitle());
+        map.addAttribute("titleName", getTitle());
+        map.addAttribute("op",System.currentTimeMillis());
+        map.addAttribute("entityName", getTemplateDir());
+        return getTemplateDir()+"/form";
+    }
 
     @RequestMapping(value = "/{id}/remove", method = RequestMethod.POST)
     @ResponseBody
@@ -70,13 +79,15 @@ public abstract class BaseController<T> {
     public String modifyEntity(@PathVariable(value = "id") int id, ModelMap map) {
         map.addAttribute("entity", getService().findEntityById(id));
         map.addAttribute("title", "编辑" + getTitle());
-        return getTemplateDir() + "/edit";
+        map.addAttribute("titleName", getTitle());
+        map.addAttribute("op",System.currentTimeMillis());
+        map.addAttribute("entityName", getTemplateDir());
+        return getTemplateDir() + "/form";
     }
 
     @RequestMapping(value = "/save")
     @ResponseBody
     protected ResultForGridForm modifyEntitySave(T entity) {
-
         ResultForGridForm result = new ResultForGridForm();
         try {
             getService().modify(entity);

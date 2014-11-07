@@ -38,6 +38,8 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
     }
 
 
+
+
     @Override
     public List<T> findByPage(PageEntity pageEntity) {
         Session session = sessionFactory.openSession();
@@ -206,5 +208,15 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         List<T> enityList = criteria.setFirstResult(dataGridParam.getStart()).setMaxResults(dataGridParam.getRows()).list();
         transaction.commit();
         return enityList;
+    }
+
+    /**
+     * 创建一个没有数据,但是非空的实体
+     *
+     * @return
+     */
+    @Override
+    public T createEmptyEntity() throws IllegalAccessException, InstantiationException {
+        return entityClass.newInstance();
     }
 }

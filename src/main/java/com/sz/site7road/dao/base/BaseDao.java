@@ -36,4 +36,10 @@ public interface BaseDao<T> {
      * @return  一页的数据
      */
     List findEntityListByRequestGridEntity(RequestGridEntity dataGridParam);
+
+    /**
+     * 创建一个没有数据,但是非空的实体
+     * @return
+     */
+    T createEmptyEntity() throws IllegalAccessException, InstantiationException;
 }

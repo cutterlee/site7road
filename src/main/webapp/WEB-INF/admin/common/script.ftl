@@ -19,10 +19,11 @@
                     return $(this).form('validate');
                 },
                 success: function (result) {
+                    alert(result);
                     var result = eval('(' + result + ')');
-                    if (!result.success) {
+                    if ( !result.success) {
                         $.messager.show({
-                            title: 'Error',
+                            title: '错误提示',
                             msg: result.errorMsg
                         });
                     } else {
@@ -42,7 +43,7 @@
                                 $('#'+'${entityName}grid').datagrid('reload');    // reload the user data
                             } else {
                                 $.messager.show({    // show error message
-                                    title: 'Error',
+                                    title: '错误提示',
                                     msg: result.errorMsg
                                 });
                             }

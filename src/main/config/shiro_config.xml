@@ -15,9 +15,10 @@
                 /captchaImage=anon
                 /noRight=anon
                 /home=anon
+                /img/upload=anon
                 /test/**=anon
                 /combo/**=anon
-                /static/js/**=anon
+                /static/**=anon
                 /**=authc
             </value>
         </property>

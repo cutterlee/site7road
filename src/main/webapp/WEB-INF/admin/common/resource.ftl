@@ -7,14 +7,16 @@
 <script type="text/javascript" src="${req.contextPath}/static/js/easyui/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="${req.contextPath}/static/js/jquery.cookie.js"></script>
 
-<#--ueditor的配置文件-->
 <!-- 配置文件 -->
 <script type="text/javascript" src="${req.contextPath}/static/js/ueditor/ueditor.config.js"></script>
 <!-- 编辑器源码文件 -->
 <script type="text/javascript" src="${req.contextPath}/static/js/ueditor/ueditor.all.js"></script>
+<!-- 编辑器转换文件 -->
+<script type="text/javascript" src="${req.contextPath}/static/js/ueditor/ueditor.parse.js"></script>
 <!-- 编辑器的语言文件 -->
 <script type="text/javascript" src="${req.contextPath}/static/js/ueditor/lang/zh-cn/zh-cn.js"></script>
-<!-- 实例化编辑器 -->
+<!--加载上传的配置文件-->
 <script type="text/javascript">
-    var ue = UE.getEditor('container');
+    window.UEDITOR_CONFIG.UEDITOR_HOME_URL="${req.contextPath}/static/js/ueditor/";
+    window.UEDITOR_CONFIG.serverUrl = "${req.contextPath}/img/upload";
 </script>

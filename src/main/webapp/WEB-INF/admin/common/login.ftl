@@ -1,5 +1,12 @@
 <#import "/spring.ftl" as spring>
-<#include "resource.ftl">
+<link rel="stylesheet" id="themeCss" type="text/css" href="${req.contextPath}/static/js/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="${req.contextPath}/static/js/easyui/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="${req.contextPath}/static/js/easyui/themes/color.css">
+<link rel="stylesheet" id="themeCss" type="text/css" href="${req.contextPath}/static/css/common.css?v=<#if version??>${version}</#if>">
+<script type="text/javascript" src="${req.contextPath}/static/js/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="${req.contextPath}/static/js/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="${req.contextPath}/static/js/easyui/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="${req.contextPath}/static/js/jquery.cookie.js"></script>
 
 <head>
     <title>${systemName}---登陆页</title>
@@ -22,7 +29,7 @@
             </tr>
             <tr>
                 <td>密码:</td>
-                <td><input name="password" class="f1 easyui-textbox" data-options="required:true,iconCls:'icon-lock',iconAlign:'left'"></input></td>
+                <td><input name="password" class="f1 easyui-textbox" type="password" data-options="required:true,iconCls:'icon-lock',iconAlign:'left'"></input></td>
             </tr>
             <tr>
                 <td>验证码:</td>

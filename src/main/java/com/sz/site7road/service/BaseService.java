@@ -35,4 +35,6 @@ public interface BaseService <T>{
      * @return 一页的数据
      */
     List findEntityListByRequestGridEntity(RequestGridEntity dataGridParam);
+
+    T createEmptyEntity() throws InstantiationException, IllegalAccessException;
 }

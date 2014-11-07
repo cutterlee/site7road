@@ -69,4 +69,9 @@ public abstract class AbstractBaseServiceImpl<T> implements BaseService<T> {
         }
         return getBaseDao().findEntityListByRequestGridEntity(dataGridParam);
     }
+
+    @Override
+    public T createEmptyEntity() throws InstantiationException, IllegalAccessException {
+        return (T) getBaseDao().createEmptyEntity();
+    }
 }

@@ -21,7 +21,7 @@
                     <span class="easyui-linkbutton setTheme">sunny</span>
                     <br/>
                     <span class="realName"></span>你好,${userInfo.nickName} ,您是<span class="roleName">${roleInfo.roleName}</span>&nbsp;&nbsp;<span
-                        class="logout">注销</span>
+                        class="logout c1">注销</span>
                 </td>
             </tr>
         </table>
@@ -93,6 +93,9 @@
                     var contentHref = $(this).attr("path");
                     var iconCls = $(this).attr("iconCls");
                     openTab(titleName, contentHref, iconCls,"${req.contextPath}");
+                });
+                $(".logout").bind("click",function(){
+                   window.location.href="${req.contextPath}/logout";
                 });
             }
     );

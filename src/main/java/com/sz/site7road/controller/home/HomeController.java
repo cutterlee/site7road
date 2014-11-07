@@ -1,12 +1,17 @@
 package com.sz.site7road.controller.home;
 
 import com.google.code.kaptcha.Producer;
+import com.google.common.base.Strings;
 import com.sz.site7road.entity.user.UserInfoEntity;
 import com.sz.site7road.framework.config.AppConstant;
 import com.sz.site7road.service.ResourceService;
 import com.sz.site7road.service.RoleInfoService;
 import com.sz.site7road.service.UsrService;
+import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.CredentialsException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -25,13 +30,16 @@ import java.util.ResourceBundle;
 
 /**
  * Created by cutter.li on 2014/9/10.
+ * 登陆到后台主页面的控制器
  */
 @Controller
 @RequestMapping(value = "/")
-public class LoginController {
+public class HomeController {
+
+    private Logger logger = Logger.getLogger(HomeController.class);
 
     @Resource
-    private  Producer captchaProducer;
+    private Producer captchaProducer;
     @Resource
     private ResourceService resourceService;
     @Resource
@@ -39,25 +47,36 @@ public class LoginController {
     @Resource
     private UsrService usrService;
 
-    Session subjectSession =null;
+    Session subjectSession = null;
 
-    @RequestMapping(value = "/login",method = RequestMethod.GET)
-    public ModelAndView login() {
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
+
+        String errorClassName = (String) request.getAttribute("shiroLoginFailure");
+
+        String errorMsg = "";
+
+        if (UnknownAccountException.class.getSimpleName().equals(errorClassName)) {
+            errorMsg = "用户名不存在";
+        } else if (IncorrectCredentialsException.class.getSimpleName().equals(errorClassName)) {
+            errorMsg = "密码错误";
+        } else if (!Strings.isNullOrEmpty(errorClassName)) {
+            errorMsg = "未知错误";
+        }
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("common/login");
-        subjectSession=SecurityUtils.getSubject().getSession(true);
+        subjectSession = SecurityUtils.getSubject().getSession(true);
         subjectSession.setAttribute("version", System.currentTimeMillis());//用户信息
         subjectSession.setAttribute("systemName", ResourceBundle.getBundle("message").getString("system.name"));
-        subjectSession.setAttribute("errorMsg", "");
+        subjectSession.setAttribute("errorMsg", errorMsg);
         return modelAndView;
     }
 
-    @RequestMapping(value = "/logout",method = RequestMethod.GET)
-    public ModelAndView logout() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("common/login");
-        modelAndView.addObject("systemName", ResourceBundle.getBundle("message").getString("system.name"));
-        return modelAndView;
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout() {
+        SecurityUtils.getSubject().logout();
+        return "redirect:/login";
     }
 
 
@@ -68,33 +87,33 @@ public class LoginController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/home",method = RequestMethod.POST)
+    @RequestMapping(value = "/home", method = RequestMethod.POST)
     public ModelAndView loginSubmit(String username, String password, String code) {
         ModelAndView modelAndView = new ModelAndView();
 
-       Subject subject= SecurityUtils.getSubject();
+        Subject subject = SecurityUtils.getSubject();
+        subjectSession = SecurityUtils.getSubject().getSession(true);
+        logger.info("shiro.session的过期时间:" + subjectSession.getTimeout());
 
-        if(!subject.isAuthenticated())
-        {
+
+        if (!subject.isAuthenticated()) {
             modelAndView.setViewName("redirect:/login");
         }
-        try{
-            subject.login(new UsernamePasswordToken(username,password));
-        }catch (Exception ex)
-        {
+        try {
+            subject.login(new UsernamePasswordToken(username, password));
+        } catch (Exception ex) {
 
-        }finally {
+        } finally {
             //判断登录的密码和用户名
-            if(subject.isAuthenticated())
-            {
+            if (subject.isAuthenticated()) {
                 modelAndView.setViewName("common/home");
-                subjectSession=SecurityUtils.getSubject().getSession(true);
-                UserInfoEntity userInfoEntity= usrService.findUserInfoByUserName(username);
+
+                UserInfoEntity userInfoEntity = usrService.findUserInfoByUserName(username);
                 subjectSession.setAttribute("systemName", ResourceBundle.getBundle("message").getString("system.name"));
                 subjectSession.setAttribute("userInfo", userInfoEntity);//用户信息
                 subjectSession.setAttribute("roleInfo", roleInfoService.findEntityById(userInfoEntity.getRoleId()));//角色信息
                 subjectSession.setAttribute("authList", resourceService.getTreeNodeListByPid(0));//权限列表
-            }else{
+            } else {
                 modelAndView.setViewName("common/login");
                 subjectSession.setAttribute("systemName", ResourceBundle.getBundle("message").getString("system.name"));
                 subjectSession.setAttribute("errorMsg", ResourceBundle.getBundle(AppConstant.MESSAGE_NAME).getString("login.error"));
