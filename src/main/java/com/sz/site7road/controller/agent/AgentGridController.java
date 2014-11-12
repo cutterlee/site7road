@@ -1,6 +1,6 @@
 package com.sz.site7road.controller.agent;
 
-import com.sz.site7road.controller.base.BaseController;
+import com.sz.site7road.controller.base.BaseGridController;
 import com.sz.site7road.entity.agent.AgentInfo;
 import com.sz.site7road.framework.config.AppConstant;
 import com.sz.site7road.service.AgentService;
@@ -19,9 +19,9 @@ import java.util.ResourceBundle;
  */
 @Controller
 @RequestMapping(value = "/agent")
-public class AgentController extends BaseController<AgentInfo> {
+public class AgentGridController extends BaseGridController<AgentInfo> {
 
-    private static final Logger log=Logger.getLogger(AgentController.class);
+    private static final Logger log=Logger.getLogger(AgentGridController.class);
 
     @Autowired
     private AgentService agentService;

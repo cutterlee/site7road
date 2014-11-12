@@ -1,6 +1,6 @@
 package com.sz.site7road.controller.usr;
 
-import com.sz.site7road.controller.base.BaseController;
+import com.sz.site7road.controller.base.BaseGridController;
 import com.sz.site7road.entity.user.UserInfoEntity;
 import com.sz.site7road.service.BaseService;
 import com.sz.site7road.service.UsrService;
@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
  */
 @Controller
 @RequestMapping(value = "/usr")
-public class UsrController extends BaseController<UserInfoEntity> {
+public class UsrGridController extends BaseGridController<UserInfoEntity> {
 
     @Resource
     private UsrService usrService;

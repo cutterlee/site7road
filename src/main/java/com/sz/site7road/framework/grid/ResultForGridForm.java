@@ -18,6 +18,11 @@ public class ResultForGridForm implements Serializable{
      */
     private String errorMsg;
 
+    /**
+     * 提示的主题
+     */
+    private String subject;
+
     public boolean isSuccess() {
         return success;
     }
@@ -36,5 +41,13 @@ public class ResultForGridForm implements Serializable{
 
     public void setErrorMsg(String errorMsg) {
         this.errorMsg = errorMsg;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 }

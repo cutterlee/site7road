@@ -3,25 +3,30 @@ package com.sz.site7road.controller.base;
 import com.sz.site7road.framework.grid.RequestGridEntity;
 import com.sz.site7road.framework.grid.ResponseGridEntity;
 import com.sz.site7road.framework.grid.ResultForGridForm;
+import com.sz.site7road.framework.treegrid.RequestTreeGridEntity;
+import com.sz.site7road.framework.treegrid.ResponseTreeGridEntity;
 import com.sz.site7road.service.BaseService;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
  * User： cutter.li
  * Date： 2014/7/30
  * Time： 15:52
- * 备注： 基本的增删改查
+ * 备注： 基本的增删改查,针对dataGrid单独编写的公用Controller模板
  */
-public abstract class BaseController<T> {
+public abstract class BaseGridController<T> {
 
     protected abstract BaseService getService();
 
@@ -46,14 +51,15 @@ public abstract class BaseController<T> {
         return responseGridEntity;
     }
 
-    @RequestMapping(value = "/create",method = RequestMethod.GET)
-    protected String create( ModelMap map) throws IllegalAccessException, InstantiationException {
+
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    protected String create(ModelMap map) throws IllegalAccessException, InstantiationException {
         map.addAttribute("entity", getService().createEmptyEntity());
-        map.addAttribute("title", "增加"+getTitle());
+        map.addAttribute("title", "增加" + getTitle());
         map.addAttribute("titleName", getTitle());
-        map.addAttribute("op",System.currentTimeMillis());
+        map.addAttribute("op", System.currentTimeMillis());
         map.addAttribute("entityName", getTemplateDir());
-        return getTemplateDir()+"/form";
+        return getTemplateDir() + "/form";
     }
 
     @RequestMapping(value = "/{id}/remove", method = RequestMethod.POST)
@@ -73,26 +79,35 @@ public abstract class BaseController<T> {
     }
 
 
-
-
     @RequestMapping(value = "/{id}/modify", method = RequestMethod.GET)
     public String modifyEntity(@PathVariable(value = "id") int id, ModelMap map) {
         map.addAttribute("entity", getService().findEntityById(id));
         map.addAttribute("title", "编辑" + getTitle());
         map.addAttribute("titleName", getTitle());
-        map.addAttribute("op",System.currentTimeMillis());
+        map.addAttribute("op", System.currentTimeMillis());
         map.addAttribute("entityName", getTemplateDir());
         return getTemplateDir() + "/form";
     }
 
     @RequestMapping(value = "/save")
     @ResponseBody
-    protected ResultForGridForm modifyEntitySave(T entity) {
+    protected ResultForGridForm modifyEntitySave(@Valid @ModelAttribute("entity") T entity, BindingResult bindingResult) {
         ResultForGridForm result = new ResultForGridForm();
+
         try {
-            getService().modify(entity);
-            result.setSuccess();
-            result.setErrorMsg(ResourceBundle.getBundle("message").getString("save.success"));
+            if (!bindingResult.hasFieldErrors()) {
+                boolean saveResult = getService().modify(entity);
+                if (saveResult) {
+                    result.setSuccess();
+                    result.setErrorMsg(ResourceBundle.getBundle("message").getString("save.success"));
+                } else {
+                    result.setFail();
+                    result.setErrorMsg(ResourceBundle.getBundle("message").getString("save.fail"));
+                }
+            }else{
+                result.setFail();
+                result.setErrorMsg(bindingResult.getFieldError().getField()+ bindingResult.getFieldError().getDefaultMessage());
+            }
         } catch (Exception ex) {
             result.setFail();
             result.setErrorMsg(ResourceBundle.getBundle("message").getString("save.fail"));
@@ -100,7 +115,6 @@ public abstract class BaseController<T> {
         }
         return result;
     }
-
 
 
     @InitBinder

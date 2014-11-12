@@ -1,9 +1,14 @@
 package com.sz.site7road.service.impl;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.sz.site7road.dao.base.BaseDao;
 import com.sz.site7road.dao.resource.ResourceDao;
+import com.sz.site7road.dao.roleresource.RoleResourceDao;
 import com.sz.site7road.entity.resource.ResourceEntity;
+import com.sz.site7road.entity.role.RoleResourceEntity;
+import com.sz.site7road.framework.combotree.ComboTreeResponse;
 import com.sz.site7road.framework.grid.RequestGridEntity;
 import com.sz.site7road.framework.tree.TreeNode;
 import com.sz.site7road.service.ResourceService;
@@ -13,6 +18,7 @@ import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * project: 公司官网重构---李福春
@@ -24,6 +30,9 @@ public class ResourceServiceImpl extends AbstractBaseServiceImpl<ResourceEntity>
 
     @Resource
     private ResourceDao resourceDao;
+
+    @Resource
+    private RoleResourceDao roleResourceDao;
 
     @Override
     protected BaseDao getBaseDao() {
@@ -172,4 +181,118 @@ public class ResourceServiceImpl extends AbstractBaseServiceImpl<ResourceEntity>
 
         return treeNodeList;
     }
+
+    /**
+     * 从pid得到树节点列表
+     *
+     * @param pid 父id
+     * @return comboTree的树
+     */
+    @Override
+    public List<ComboTreeResponse> getComboTreeChildrenByPid(int pid) {
+        List<ComboTreeResponse> comboTreeResponseList=Lists.newLinkedList();
+        List<TreeNode> treeNodeList= getTreeNodeListByPid(0);
+        for(TreeNode treeNode:treeNodeList)
+        {
+           ComboTreeResponse comboTreeResponse=new ComboTreeResponse();
+            comboTreeResponse.setId(treeNode.getId());
+            comboTreeResponse.setText(treeNode.getText());
+            comboTreeResponse.setIconCls(treeNode.getIconCls());
+            List<TreeNode> children = treeNode.getChildren();
+            if(children !=null&&!children.isEmpty())
+            {
+               comboTreeResponse.setChildren(getComboTreeChildrenFromTreeNode(children));
+            }
+            comboTreeResponseList.add(comboTreeResponse);
+        }
+        return comboTreeResponseList;
+    }
+
+    /**
+     * 删除某用户的所有权限
+     *
+     * @param roleId 用户id
+     * @return 删除的结果
+     */
+    @Override
+    public boolean removeByRoleId(int roleId) {
+        Preconditions.checkArgument(roleId>0,"userId不合法");
+        return roleResourceDao.removeByRoleId(roleId);
+    }
+
+    /**
+     * 给某用户添加新的权限
+     *
+     * @param resourceIdArray 权限的编号数组
+     * @param roleId          用户id
+     * @return 添加权限的结果
+     */
+    @Override
+    public boolean batchInsertResource(int[] resourceIdArray, int roleId) {
+        Preconditions.checkArgument(roleId>0,"userId不合法");
+        Preconditions.checkArgument(resourceIdArray!=null&&resourceIdArray.length>0,"resourceIdArray不能为空");
+        return roleResourceDao.batchInsertResource(resourceIdArray,roleId);
+    }
+
+    /**
+     * 获得授权的树,有权限的设置为选中状态
+     *
+     * @param roleId 角色id
+     * @return 授权的树
+     */
+    @Override
+    public List<TreeNode> getAuthCheckedTree(int roleId) {
+        List<TreeNode> treeNodeList=getTreeNodeListByPid(0);
+        List<RoleResourceEntity> resourceEntityList= roleResourceDao.findResourceByRoleId(roleId);
+        Map<Integer,Integer> resourceIdMap= Maps.newHashMap();
+        for(RoleResourceEntity roleResourceEntity:resourceEntityList)
+        {
+            resourceIdMap.put(roleResourceEntity.getResourceId(),roleResourceEntity.getResourceId());
+        }
+        for(TreeNode treeNode:treeNodeList)
+        {
+            if(resourceIdMap.containsKey(treeNode.getId()))
+            {
+                treeNode.setChecked(true);
+            }
+            getAuthTreeChecked(treeNode.getChildren(),resourceIdMap);
+        }
+        return treeNodeList;
+    }
+
+    public void getAuthTreeChecked( List<TreeNode> treeNodeList, Map<Integer,Integer> resourceIdMap)
+    {
+
+            if(treeNodeList!=null&&!treeNodeList.isEmpty())
+            {
+                for(TreeNode treeNode:treeNodeList)
+                {
+                if(resourceIdMap.containsKey(treeNode.getId()))
+                {
+                    treeNode.setChecked(true);
+                }
+                getAuthTreeChecked(treeNode.getChildren(),resourceIdMap);
+            }
+        }
+    }
+
+    public List<ComboTreeResponse> getComboTreeChildrenFromTreeNode( List<TreeNode> treeNodeList)
+    {
+        List<ComboTreeResponse> comboTreeResponseList=Lists.newLinkedList();
+        for(TreeNode treeNode:treeNodeList)
+        {
+            ComboTreeResponse comboTreeResponse=new ComboTreeResponse();
+            comboTreeResponse.setId(treeNode.getId());
+            comboTreeResponse.setText(treeNode.getText());
+            comboTreeResponse.setIconCls(treeNode.getIconCls());
+            List<TreeNode> children = treeNode.getChildren();
+            if(children !=null&&!children.isEmpty())
+            {
+                comboTreeResponse.setChildren(getComboTreeChildrenFromTreeNode(children));
+            }
+            comboTreeResponseList.add(comboTreeResponse);
+        }
+        return comboTreeResponseList;
+    }
+
 }

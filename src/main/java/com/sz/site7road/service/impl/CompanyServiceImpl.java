@@ -46,13 +46,13 @@ public class CompanyServiceImpl extends AbstractBaseServiceImpl<CompanyEntity> i
     }
 
     @Override
-    public void modify(CompanyEntity entity) {
+    public boolean modify(CompanyEntity entity) {
         Preconditions.checkArgument(null != entity, "entity为空");
         if(entity.getId()>0)
         {
-            dao.modifyCompany(entity);
+         return    dao.modifyCompany(entity);
         }else{
-            dao.creatComany(entity);
+         return    dao.creatComany(entity);
         }
     }
 }

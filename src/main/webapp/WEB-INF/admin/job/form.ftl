@@ -1,8 +1,4 @@
 <#import "/spring.ftl" as spring>
-<script type="text/javascript">
-    window.UEDITOR_CONFIG.UEDITOR_HOME_URL="${req.contextPath}/static/js/ueditor/";
-    window.UEDITOR_CONFIG.serverUrl = "${req.contextPath}/img/upload";
-</script>
     <div>
         <form  method="POST"  id="${entityName}Fm">
 

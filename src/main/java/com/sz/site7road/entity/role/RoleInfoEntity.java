@@ -16,7 +16,7 @@ import java.util.Set;
  * 备注： 角色信息实体
  */
 @Entity
-@Table(name = "t_role_info")
+@Table(name = "t_role")
 public class RoleInfoEntity implements Serializable {
 
     private int id;

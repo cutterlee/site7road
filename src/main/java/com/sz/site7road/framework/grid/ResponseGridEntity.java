@@ -14,11 +14,11 @@ public class ResponseGridEntity implements Serializable {
     /**
      * 总数
      */
-    private long total = 0;
+    protected long total = 0;
     /**
      * 一页的数据
      */
-    private List rows = Lists.newLinkedList();
+    protected List rows = Lists.newLinkedList();
 
     public long getTotal() {
         return total;

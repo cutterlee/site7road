@@ -9,17 +9,18 @@
         <table width="100%">
             <tr>
                 <td><img src="${req.contextPath}/static/img/headerLogo.jpg"></td>
-                <td align="right">
-                    <span class="easyui-linkbutton setTheme">default</span>
-                    <span class="easyui-linkbutton setTheme">bootstrap</span>
-                    <span class="easyui-linkbutton setTheme">gray</span>
-                    <span class="easyui-linkbutton setTheme">black</span>
-                    <span class="easyui-linkbutton setTheme">metro</span>
-                    <span class="easyui-linkbutton setTheme">cupertino</span>
-                    <span class="easyui-linkbutton setTheme">darkhive</span>
-                    <span class="easyui-linkbutton setTheme">peppergrinder</span>
-                    <span class="easyui-linkbutton setTheme">sunny</span>
-                    <br/>
+                <td align="right" >
+                    <select class="setTheme">
+                        <option  value="default">default</option>
+                        <option  value="bootstrap">bootstrap</option>
+                        <option  value="gray">gray</option>
+                        <option  value="black">black</option>
+                        <option value="metro">metro</option>
+                        <option value="cupertino">cupertino</option>
+                        <option value="darkhive">darkhive</option>
+                        <option value="peppergrinder">peppergrinder</option>
+                        <option value="sunny">sunny</option>
+                    </select>
                     <span class="realName"></span>你好,${userInfo.nickName} ,您是<span class="roleName">${roleInfo.roleName}</span>&nbsp;&nbsp;<span
                         class="logout c1">注销</span>
                 </td>
@@ -63,9 +64,19 @@
                 重构公司官网
             <ul>
                 <li>后台采用的技术是springMVC,Hibernate,freemarker</li>
+                <li>权限控制采用的是shiro框架</li>
                 <li>前端使用js库 easyui,富文本编辑器使用百度编辑器ueditor</li>
-                <li> 把公司官网的现有业务都转移过来</li>
+                <li>把公司官网,招聘站点,公众号站点的现有业务都转移过来</li>
+                <li>弹出层的例子,请看用户管理</li>
+                <li>ueditor的例子,请看职位信息</li>
+                <li>treeGrid的例子,请看权限管理</li>
             </ul>
+            </p>
+            <p>
+                快捷导航
+
+
+
             </p>
         </div>
     </div>
@@ -79,10 +90,11 @@
                 var THEME_COOKIE_NAME = "system_theme_name";
                 if ($.cookie(THEME_COOKIE_NAME)) {
                     $("#themeCss").attr("href", "${req.contextPath}/static/js/easyui/themes/" + $.cookie(THEME_COOKIE_NAME) + "/easyui.css");
+                    $(".setTheme").val($.cookie(THEME_COOKIE_NAME));
                 }
 
-                $(".setTheme").bind("click", function () {
-                    var themeName = $(this).text();
+                $(".setTheme").bind("change", function () {
+                    var themeName = $(this).val();
                     $("#themeCss").attr("href", "${req.contextPath}/static/js/easyui/themes/" + themeName + "/easyui.css");
                     //把选择写入cookie
                     $.cookie(THEME_COOKIE_NAME, themeName, { path: '/', expires: 7 });

@@ -24,8 +24,16 @@
             <th field="eventContentSmall"  align="left">大事件内容简介</th>
         <th field="eventContentDetail"  align="left">大事件详细内容</th>
         <th field="eventHtmlName" >html名称</th>
-        <th field="eventHtmlName">发布时间</th>
-        <th field="updateTime" >最后更改时间</th>
+        <th  data-options="field:'eventHtmlName',formatter:
+                    function(value,row,index){
+                    var unixTimestamp = new Date(value);
+                    return unixTimestamp.format('yyyy-MM-dd hh:mm:ss');
+                    }">发布时间</th>
+        <th data-options="field:'updateTime',formatter:
+                    function(value,row,index){
+                    var unixTimestamp = new Date(value);
+                    return unixTimestamp.format('yyyy-MM-dd hh:mm:ss');
+                    }">最后更改时间</th>
     </tr>
     </thead>
 </table>

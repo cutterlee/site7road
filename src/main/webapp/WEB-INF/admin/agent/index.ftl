@@ -23,7 +23,11 @@
         <th field="agentName"  align="left" sortable="true">代理商名称</th>
         <th field="agentImg"  align="left">代理商图片</th>
         <th field="agentUrl"  align="left">代理商的主页</th>
-        <th field="updateTime">创建时间</th>
+        <th  data-options="field:'updateTime',formatter:
+                    function(value,row,index){
+                    var unixTimestamp = new Date(value);
+                    return unixTimestamp.format('yyyy-MM-dd hh:mm:ss');
+                    }">创建时间</th>
     </tr>
     </thead>
 </table>

@@ -1,6 +1,6 @@
 package com.sz.site7road.controller.site;
 
-import com.sz.site7road.controller.base.BaseController;
+import com.sz.site7road.controller.base.BaseGridController;
 import com.sz.site7road.entity.site.SiteEntity;
 import com.sz.site7road.service.BaseService;
 import com.sz.site7road.service.SiteService;
@@ -17,7 +17,7 @@ import javax.annotation.Resource;
  */
 @Controller
 @RequestMapping(value = "/site")
-public class SiteController extends BaseController<SiteEntity> {
+public class SiteGridController extends BaseGridController<SiteEntity> {
 
     @Resource
     private SiteService service;

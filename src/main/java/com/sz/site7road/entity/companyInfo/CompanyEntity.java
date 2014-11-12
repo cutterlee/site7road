@@ -17,7 +17,7 @@ import java.util.Set;
  * 备注： 公司信息管理
  */
 @Entity
-@Table(name = "t_company_info")
+@Table(name = "t_company")
 public class CompanyEntity {
 
     private long id=0;

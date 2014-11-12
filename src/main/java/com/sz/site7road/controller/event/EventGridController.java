@@ -1,6 +1,6 @@
 package com.sz.site7road.controller.event;
 
-import com.sz.site7road.controller.base.BaseController;
+import com.sz.site7road.controller.base.BaseGridController;
 import com.sz.site7road.entity.event.EventInfo;
 import com.sz.site7road.framework.config.AppConstant;
 import com.sz.site7road.service.BaseService;
@@ -19,9 +19,9 @@ import java.util.ResourceBundle;
  */
 @Controller
 @RequestMapping(value = "/event")
-public class EventController extends BaseController<EventInfo> {
+public class EventGridController extends BaseGridController<EventInfo> {
 
-    private static final Logger log=Logger.getLogger(EventController.class);
+    private static final Logger log=Logger.getLogger(EventGridController.class);
 
     @Autowired
     private EventService eventService;

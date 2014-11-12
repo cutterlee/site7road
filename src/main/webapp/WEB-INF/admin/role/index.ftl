@@ -19,14 +19,16 @@
     <tr>
         <th field="roleName" width="100" sortable="true" align="center">角色名称</th>
         <th field="roleSummary" width="100" align="left" sortable="true">角色概述</th>
-        <th field="lastModifyTime" width="100" align="left">修改时间</th>
+        <th field="lastModifyTime" width="100" align="left" data-options="formatter:function(value,row,index){
+          var unixTimestamp = new Date(value); return unixTimestamp.format('yyyy-MM-dd hh:mm:ss');
+        }">修改时间</th>
         <th field="id" width="200" align="center" formatter="initButton">操作</th>
     </tr>
     </thead>
 </table>
 
 <div style="display: none;">
-    <div id="${entityName}dlg" class="easyui-dialog" style="width:80%;height:90%;padding:10px 20px;"
+    <div id="${entityName}dlg" class="easyui-dialog" style="width:40%;height:30%;padding:10px 20px;"
          closed="true" buttons="#${entityName}dlg-buttons">
 
         <form id="${entityName}Fm" method="post" novalidate>

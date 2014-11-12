@@ -1,12 +1,13 @@
 package com.sz.site7road.entity.user;
 
-import com.sz.site7road.entity.role.RoleInfoEntity;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 
 /**
  * User： cutter.li
@@ -15,7 +16,7 @@ import java.util.Set;
  * 备注： 用户信息实体
  */
 @Entity
-@Table(name = "t_user_info")
+@Table(name = "t_user")
 public class UserInfoEntity implements Serializable {
     /**
      * 主键id
@@ -24,10 +25,14 @@ public class UserInfoEntity implements Serializable {
     /**
      * 用户名
      */
+    @NotBlank
+    @Length(min = 6,max = 16)
     private String username;
     /**
      * 密码
      */
+    @NotBlank
+    @Length(min = 8,max = 15)
     private String password;
     /**
      * 密码盐
@@ -36,10 +41,14 @@ public class UserInfoEntity implements Serializable {
     /**
      * 昵称
      */
+    @NotBlank
+    @Length(min = 2,max = 8)
     private String nickName;
     /**
      * 用户邮箱
      */
+    @NotBlank
+    @Email
     private String userEmail;
     /**
      * 创建时间
@@ -60,6 +69,7 @@ public class UserInfoEntity implements Serializable {
     /**
      * 用户状态
      */
+    @NotBlank
     private int userStatus;
     /**
      * 角色id

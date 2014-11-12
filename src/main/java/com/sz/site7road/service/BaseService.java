@@ -1,8 +1,9 @@
 package com.sz.site7road.service;
 
-import com.sz.site7road.entity.companyInfo.CompanyEntity;
 import com.sz.site7road.entity.system.PageEntity;
+import com.sz.site7road.framework.combotree.ComboTreeResponse;
 import com.sz.site7road.framework.grid.RequestGridEntity;
+import com.sz.site7road.framework.treegrid.RequestTreeGridEntity;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public interface BaseService <T>{
 
     T findEntityById(int id);
 
-    void modify(T entity);
+    boolean modify(T entity);
 
     /**
      * 更具dataGrid的参数查询出总数量
@@ -36,5 +37,27 @@ public interface BaseService <T>{
      */
     List findEntityListByRequestGridEntity(RequestGridEntity dataGridParam);
 
+    /**
+     * 创建一个空的实体来初始化增加页面的数据,跟编辑页面统一
+     * @return
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
     T createEmptyEntity() throws InstantiationException, IllegalAccessException;
+
+    /**
+     * 根据treeGrid的参数,得到总条数
+     * @param treeGridParam treeGrid的请求参数
+     * @return 符合条件的数量
+     */
+    long getCountByRequestTreeGridEntity(RequestTreeGridEntity treeGridParam);
+
+    /**
+     * 根据treeGrid的参数,查询出符合条件的列表
+     * @param treeGridParam treeGrid的请求参数
+     * @return 符合条件的列表
+     */
+    List findEntityListByRequestTreeGridEntity(RequestTreeGridEntity treeGridParam);
+
+
 }

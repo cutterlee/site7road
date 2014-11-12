@@ -2,6 +2,7 @@ package com.sz.site7road.dao.base;
 
 import com.sz.site7road.entity.system.PageEntity;
 import com.sz.site7road.framework.grid.RequestGridEntity;
+import com.sz.site7road.framework.treegrid.RequestTreeGridEntity;
 
 import java.util.List;
 
@@ -19,9 +20,9 @@ public interface BaseDao<T> {
 
     T findEntityById(int id);
 
-    void modify(T entity);
+    boolean modify(T entity);
 
-    void create(T entity);
+    boolean create(T entity);
 
     /**
      * 根据查询条件得到总数
@@ -42,4 +43,18 @@ public interface BaseDao<T> {
      * @return
      */
     T createEmptyEntity() throws IllegalAccessException, InstantiationException;
+
+    /**
+     * 根据treeGrid的参数,查询得到总数量
+     * @param treeGridParam treeGrid的查询参数
+     * @return 数量
+     */
+    long getCountByRequestTreeGridEntity(RequestTreeGridEntity treeGridParam);
+
+    /**
+     * 根据treeGrid的查询参数,查询得到树形的list
+     * @param treeGridParam
+     * @return
+     */
+    List findEntityListByRequestTreeGridEntity(RequestTreeGridEntity treeGridParam);
 }

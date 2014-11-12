@@ -4,6 +4,7 @@
 <link rel="stylesheet" id="themeCss" type="text/css" href="${req.contextPath}/static/css/common.css?v=<#if version??>${version}</#if>">
 <script type="text/javascript" src="${req.contextPath}/static/js/easyui/jquery.min.js"></script>
 <script type="text/javascript" src="${req.contextPath}/static/js/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="${req.contextPath}/static/js/sys/validate.js"></script>
 <script type="text/javascript" src="${req.contextPath}/static/js/easyui/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="${req.contextPath}/static/js/jquery.cookie.js"></script>
 

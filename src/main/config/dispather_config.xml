@@ -61,8 +61,7 @@
     </bean>
 
 
-    <bean id="messageSource"
-          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    <bean id="messageSource"  class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basename" value="classpath:message"/>
         <property name="fileEncodings" value="utf-8"/>
         <property name="cacheSeconds" value="120"/>
@@ -70,16 +69,14 @@
     </bean>
 
     <!--指定hibernate为JSR303实现类-->
-    <bean id="validator"
-          class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
         <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
         <!-- 如果不加默认到 使用classpath下的 ValidationMessages.properties -->
         <property name="validationMessageSource" ref="messageSource"/>
     </bean>
 
     <!--adaptor配置类-->
-    <bean id="webBindingInitializer"
-          class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+    <bean id="webBindingInitializer"  class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
         <property name="conversionService" ref="conversionService"/>
         <property name="validator" ref="validator"/>
         <property name="propertyEditorRegistrar" ref="dateConverter"/>

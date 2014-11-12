@@ -19,7 +19,6 @@
                     return $(this).form('validate');
                 },
                 success: function (result) {
-                    alert(result);
                     var result = eval('(' + result + ')');
                     if ( !result.success) {
                         $.messager.show({
@@ -54,6 +53,9 @@
         });
 
         $(".searchEntity").bind("click", function () {
+
+
+
             $('#' + '${entityName}grid').datagrid('load', {
                 "condition.propertyName": $("#companyNameSearch").attr("textboxname"), "condition.where": "like", "condition.propertyValue": $("#companyNameSearch").val()
             });

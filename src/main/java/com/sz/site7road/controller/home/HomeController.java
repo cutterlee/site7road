@@ -7,6 +7,7 @@ import com.sz.site7road.framework.config.AppConstant;
 import com.sz.site7road.service.ResourceService;
 import com.sz.site7road.service.RoleInfoService;
 import com.sz.site7road.service.UsrService;
+import com.sz.site7road.util.HttpUtil;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.CredentialsException;
@@ -26,6 +27,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 /**
@@ -88,7 +90,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/home", method = RequestMethod.POST)
-    public ModelAndView loginSubmit(String username, String password, String code) {
+    public ModelAndView loginSubmit(String username, String password, String code,HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
 
         Subject subject = SecurityUtils.getSubject();
@@ -106,6 +108,10 @@ public class HomeController {
         } finally {
             //判断登录的密码和用户名
             if (subject.isAuthenticated()) {
+                //更新登陆次数和最后登陆ip
+
+
+
                 modelAndView.setViewName("common/home");
 
                 UserInfoEntity userInfoEntity = usrService.findUserInfoByUserName(username);
@@ -113,6 +119,11 @@ public class HomeController {
                 subjectSession.setAttribute("userInfo", userInfoEntity);//用户信息
                 subjectSession.setAttribute("roleInfo", roleInfoService.findEntityById(userInfoEntity.getRoleId()));//角色信息
                 subjectSession.setAttribute("authList", resourceService.getTreeNodeListByPid(0));//权限列表
+
+                userInfoEntity.setLastLoginIp(HttpUtil.getIpAddress(request));
+                userInfoEntity.setLastLoginTime(new Date(System.currentTimeMillis()));
+                userInfoEntity.setLoginTimes(userInfoEntity.getLoginTimes()+1);
+                usrService.modify(userInfoEntity);
             } else {
                 modelAndView.setViewName("common/login");
                 subjectSession.setAttribute("systemName", ResourceBundle.getBundle("message").getString("system.name"));

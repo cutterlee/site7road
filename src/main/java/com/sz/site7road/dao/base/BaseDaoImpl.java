@@ -4,14 +4,17 @@ import com.google.common.base.Strings;
 import com.sz.site7road.entity.system.PageEntity;
 import com.sz.site7road.framework.grid.GridQueryCondition;
 import com.sz.site7road.framework.grid.RequestGridEntity;
+import com.sz.site7road.framework.treegrid.RequestTreeGridEntity;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.*;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -36,8 +39,6 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
             this.entityClass = (Class<T>) p[0];
         }
     }
-
-
 
 
     @Override
@@ -79,28 +80,32 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
     }
 
     @Override
-    public void modify(T entity) {
+    public boolean modify(T entity) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
             session.update(entity);
             transaction.commit();
+            return true;
         } catch (Exception ex) {
             transaction.rollback();
         }
+        return false;
     }
 
     @Override
-    public void create(T entity) {
+    public boolean create(T entity) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
+        Serializable id=null;
         try {
-            session.save(entity);
+            id= session.save(entity);
             transaction.commit();
         } catch (Exception ex) {
             ex.printStackTrace();
             transaction.rollback();
         }
+        return id!=null;
     }
 
     @Override
@@ -110,34 +115,26 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         Long total = 0l;
         Criteria criteria = session.createCriteria(entityClass);
 
-        if (null != dataGridParam.getCondition() && !Strings.isNullOrEmpty(dataGridParam.getCondition().getPropertyName())) {//优先单字段查询
-            GridQueryCondition condition = dataGridParam.getCondition();
-            Criterion queryCondition = null;
-            String where = condition.getWhere();//得到条件
-            if ("eq".equalsIgnoreCase(where)) {
-                queryCondition = Restrictions.eq(condition.getPropertyName(), condition.getPropertyValue());
-            } else if ("ge".equalsIgnoreCase(where)) {
-                queryCondition = Restrictions.ge(condition.getPropertyName(), condition.getPropertyValue());
-            } else if ("le".equalsIgnoreCase(where)) {
-                queryCondition = Restrictions.le(condition.getPropertyName(), condition.getPropertyValue());
-            } else if ("like".equalsIgnoreCase(where)) {
-                queryCondition = Restrictions.like(condition.getPropertyName(), condition.getPropertyValue().toString(), MatchMode.ANYWHERE);
-            }
-            criteria.add(queryCondition);
-        } else {
-            //增加查询条件
-            if (!dataGridParam.getQueryConditionList().isEmpty()) {
-                for (GridQueryCondition condition : dataGridParam.getQueryConditionList()) {
+        //增加查询条件
+        List<GridQueryCondition> queryConditionList = dataGridParam.getQueryConditionList();
+        if (queryConditionList != null && !queryConditionList.isEmpty()) {
+            for (GridQueryCondition condition : queryConditionList) {
+                Object propertyValue = condition.getPropertyValue();
+                if (!Strings.isNullOrEmpty(condition.getPropertyName()) && propertyValue !=null&&!Strings.isNullOrEmpty(propertyValue.toString())) {
                     Criterion queryCondition = null;
                     String where = condition.getWhere();//得到条件
+                    if(org.apache.commons.lang3.StringUtils.isNumeric(propertyValue.toString()))
+                    {
+                        propertyValue=Integer.parseInt(propertyValue.toString());
+                    }
                     if ("eq".equalsIgnoreCase(where)) {
-                        queryCondition = Restrictions.eq(condition.getPropertyName(), condition.getPropertyValue());
+                        queryCondition = Restrictions.eq(condition.getPropertyName(), propertyValue);
                     } else if ("ge".equalsIgnoreCase(where)) {
-                        queryCondition = Restrictions.ge(condition.getPropertyName(), condition.getPropertyValue());
+                        queryCondition = Restrictions.ge(condition.getPropertyName(), propertyValue);
                     } else if ("le".equalsIgnoreCase(where)) {
-                        queryCondition = Restrictions.le(condition.getPropertyName(), condition.getPropertyValue());
+                        queryCondition = Restrictions.le(condition.getPropertyName(), propertyValue);
                     } else if ("like".equalsIgnoreCase(where)) {
-                        queryCondition = Restrictions.like(condition.getPropertyName(), condition.getPropertyValue().toString(), MatchMode.ANYWHERE);
+                        queryCondition = Restrictions.like(condition.getPropertyName(), propertyValue.toString(), MatchMode.ANYWHERE);
                     }
                     criteria.add(queryCondition);
                 }
@@ -145,7 +142,9 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         }
 
 
-        total = (Long) (criteria.setProjection(Projections.countDistinct("id")).uniqueResult());
+        criteria.setProjection(Projections.rowCount());
+        Object idCount = criteria.uniqueResult();
+        total = (Long) idCount;
         transaction.commit();
         return total;
     }
@@ -157,35 +156,29 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 
         Criteria criteria = session.createCriteria(entityClass);
 
-        //拼装查询条件
-        if (null != dataGridParam.getCondition()) {//优先单字段查询
-            GridQueryCondition condition = dataGridParam.getCondition();
-            Criterion queryCondition = null;
-            String where = condition.getWhere();//得到条件
-            if ("eq".equalsIgnoreCase(where)) {
-                queryCondition = Restrictions.eq(condition.getPropertyName(), condition.getPropertyValue());
-            } else if ("ge".equalsIgnoreCase(where)) {
-                queryCondition = Restrictions.ge(condition.getPropertyName(), condition.getPropertyValue());
-            } else if ("le".equalsIgnoreCase(where)) {
-                queryCondition = Restrictions.le(condition.getPropertyName(), condition.getPropertyValue());
-            } else if ("like".equalsIgnoreCase(where)) {
-                queryCondition = Restrictions.like(condition.getPropertyName(), condition.getPropertyValue().toString(), MatchMode.ANYWHERE);
-            }
-            criteria.add(queryCondition);
-        } else {
-            //增加查询条件
-            if (!dataGridParam.getQueryConditionList().isEmpty()) {
-                for (GridQueryCondition condition : dataGridParam.getQueryConditionList()) {
+
+        //增加查询条件
+        List<GridQueryCondition> queryConditionList = dataGridParam.getQueryConditionList();
+        if (queryConditionList != null && !queryConditionList.isEmpty()) {
+            for (GridQueryCondition condition : queryConditionList) {
+                Object propertyValue = condition.getPropertyValue();
+                if (!Strings.isNullOrEmpty(condition.getPropertyName()) && propertyValue !=null&&!Strings.isNullOrEmpty(propertyValue.toString())) {
                     Criterion queryCondition = null;
                     String where = condition.getWhere();//得到条件
+
+                    if(org.apache.commons.lang3.StringUtils.isNumeric(propertyValue.toString()))
+                    {
+                        propertyValue=Integer.parseInt(propertyValue.toString());
+                    }
+
                     if ("eq".equalsIgnoreCase(where)) {
-                        queryCondition = Restrictions.eq(condition.getPropertyName(), condition.getPropertyValue());
+                        queryCondition = Restrictions.eq(condition.getPropertyName(), propertyValue);
                     } else if ("ge".equalsIgnoreCase(where)) {
-                        queryCondition = Restrictions.ge(condition.getPropertyName(), condition.getPropertyValue());
+                        queryCondition = Restrictions.ge(condition.getPropertyName(), propertyValue);
                     } else if ("le".equalsIgnoreCase(where)) {
-                        queryCondition = Restrictions.le(condition.getPropertyName(), condition.getPropertyValue());
+                        queryCondition = Restrictions.le(condition.getPropertyName(), propertyValue);
                     } else if ("like".equalsIgnoreCase(where)) {
-                        queryCondition = Restrictions.like(condition.getPropertyName(), condition.getPropertyValue().toString(), MatchMode.ANYWHERE);
+                        queryCondition = Restrictions.like(condition.getPropertyName(), propertyValue.toString(), MatchMode.ANYWHERE);
                     }
                     criteria.add(queryCondition);
                 }
@@ -205,9 +198,9 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         if (null != order) {
             criteria.addOrder(order);
         }
-        List<T> enityList = criteria.setFirstResult(dataGridParam.getStart()).setMaxResults(dataGridParam.getRows()).list();
+        List<T> entityList = criteria.setFirstResult(dataGridParam.getStart()).setMaxResults(dataGridParam.getRows()).list();
         transaction.commit();
-        return enityList;
+        return entityList;
     }
 
     /**
@@ -218,5 +211,27 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
     @Override
     public T createEmptyEntity() throws IllegalAccessException, InstantiationException {
         return entityClass.newInstance();
+    }
+
+    /**
+     * 根据treeGrid的参数,查询得到总数量
+     *
+     * @param treeGridParam treeGrid的查询参数
+     * @return 数量
+     */
+    @Override
+    public long getCountByRequestTreeGridEntity(RequestTreeGridEntity treeGridParam) {
+        return getCountByRequestGridEntity(treeGridParam);
+    }
+
+    /**
+     * 根据treeGrid的查询参数,查询得到树形的list
+     *
+     * @param treeGridParam
+     * @return
+     */
+    @Override
+    public List findEntityListByRequestTreeGridEntity(RequestTreeGridEntity treeGridParam) {
+        return findEntityListByRequestGridEntity(treeGridParam);
     }
 }

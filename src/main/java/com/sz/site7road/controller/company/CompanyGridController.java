@@ -1,6 +1,6 @@
 package com.sz.site7road.controller.company;
 
-import com.sz.site7road.controller.base.BaseController;
+import com.sz.site7road.controller.base.BaseGridController;
 import com.sz.site7road.entity.companyInfo.CompanyEntity;
 import com.sz.site7road.service.BaseService;
 import com.sz.site7road.service.CompanyService;
@@ -18,9 +18,9 @@ import javax.annotation.Resource;
  */
 @Controller
 @RequestMapping(value = "/company")
-public class CompanyController extends BaseController<CompanyEntity> {
+public class CompanyGridController extends BaseGridController<CompanyEntity> {
 
-    private static final Logger log = Logger.getLogger(CompanyController.class);
+    private static final Logger log = Logger.getLogger(CompanyGridController.class);
 
     @Resource
     private CompanyService service;

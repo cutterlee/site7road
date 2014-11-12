@@ -15,7 +15,7 @@ import java.io.Serializable;
  * 备注： 站点信息
  */
 @Entity
-@Table(name = "t_site_info")
+@Table(name = "t_site")
 public class SiteEntity implements Serializable {
     /**
      * 主键id

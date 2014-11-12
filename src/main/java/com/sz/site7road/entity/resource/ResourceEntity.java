@@ -13,7 +13,7 @@ import java.util.Date;
  * 备注： 资源实体
  */
 @Entity
-@Table(name = "t_resource_info")
+@Table(name = "t_resource")
 public class ResourceEntity implements Serializable {
 
     private int id;
@@ -31,6 +31,9 @@ public class ResourceEntity implements Serializable {
     private Date createTime=new Date(System.currentTimeMillis());
 
     private int orderNum=0;
+
+    private int itemStatus=1;
+
 
     @Id
     @GeneratedValue(generator = "increment")
@@ -99,12 +102,21 @@ public class ResourceEntity implements Serializable {
         this.createTime = createTime;
     }
 
-    @Column(name = "order_no")
+    @Column(name = "order_num")
     public int getOrderNum() {
         return orderNum;
     }
 
     public void setOrderNum(int orderNum) {
         this.orderNum = orderNum;
+    }
+
+    @Column(name = "item_status")
+    public int getItemStatus() {
+        return itemStatus;
+    }
+
+    public void setItemStatus(int itemStatus) {
+        this.itemStatus = itemStatus;
     }
 }

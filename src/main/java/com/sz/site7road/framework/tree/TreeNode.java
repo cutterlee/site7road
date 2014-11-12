@@ -35,7 +35,7 @@ public class TreeNode implements Serializable{
 
     private List<TreeNode> children;
 
-    private Object attributes;
+//    private Object attributes;
 
 
     public int getId() {
@@ -78,13 +78,13 @@ public class TreeNode implements Serializable{
         this.children = children;
     }
 
-    public Object getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(Object attributes) {
-        this.attributes = attributes;
-    }
+//    public Object getAttributes() {
+//        return attributes;
+//    }
+//
+//    public void setAttributes(Object attributes) {
+//        this.attributes = attributes;
+//    }
 
     public String getIconCls() {
         return iconCls;

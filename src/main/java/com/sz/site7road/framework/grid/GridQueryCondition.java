@@ -46,4 +46,14 @@ public class GridQueryCondition implements Serializable {
     public void setPropertyValue(Object propertyValue) {
         this.propertyValue = propertyValue;
     }
+
+
+    public GridQueryCondition() {
+    }
+
+    public GridQueryCondition(String propertyName, String where, String propertyValue) {
+        this.propertyName = propertyName;
+        this.where = where;
+        this.propertyValue = propertyValue;
+    }
 }

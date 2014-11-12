@@ -9,4 +9,5 @@ import com.sz.site7road.entity.resource.ResourceEntity;
  * remark:权限控制dao接口
  */
 public interface ResourceDao extends BaseDao<ResourceEntity>{
+
 }

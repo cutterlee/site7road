@@ -1,6 +1,6 @@
 package com.sz.site7road.controller.job;
 
-import com.sz.site7road.controller.base.BaseController;
+import com.sz.site7road.controller.base.BaseGridController;
 import com.sz.site7road.entity.job.JobEntity;
 import com.sz.site7road.framework.config.AppConstant;
 import com.sz.site7road.service.BaseService;
@@ -19,9 +19,9 @@ import java.util.ResourceBundle;
  */
 @Controller
 @RequestMapping(value = "/job")
-public class JobController extends BaseController<JobEntity> {
+public class JobGridController extends BaseGridController<JobEntity> {
 
-    private static final Logger log = Logger.getLogger(JobController.class);
+    private static final Logger log = Logger.getLogger(JobGridController.class);
 
     @Resource
     private JobService jobService;

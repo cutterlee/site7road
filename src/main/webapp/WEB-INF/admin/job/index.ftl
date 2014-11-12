@@ -25,7 +25,11 @@
         <th field="positionDuty" width="200px" fixed="true" rowspan="1" colspan="1">工作职责</th>
         <th field="positionRequirement" width="200px">职位要求</th>
         <th field="hotStatus" >是否热招</th>
-        <th field="createTime">创建时间</th>
+        <th data-options="field:'createTime',formatter:
+                    function(value,row,index){
+                    var unixTimestamp = new Date(value);
+                    return unixTimestamp.format('yyyy-MM-dd hh:mm:ss');
+                    }">创建时间</th>
     </tr>
     </thead>
 </table>
