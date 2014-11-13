@@ -1,5 +1,6 @@
 package com.sz.site7road.controller.base;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -15,10 +16,12 @@ import com.sz.site7road.service.BaseService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -65,6 +68,25 @@ public abstract class BaseTreeController<T> {
      * @return 添加_parentId 之后的list
      */
     protected  List appendParentProperty(List entityListByRequestTreeGridEntity){
+
+        Preconditions.checkArgument(entityListByRequestTreeGridEntity!=null);
+        Preconditions.checkArgument(!entityListByRequestTreeGridEntity.isEmpty());
+        Map<Integer,Integer> idMap=Maps.newHashMap();
+        for(Object entity:entityListByRequestTreeGridEntity)
+        {
+            int id= 0;
+            try {
+                id = Integer.parseInt(BeanUtils.getProperty(entity, "id"));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+            idMap.put(id,id);
+        }
+
         List entityList= Lists.newLinkedList();
         for(Object treeGridEntity:entityListByRequestTreeGridEntity)
         {
@@ -79,13 +101,14 @@ public abstract class BaseTreeController<T> {
                 if(!Strings.isNullOrEmpty(pid))
                 {
                     int intPid=Integer.parseInt(pid);
-                    if(intPid>0)
+                    if(intPid>0&&idMap.containsKey(intPid))
                     {
                         dataMap.remove("pid");
                         dataMap.put("_parentId",intPid);
+//                        dataMap.put("state","closed");
                     }else{
-                        //默认一级配置都是闭合的
-                        dataMap.put("state","closed");
+                        //默认一级配置都是打开的
+//                        dataMap.put("state","closed");
                     }
                 }
 
@@ -146,8 +169,13 @@ public abstract class BaseTreeController<T> {
 
 
     @RequestMapping(value = "/create",method = RequestMethod.GET)
-    protected String create( ModelMap map) throws IllegalAccessException, InstantiationException {
-        map.addAttribute("entity", getService().createEmptyEntity());
+    protected String create( ModelMap map,int pid) throws IllegalAccessException, InstantiationException, InvocationTargetException,Exception {
+        Object emptyEntity = getService().createEmptyEntity();
+        if(pid>0)
+        {
+            BeanUtils.setProperty(emptyEntity,"pid",pid);
+        }
+        map.addAttribute("entity", emptyEntity);
         map.addAttribute("title", "增加"+getTitle());
         map.addAttribute("titleName", getTitle());
         map.addAttribute("op",System.currentTimeMillis());
@@ -159,10 +187,17 @@ public abstract class BaseTreeController<T> {
     @ResponseBody
     public ResultForGridForm removeEntity(@PathVariable(value = "id") int id) {
         ResultForGridForm result = new ResultForGridForm();
+        result.setSubject("删除信息");
         try {
-            getService().remove(id);
-            result.setSuccess();
-            result.setErrorMsg(ResourceBundle.getBundle("message").getString("delete.success"));
+           boolean removeResult= getService().remove(id)&&getService().removeChildrenByPid(id);
+            if(removeResult) {
+                result.setSuccess();
+                result.setErrorMsg(ResourceBundle.getBundle("message").getString("delete.success"));
+            }
+            else{
+                result.setFail();
+                result.setErrorMsg(ResourceBundle.getBundle("message").getString("delete.fail"));
+            }
         } catch (Exception ex) {
             result.setFail();
             result.setErrorMsg(ResourceBundle.getBundle("message").getString("delete.fail"));
@@ -186,12 +221,23 @@ public abstract class BaseTreeController<T> {
 
     @RequestMapping(value = "/save")
     @ResponseBody
-    protected ResultForGridForm modifyEntitySave(T entity) {
+    protected ResultForGridForm modifyEntitySave(@Valid @ModelAttribute("entity") T entity, BindingResult bindingResult) {
         ResultForGridForm result = new ResultForGridForm();
+        result.setSubject("保存信息");
         try {
-            getService().modify(entity);
-            result.setSuccess();
-            result.setErrorMsg(ResourceBundle.getBundle("message").getString("save.success"));
+            if (!bindingResult.hasFieldErrors()) {
+                boolean saveResult = getService().modify(entity);
+                if (saveResult) {
+                    result.setSuccess();
+                    result.setErrorMsg(ResourceBundle.getBundle("message").getString("save.success"));
+                } else {
+                    result.setFail();
+                    result.setErrorMsg(ResourceBundle.getBundle("message").getString("save.fail"));
+                }
+            }else{
+                result.setFail();
+                result.setErrorMsg(bindingResult.getFieldError().getField()+ bindingResult.getFieldError().getDefaultMessage());
+            }
         } catch (Exception ex) {
             result.setFail();
             result.setErrorMsg(ResourceBundle.getBundle("message").getString("save.fail"));

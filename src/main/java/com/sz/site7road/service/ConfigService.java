@@ -1,6 +1,7 @@
 package com.sz.site7road.service;
 
 import com.sz.site7road.entity.config.ConfigEntity;
+import com.sz.site7road.framework.combotree.ComboTreeResponse;
 
 import java.util.List;
 
@@ -15,4 +16,11 @@ public interface ConfigService extends BaseService<ConfigEntity>{
      * @return 第一级别的配置信息列表
      */
     List<ConfigEntity> getTopLevelConfig();
+
+    /**
+     * 获取treeGrid的树形数据
+     * @param pid 父id
+     * @return  treeGrid所需树形数据
+     */
+    List<ComboTreeResponse> getComboTreeListByPid(int pid);
 }

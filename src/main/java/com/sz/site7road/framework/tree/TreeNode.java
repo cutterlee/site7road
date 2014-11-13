@@ -3,6 +3,7 @@ package com.sz.site7road.framework.tree;
 import com.google.common.collect.Lists;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ public class TreeNode implements Serializable{
 
     boolean checked=false;
 
-    private List<TreeNode> children;
+    private Collection<TreeNode> children;
 
 //    private Object attributes;
 
@@ -70,7 +71,7 @@ public class TreeNode implements Serializable{
         this.checked = checked;
     }
 
-    public List<TreeNode> getChildren() {
+    public Collection<TreeNode> getChildren() {
             return children;
     }
 

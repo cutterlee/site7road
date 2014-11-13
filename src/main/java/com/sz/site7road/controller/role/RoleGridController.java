@@ -15,6 +15,7 @@ import org.apache.shiro.subject.Subject;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -39,6 +40,7 @@ public class RoleGridController extends BaseGridController<RoleInfoEntity> {
 
     @Resource
     private ResourceService resourceService;
+
 
     @Resource
     private UsrService usrService;
@@ -65,6 +67,7 @@ public class RoleGridController extends BaseGridController<RoleInfoEntity> {
     @RequestMapping(value = "/auth")
     public String auth(ModelMap map,int roleId) {
         map.addAttribute("title", getTitle());
+        map.addAttribute("titleName","角色管理");
         map.addAttribute("entityName", getTemplateDir());
         map.addAttribute("roleId",roleId);
         return getTemplateDir() + "/right";
@@ -113,7 +116,17 @@ public class RoleGridController extends BaseGridController<RoleInfoEntity> {
             }
         }
         return resultForGridForm;
-
     }
 
+    /**
+     * 删除角色之后,顺带删除角色对应的权限信息
+     * @param id 角色id
+     * @return 删除的结果
+     */
+    @Override
+    public ResultForGridForm removeEntity(@PathVariable(value = "id") int id) {
+        //remove the role resource
+        resourceService.removeByRoleId(id);
+        return super.removeEntity(id);
+    }
 }

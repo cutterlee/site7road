@@ -1,4 +1,4 @@
-function openTab(titleName, contentHref,iconCls) {
+function openTab(titleName, contentHref,iconCls,contextPath) {
     var isExists = $('#handleArea').tabs("exists", titleName);
     //如果不存在,创建tab
     if (isExists){

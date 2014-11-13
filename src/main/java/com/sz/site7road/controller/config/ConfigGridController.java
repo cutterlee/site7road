@@ -1,5 +1,6 @@
 package com.sz.site7road.controller.config;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sz.site7road.controller.base.BaseGridController;
 import com.sz.site7road.controller.base.BaseTreeController;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -48,13 +50,20 @@ public class ConfigGridController extends BaseTreeController<ConfigEntity> {
     }
 
     /**
-     * todo   获取comboTree的数据
+     * 获取comboTree的数据
      *
      * @return
      */
     @Override
     protected List<ComboTreeResponse>  getComboTreeResponse() {
-        return null;
+        List<ComboTreeResponse> children=configService.getComboTreeListByPid(0);
+        ComboTreeResponse treeNode=new ComboTreeResponse();
+        treeNode.setId(0);
+        treeNode.setText("根");
+        treeNode.setChildren(children);
+        List<ComboTreeResponse> comboTreeResponseList= Lists.newLinkedList();
+        comboTreeResponseList.add(treeNode);
+        return comboTreeResponseList;
     }
 
 
@@ -65,9 +74,9 @@ public class ConfigGridController extends BaseTreeController<ConfigEntity> {
     }
 
     @Override
-    protected String create(ModelMap map) throws IllegalAccessException, InstantiationException {
+    protected String create(ModelMap map,int pid) throws IllegalAccessException, InstantiationException, Exception {
         map.put("configParent",configService.getTopLevelConfig());
-        return super.create(map);
+        return super.create(map,pid);
     }
 
     @Override

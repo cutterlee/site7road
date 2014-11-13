@@ -5,10 +5,7 @@ import com.sz.site7road.entity.system.PageEntity;
 import com.sz.site7road.framework.grid.GridQueryCondition;
 import com.sz.site7road.framework.grid.RequestGridEntity;
 import com.sz.site7road.framework.treegrid.RequestTreeGridEntity;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.hibernate.criterion.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -51,17 +48,19 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
     }
 
     @Override
-    public void remove(int id) {
+    public boolean remove(int id) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
             T entity = (T) session.get(entityClass, id);
             session.delete(entity);
             transaction.commit();
+            return true;
         } catch (Exception ex) {
             ex.printStackTrace();
             transaction.rollback();
         }
+        return false;
     }
 
     @Override
@@ -162,7 +161,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         if (queryConditionList != null && !queryConditionList.isEmpty()) {
             for (GridQueryCondition condition : queryConditionList) {
                 Object propertyValue = condition.getPropertyValue();
-                if (!Strings.isNullOrEmpty(condition.getPropertyName()) && propertyValue !=null&&!Strings.isNullOrEmpty(propertyValue.toString())) {
+                if (!Strings.isNullOrEmpty(condition.getPropertyName()) && propertyValue !=null&&!Strings.isNullOrEmpty(propertyValue.toString())&&!propertyValue.toString().equals("0")) {
                     Criterion queryCondition = null;
                     String where = condition.getWhere();//得到条件
 
@@ -209,7 +208,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
      * @return
      */
     @Override
-    public T createEmptyEntity() throws IllegalAccessException, InstantiationException {
+    public T createEmptyEntity() throws IllegalAccessException, Exception {
         return entityClass.newInstance();
     }
 
@@ -233,5 +232,28 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
     @Override
     public List findEntityListByRequestTreeGridEntity(RequestTreeGridEntity treeGridParam) {
         return findEntityListByRequestGridEntity(treeGridParam);
+    }
+
+    /**
+     * 删除孩子
+     *
+     * @param pid 父id
+     * @return 删除的结果
+     */
+    @Override
+    public boolean removeChildrenByPid(int pid) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+          Query query= session.createQuery(" delete from " + entityClass.getSimpleName() + " entity where entity.pid=:pid");
+           query.setInteger("pid",pid);
+            query.executeUpdate();
+            transaction.commit();
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            transaction.rollback();
+        }
+        return false;
     }
 }

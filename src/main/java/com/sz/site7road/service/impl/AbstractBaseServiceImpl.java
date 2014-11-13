@@ -29,8 +29,8 @@ public abstract class AbstractBaseServiceImpl<T> implements BaseService<T> {
     }
 
     @Override
-    public void remove(int id) {
-        getBaseDao().remove(id);
+    public boolean remove(int id) {
+       return getBaseDao().remove(id);
     }
 
     @Override
@@ -74,7 +74,7 @@ public abstract class AbstractBaseServiceImpl<T> implements BaseService<T> {
     }
 
     @Override
-    public T createEmptyEntity() throws InstantiationException, IllegalAccessException {
+    public T createEmptyEntity() throws InstantiationException, Exception {
         return (T) getBaseDao().createEmptyEntity();
     }
 
@@ -116,4 +116,14 @@ public abstract class AbstractBaseServiceImpl<T> implements BaseService<T> {
     }
 
 
+    /**
+     * 删除孩子
+     *
+     * @param pid 父id
+     * @return 删除的结果
+     */
+    @Override
+    public boolean removeChildrenByPid(int pid) {
+        return getBaseDao().removeChildrenByPid(pid);
+    }
 }

@@ -2,8 +2,10 @@ package com.sz.site7road.controller.home;
 
 import com.google.code.kaptcha.Producer;
 import com.google.common.base.Strings;
+import com.sz.site7road.entity.role.RoleInfoEntity;
 import com.sz.site7road.entity.user.UserInfoEntity;
 import com.sz.site7road.framework.config.AppConstant;
+import com.sz.site7road.framework.tree.TreeNode;
 import com.sz.site7road.service.ResourceService;
 import com.sz.site7road.service.RoleInfoService;
 import com.sz.site7road.service.UsrService;
@@ -28,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -108,21 +111,23 @@ public class HomeController {
         } finally {
             //判断登录的密码和用户名
             if (subject.isAuthenticated()) {
-                //更新登陆次数和最后登陆ip
-
-
 
                 modelAndView.setViewName("common/home");
 
                 UserInfoEntity userInfoEntity = usrService.findUserInfoByUserName(username);
                 subjectSession.setAttribute("systemName", ResourceBundle.getBundle("message").getString("system.name"));
                 subjectSession.setAttribute("userInfo", userInfoEntity);//用户信息
-                subjectSession.setAttribute("roleInfo", roleInfoService.findEntityById(userInfoEntity.getRoleId()));//角色信息
-                subjectSession.setAttribute("authList", resourceService.getTreeNodeListByPid(0));//权限列表
+
+
+                RoleInfoEntity roleInfoEntity = roleInfoService.findEntityById(userInfoEntity.getRoleId());
+                subjectSession.setAttribute("roleInfo", roleInfoEntity);//角色信息
+                List<TreeNode> treeNodeListByPid = resourceService.getUserAuthTree(userInfoEntity.getRoleId());
+                subjectSession.setAttribute("authList", treeNodeListByPid);//权限列表
 
                 userInfoEntity.setLastLoginIp(HttpUtil.getIpAddress(request));
                 userInfoEntity.setLastLoginTime(new Date(System.currentTimeMillis()));
                 userInfoEntity.setLoginTimes(userInfoEntity.getLoginTimes()+1);
+                //更新登陆次数和最后登陆ip
                 usrService.modify(userInfoEntity);
             } else {
                 modelAndView.setViewName("common/login");

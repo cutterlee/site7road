@@ -1,6 +1,8 @@
 package com.sz.site7road.entity.resource;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,13 +22,22 @@ public class ResourceEntity implements Serializable {
 
     private int pid;
 
+    @NotBlank
+    @Length(min = 4,max = 20)
     private String resourceName;
 
     private String resourceIcon="icon_man";
-
+   @NotBlank
+   @Length(min = 4,max = 200)
     private String resourceSummary;
 
+    @NotBlank
+    @Length(min = 1,max = 100)
     private String resourceUrl;
+    /**
+     * 资源的类型,分为menu(1菜单,用来导航),page(2页面显示,导航),function(3功能,限定功能的使用)
+     */
+    private int resourceType=1;
 
     private Date createTime=new Date(System.currentTimeMillis());
 
@@ -49,6 +60,14 @@ public class ResourceEntity implements Serializable {
     @Column(name = "pid")
     public int getPid() {
         return pid;
+    }
+    @Column(name = "res_type")
+    public int getResourceType() {
+        return resourceType;
+    }
+
+    public void setResourceType(int resourceType) {
+        this.resourceType = resourceType;
     }
 
     public void setPid(int pid) {
@@ -119,4 +138,6 @@ public class ResourceEntity implements Serializable {
     public void setItemStatus(int itemStatus) {
         this.itemStatus = itemStatus;
     }
+
+
 }

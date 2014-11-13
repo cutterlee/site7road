@@ -46,11 +46,29 @@
 </table>
 
 <div style="display: none;">
-    <div id="${entityName}dlg" class="easyui-dialog" style="width:50%;height:45%;padding:10px 20px;"  closed="true" buttons="#${entityName}dlg-buttons">
+    <div id="${entityName}dlg" class="easyui-dialog" style="width:50%;height:55%;padding:10px 20px;"  closed="true" buttons="#${entityName}dlg-buttons">
         <form id="${entityName}Fm" method="post" novalidate>
             <table cellpadding="5">
                 <tr style="display: none;">
                     <td><input name="id" id="entityId" class="easyui-textbox" /></td>
+                </tr>
+                <tr>
+                    <td style="width: 150px;"><label>账号角色:</label></td>
+                    <td>
+                        <select name="roleId" style="width: 300px;" class="easyui-combogrid" required="true" validType="selectValueRequired"data-options="
+                            panelWidth: 500,
+                            idField: 'id',
+                            textField: 'roleName',
+                            url: '${req.contextPath}/role/list',
+                            method: 'get',
+                            columns: [[
+                                {field:'roleName',title:'角色名称',width:80},
+                                {field:'roleSummary',title:'角色概述',width:200}
+                            ]],
+                            fitColumns: true
+                        ">
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <td><label>用户名:</label></td>
@@ -85,12 +103,13 @@
                 <tr>
                     <td><label>账号状态:</label></td>
                     <td>
-                    <select name="userStatus" style="width: 150px;" class="easyui-combobox" required="true" validType="selectValueRequired">
+                    <select name="userStatus" style="width: 150px;" class="easyui-combobox" value="1" required="true" validType="selectValueRequired">
                         <option value="1" checked="checked">正常</option>
                         <option value="2">封号</option>
                     </select>
                     </td>
                 </tr>
+
             </table>
         </form>
     </div>

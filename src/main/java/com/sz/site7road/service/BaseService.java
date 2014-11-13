@@ -17,7 +17,7 @@ public interface BaseService <T>{
 
     List<T> findByPage(PageEntity pageEntity);
 
-    void remove(int id);
+    boolean remove(int id);
 
     T findEntityById(int id);
 
@@ -43,7 +43,7 @@ public interface BaseService <T>{
      * @throws InstantiationException
      * @throws IllegalAccessException
      */
-    T createEmptyEntity() throws InstantiationException, IllegalAccessException;
+    T createEmptyEntity() throws InstantiationException, Exception;
 
     /**
      * 根据treeGrid的参数,得到总条数
@@ -59,5 +59,10 @@ public interface BaseService <T>{
      */
     List findEntityListByRequestTreeGridEntity(RequestTreeGridEntity treeGridParam);
 
-
+    /**
+     * 删除孩子
+     * @param pid 父id
+     * @return  删除的结果
+     */
+    boolean removeChildrenByPid(int pid);
 }

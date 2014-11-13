@@ -35,8 +35,8 @@ public class CompanyServiceImpl extends AbstractBaseServiceImpl<CompanyEntity> i
     }
 
     @Override
-    public void remove(int id) {
-        dao.removeCompany(id);
+    public boolean remove(int id) {
+         return dao.removeCompany(id);
     }
 
     @Override

@@ -16,7 +16,7 @@ public interface BaseDao<T> {
 
     List<T> findByPage(PageEntity pageEntity);
 
-    void remove(int id);
+    boolean remove(int id);
 
     T findEntityById(int id);
 
@@ -42,7 +42,7 @@ public interface BaseDao<T> {
      * 创建一个没有数据,但是非空的实体
      * @return
      */
-    T createEmptyEntity() throws IllegalAccessException, InstantiationException;
+    T createEmptyEntity() throws IllegalAccessException, Exception;
 
     /**
      * 根据treeGrid的参数,查询得到总数量
@@ -57,4 +57,11 @@ public interface BaseDao<T> {
      * @return
      */
     List findEntityListByRequestTreeGridEntity(RequestTreeGridEntity treeGridParam);
+
+    /**
+     * 删除孩子
+     * @param pid 父id
+     * @return 删除的结果
+     */
+    boolean removeChildrenByPid(int pid);
 }

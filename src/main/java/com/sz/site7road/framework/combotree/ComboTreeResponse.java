@@ -2,6 +2,7 @@ package com.sz.site7road.framework.combotree;
 
 import com.google.common.collect.Lists;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public class ComboTreeResponse {
 
     private String iconCls;
 
-    private List<ComboTreeResponse> children= Lists.newLinkedList();
+    private Collection<ComboTreeResponse> children= Lists.newLinkedList();
 
     public int getId() {
         return id;
@@ -35,7 +36,7 @@ public class ComboTreeResponse {
         this.text = text;
     }
 
-    public List<ComboTreeResponse> getChildren() {
+    public Collection<ComboTreeResponse> getChildren() {
         return children;
     }
 

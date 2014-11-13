@@ -9,15 +9,9 @@
                 </tr>
                 <tr>
                     <td>父配置项:</td>
-                    <td><select name="pid" value="${entity.pid!0}">
-                        <option value="0">根</option>
-                        <#if configParent??>
-                            <#list configParent as config>
-                                <option value="${config.id}">${config.configTitle}</option>
-                            </#list>
-                        </#if>
-
-                    </select></td>
+                    <td>
+                        <input name="pid"  class="easyui-combotree" value="${entity.pid!0}" data-options="url:'${req.contextPath}/${entityName}/comboTree',method:'get'" style="width:50%;height:26px">
+                    </td>
                 </tr>
                 <tr>
                     <td style="width: 100px;"><label>排序号:</label></td>
@@ -26,16 +20,17 @@
 
                 <tr>
                     <td style="width: 100px;"><label>配置key:</label></td>
-                    <td><input name="configKey" value="${entity.configKey!''}" class="easyui-textbox" required="true" style="width: 400px;" /></td>
+                    <td><input name="configKey" value="${entity.configKey!''}" class="easyui-textbox" required="true" validType="length[4,40]" style="width: 400px;" /></td>
+                    <td><label>需要显示的根据key取得配置值的请填写配置值</label></td>
                 </tr>
                 <tr>
                     <td style="width: 100px;"><label>配置值:</label></td>
-                    <td><input name="configTitle" value="${entity.configTitle!''}" class="easyui-textbox" required="true" style="width: 400px;" /></td>
+                    <td><input name="configTitle" value="${entity.configTitle!''}" class="easyui-textbox" required="true" validType="length[2,100]" style="width: 400px;" /></td>
                 </tr>
 
                 <tr>
                     <td style="width: 100px;"><label>配置说明:</label></td>
-                    <td><input name="configRemark" value="${entity.configRemark!''}" class="easyui-textbox" required="true" style="width: 400px;" /></td>
+                    <td><input name="configRemark" value="${entity.configRemark!''}" class="easyui-textbox" data-options="multiline:true" required="true" validType="length[2,100]" style="width: 400px;height: 60px;" /></td>
                 </tr>
 
                 <tr>

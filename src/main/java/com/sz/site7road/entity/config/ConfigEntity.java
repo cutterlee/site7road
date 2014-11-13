@@ -1,6 +1,8 @@
 package com.sz.site7road.entity.config;
 
+import com.google.common.base.Strings;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -43,6 +45,7 @@ public class ConfigEntity {
     /**
      * 配置的标题或者内容
      */
+    @NotBlank
     @Column(name = "config_title")
     private String  configTitle;
 
@@ -57,7 +60,7 @@ public class ConfigEntity {
      * 排序号
      */
     @Column(name = "order_num")
-    private int orderNum;
+    private int orderNum=1;
 
     /**
      * 创建时间
@@ -88,6 +91,10 @@ public class ConfigEntity {
     }
 
     public String getConfigKey() {
+        if(Strings.isNullOrEmpty(configKey))
+        {
+            configKey="config_key_"+System.currentTimeMillis();
+        }
         return configKey;
     }
 

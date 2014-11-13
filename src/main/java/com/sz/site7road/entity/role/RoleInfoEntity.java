@@ -3,6 +3,8 @@ package com.sz.site7road.entity.role;
 import com.sz.site7road.entity.resource.ResourceEntity;
 import com.sz.site7road.entity.site.SiteEntity;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,8 +23,12 @@ public class RoleInfoEntity implements Serializable {
 
     private int id;
 
+    @NotBlank
+    @Length(min = 4,max = 20)
     private String roleName;
 
+    @NotBlank
+    @Length(min = 4,max = 200)
     private String roleSummary;
 
 

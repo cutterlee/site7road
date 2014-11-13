@@ -53,7 +53,7 @@ public abstract class BaseGridController<T> {
 
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    protected String create(ModelMap map) throws IllegalAccessException, InstantiationException {
+    protected String create(ModelMap map) throws IllegalAccessException, Exception {
         map.addAttribute("entity", getService().createEmptyEntity());
         map.addAttribute("title", "增加" + getTitle());
         map.addAttribute("titleName", getTitle());
@@ -93,7 +93,7 @@ public abstract class BaseGridController<T> {
     @ResponseBody
     protected ResultForGridForm modifyEntitySave(@Valid @ModelAttribute("entity") T entity, BindingResult bindingResult) {
         ResultForGridForm result = new ResultForGridForm();
-
+        result.setSubject("保存信息");
         try {
             if (!bindingResult.hasFieldErrors()) {
                 boolean saveResult = getService().modify(entity);

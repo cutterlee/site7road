@@ -1,14 +1,20 @@
 package com.sz.site7road.service.impl;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 import com.sz.site7road.dao.base.BaseDao;
 import com.sz.site7road.dao.config.ConfigDao;
 import com.sz.site7road.entity.config.ConfigEntity;
+import com.sz.site7road.framework.combotree.ComboTreeResponse;
 import com.sz.site7road.framework.grid.GridQueryCondition;
 import com.sz.site7road.framework.grid.RequestGridEntity;
+import com.sz.site7road.framework.tree.TreeNode;
 import com.sz.site7road.service.ConfigService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -44,5 +50,63 @@ public class ConfigServiceImpl extends AbstractBaseServiceImpl<ConfigEntity> imp
         condition.setWhere("eq");
         dataGridParam.setCondition_1(condition);
         return configDao.findEntityListByRequestGridEntity(dataGridParam);
+    }
+
+    /**
+     * 获取treeGrid的树形数据
+     *
+     * @param pid 父id
+     * @return treeGrid所需树形数据
+     */
+    @Override
+    public List<ComboTreeResponse> getComboTreeListByPid(int pid) {
+        List<ComboTreeResponse> comboTreeResponseList= Lists.newLinkedList();
+        //find the whole config list
+        RequestGridEntity dataGridParam=new RequestGridEntity();
+        dataGridParam.setPage(1);
+        dataGridParam.setRows(10000);
+        List<ConfigEntity> configEntityList= configDao.findEntityListByRequestGridEntity(dataGridParam);
+
+        for(final ConfigEntity entity:configEntityList)
+        {
+            ComboTreeResponse comboTreeResponse=new ComboTreeResponse();
+            comboTreeResponse.setId(entity.getId());
+            comboTreeResponse.setText(entity.getConfigTitle());
+            Collection<ConfigEntity> children = Collections2.filter(configEntityList,new Predicate<ConfigEntity>() {
+                @Override
+                public boolean apply(ConfigEntity configEntity) {
+                    return configEntity.getPid()==entity.getId();
+                }
+            });
+            if(children !=null&&!children.isEmpty())
+            {
+                comboTreeResponseList.add(comboTreeResponse);
+                comboTreeResponse.setChildren(getComboTreeChildrenFromTreeNode(children));
+            }
+        }
+        return comboTreeResponseList;
+    }
+
+    public List<ComboTreeResponse> getComboTreeChildrenFromTreeNode( Collection<ConfigEntity> treeNodeList)
+    {
+        List<ComboTreeResponse> comboTreeResponseList=Lists.newLinkedList();
+        for(final ConfigEntity treeNode:treeNodeList)
+        {
+            ComboTreeResponse comboTreeResponse=new ComboTreeResponse();
+            comboTreeResponse.setId(treeNode.getId());
+            comboTreeResponse.setText(treeNode.getConfigTitle());
+            Collection<ConfigEntity> children = Collections2.filter(treeNodeList,new Predicate<ConfigEntity>() {
+                @Override
+                public boolean apply(ConfigEntity configEntity) {
+                    return configEntity.getPid()==treeNode.getId();
+                }
+            });
+            if(children !=null&&!children.isEmpty())
+            {
+                comboTreeResponse.setChildren(getComboTreeChildrenFromTreeNode(children));
+            }
+            comboTreeResponseList.add(comboTreeResponse);
+        }
+        return comboTreeResponseList;
     }
 }

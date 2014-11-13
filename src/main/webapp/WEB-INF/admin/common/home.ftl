@@ -30,24 +30,25 @@
 <#--<div data-options="region:'east',split:true" title="East" style="width:100px;"></div>-->
     <div data-options="region:'west',split:true,collapsible:false" title="${systemName}" style="width:180px;">
         <ul class="easyui-tree" >
-        <#list  authList as item >
+        <#if authList??>
+            <#list  authList as item >
             <li>
-                <span class="menu" iconCls="${item.iconCls}"  >${item.text}</span>
+                <span class="menu" iconCls="${item.iconCls!'icon-man'}"  >${item.text}</span>
                 <#if item.children??>
                     <ul>
                         <#list item.children as subItem>
                             <li>
                                 <#if subItem.children??>
-                                    <span class="menu ${item.iconCls}">${subItem.text}</span>
+                                    <span class="menu ${item.iconCls!'icon-man'}">${subItem.text}</span>
                                     <ul>
                                         <#list subItem.children  as thirdItem>
                                             <li>
-                                                <a class="link"  iconCls="${thirdItem.iconCls}"  path="${req.contextPath}${thirdItem.path}">${thirdItem.text}</a>
+                                                <a class="link"  iconCls="${thirdItem.iconCls!'icon-man'}"  path="${req.contextPath}${thirdItem.path}">${thirdItem.text}</a>
                                             </li>
                                         </#list>
                                     </ul>
                                 <#else >
-                                    <a class="link"  iconCls="${subItem.iconCls}"   path="${req.contextPath}${subItem.path}">${subItem.text}</a>
+                                    <a class="link"  iconCls="${subItem.iconCls!'icon-man'}"   path="${req.contextPath}${subItem.path}">${subItem.text}</a>
                                 </#if>
                             </li>
                         </#list>
@@ -55,6 +56,7 @@
                 </#if>
             </li>
         </#list>
+        </#if>
         </ul>
     </div>
     <div class="easyui-tabs" id="handleArea" style="height:100%"
@@ -74,7 +76,7 @@
             </p>
             <p>
                 快捷导航
-
+                <span class="icon-man">&nbsp;&nbsp;&nbsp;</span>
 
 
             </p>

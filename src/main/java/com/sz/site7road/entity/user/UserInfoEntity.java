@@ -69,7 +69,6 @@ public class UserInfoEntity implements Serializable {
     /**
      * 用户状态
      */
-    @NotBlank
     private int userStatus;
     /**
      * 角色id

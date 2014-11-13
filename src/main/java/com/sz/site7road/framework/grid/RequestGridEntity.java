@@ -105,7 +105,8 @@ public class RequestGridEntity {
 
         List<GridQueryCondition> gridQueryConditionList= Lists.newLinkedList();
 
-        Method[] methods= this.getClass().getDeclaredMethods();
+        Method[] methods= this.getClass().getMethods();
+        if(methods!=null&&methods.length>0)
         for(Method method:methods)
         {
            String methodName=method.getName();

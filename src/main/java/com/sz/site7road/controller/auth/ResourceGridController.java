@@ -49,7 +49,7 @@ public class ResourceGridController extends BaseTreeController<ResourceEntity> {
      */
     @Override
     protected List<ComboTreeResponse> getComboTreeResponse() {
-        List<ComboTreeResponse> children=resourceService.getComboTreeChildrenByPid(00);
+        List<ComboTreeResponse> children=resourceService.getComboTreeChildrenByPid(0);
         ComboTreeResponse treeNode=new ComboTreeResponse();
         treeNode.setId(0);
         treeNode.setText("根");

@@ -55,4 +55,11 @@ public interface ResourceService extends BaseService<ResourceEntity>{
      * @return  授权的树
      */
     List<TreeNode> getAuthCheckedTree(int roleId);
+
+    /**
+     * 获取菜单,显示导航
+     * @param roleId 角色id
+     * @return 角色对应的权限树
+     */
+    List<TreeNode> getUserAuthTree(int roleId);
 }
