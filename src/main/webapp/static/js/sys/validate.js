@@ -19,6 +19,13 @@ $.extend($.fn.validatebox.defaults.rules, {
         },
         message : "输入内容长度必须介于{0}和{1}之间"
     },
+    mixLength : { // 长度
+        validator : function(value, param) {
+            var len = $.trim(value).length;
+            return len == param[0] ;
+        },
+        message : "输入内容长度必须是{0}个字符"
+    },
     phone : {// 验证电话号码
         validator : function(value) {
             return /^((\(\d{2,3}\))|(\d{3}\-))?(\(0\d{2,3}\)|0\d{2,3}-)?[1-9]\d{6,7}(\-\d{1,4})?$/i.test(value);

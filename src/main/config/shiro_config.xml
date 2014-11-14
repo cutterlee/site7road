@@ -6,15 +6,15 @@
 
 
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-        <property name="loginUrl" value="/login"/>
+        <property name="loginUrl" value="/login.html"/>
         <property name="unauthorizedUrl" value="/noRight"/>
-        <property name="successUrl" value="/home"/>
+        <property name="successUrl" value="/home.html"/>
         <property name="securityManager" ref="mySecurityManager"/>
         <property name="filterChainDefinitions">
             <value>
                 /captchaImage=anon
                 /noRight=anon
-                /home=anon
+                /login=anon
                 /img/upload=anon
                 /test/**=anon
                 /combo/**=anon

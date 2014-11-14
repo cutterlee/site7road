@@ -3,8 +3,11 @@ package com.sz.site7road.controller.home;
 import com.google.code.kaptcha.Producer;
 import com.google.common.base.Strings;
 import com.sz.site7road.entity.role.RoleInfoEntity;
+import com.sz.site7road.entity.user.LoginRequestEntity;
 import com.sz.site7road.entity.user.UserInfoEntity;
 import com.sz.site7road.framework.config.AppConstant;
+import com.sz.site7road.framework.grid.ResponseGridEntity;
+import com.sz.site7road.framework.grid.ResultForGridForm;
 import com.sz.site7road.framework.tree.TreeNode;
 import com.sz.site7road.service.ResourceService;
 import com.sz.site7road.service.RoleInfoService;
@@ -19,8 +22,12 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -28,6 +35,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.awt.image.BufferedImage;
 import java.util.Date;
 import java.util.List;
@@ -54,8 +62,8 @@ public class HomeController {
 
     Session subjectSession = null;
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "/login.html", method = RequestMethod.GET)
+    public ModelAndView login(HttpServletRequest request) {
 
         String errorClassName = (String) request.getAttribute("shiroLoginFailure");
 
@@ -78,10 +86,46 @@ public class HomeController {
         return modelAndView;
     }
 
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultForGridForm loginSubmit(@Valid @ModelAttribute("entity") LoginRequestEntity entity, BindingResult bindingResult) {
+
+        ResultForGridForm result = new ResultForGridForm();
+        result.setSuccess();
+        if (bindingResult.hasErrors()) {
+            FieldError fieldError = null;
+            if (!bindingResult.getFieldErrors().isEmpty()) {
+                fieldError = bindingResult.getFieldErrors().get(0);
+            }
+            String fieldName = LoginRequestEntity.getFiledName(fieldError.getField());
+            String errorMsg = fieldName + fieldError.getDefaultMessage();
+            result.setFail();
+            result.setErrorMsg(errorMsg);
+        } else {
+            try {
+                Subject subject = SecurityUtils.getSubject();
+                subject.login(new UsernamePasswordToken(entity.getUsername(), entity.getPassword()));
+                result.setSuccess();
+            } catch (UnknownAccountException ex) {
+                result.setFail();
+                result.setErrorMsg("用户名不存在");
+            } catch (IncorrectCredentialsException ex) {
+                result.setFail();
+                result.setErrorMsg("密码错误");
+            } catch (Exception ex) {
+                result.setFail();
+                result.setErrorMsg(ex.getMessage());
+            }
+        }
+        return result;
+    }
+
+
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout() {
         SecurityUtils.getSubject().logout();
-        return "redirect:/login";
+        return "redirect:/login.html";
     }
 
 
@@ -92,48 +136,39 @@ public class HomeController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/home", method = RequestMethod.POST)
-    public ModelAndView loginSubmit(String username, String password, String code,HttpServletRequest request) {
+    @RequestMapping(value = "/home.html")
+    public ModelAndView loginSubmit(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
-
         Subject subject = SecurityUtils.getSubject();
         subjectSession = SecurityUtils.getSubject().getSession(true);
         logger.info("shiro.session的过期时间:" + subjectSession.getTimeout());
-
-
         if (!subject.isAuthenticated()) {
             modelAndView.setViewName("redirect:/login");
-        }
-        try {
-            subject.login(new UsernamePasswordToken(username, password));
-        } catch (Exception ex) {
-
-        } finally {
+        } else {
             //判断登录的密码和用户名
-            if (subject.isAuthenticated()) {
+            modelAndView.setViewName("common/home");
+            String username = subject.getPrincipals().getPrimaryPrincipal().toString();
+            UserInfoEntity userInfoEntity = usrService.findUserInfoByUserName(username);
+            subjectSession.setAttribute("systemName", ResourceBundle.getBundle("message").getString("system.name"));
+            subjectSession.setAttribute("userInfo", userInfoEntity);//用户信息
 
-                modelAndView.setViewName("common/home");
+            RoleInfoEntity roleInfoEntity = roleInfoService.findEntityById(userInfoEntity.getRoleId());
+            subjectSession.setAttribute("roleInfo", roleInfoEntity);//角色信息
 
-                UserInfoEntity userInfoEntity = usrService.findUserInfoByUserName(username);
-                subjectSession.setAttribute("systemName", ResourceBundle.getBundle("message").getString("system.name"));
-                subjectSession.setAttribute("userInfo", userInfoEntity);//用户信息
+            List<TreeNode> treeNodeListByPid = resourceService.getUserAuthTree(userInfoEntity.getRoleId());
+            subjectSession.setAttribute("authList", treeNodeListByPid);//权限列表
+            //更新登陆次数和最后登陆ip
+            userInfoEntity.setLastLoginIp(HttpUtil.getIpAddress(request));
+            userInfoEntity.setLastLoginTime(new Date(System.currentTimeMillis()));
+            userInfoEntity.setLoginTimes(userInfoEntity.getLoginTimes() + 1);
+            usrService.modify(userInfoEntity);
 
-
-                RoleInfoEntity roleInfoEntity = roleInfoService.findEntityById(userInfoEntity.getRoleId());
-                subjectSession.setAttribute("roleInfo", roleInfoEntity);//角色信息
-                List<TreeNode> treeNodeListByPid = resourceService.getUserAuthTree(userInfoEntity.getRoleId());
-                subjectSession.setAttribute("authList", treeNodeListByPid);//权限列表
-
-                userInfoEntity.setLastLoginIp(HttpUtil.getIpAddress(request));
-                userInfoEntity.setLastLoginTime(new Date(System.currentTimeMillis()));
-                userInfoEntity.setLoginTimes(userInfoEntity.getLoginTimes()+1);
-                //更新登陆次数和最后登陆ip
-                usrService.modify(userInfoEntity);
-            } else {
-                modelAndView.setViewName("common/login");
-                subjectSession.setAttribute("systemName", ResourceBundle.getBundle("message").getString("system.name"));
-                subjectSession.setAttribute("errorMsg", ResourceBundle.getBundle(AppConstant.MESSAGE_NAME).getString("login.error"));
+            String menuType = ResourceBundle.getBundle(AppConstant.MESSAGE_NAME).getString("system.menu");
+            if(Strings.isNullOrEmpty(menuType))
+            {
+                menuType="accordion";
             }
+            subjectSession.setAttribute("menu", menuType);
         }
 
         return modelAndView;

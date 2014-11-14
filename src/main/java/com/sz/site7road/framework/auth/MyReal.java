@@ -1,6 +1,7 @@
 package com.sz.site7road.framework.auth;
 
 import com.google.common.base.Strings;
+import com.sz.site7road.entity.resource.ResourceEntity;
 import com.sz.site7road.entity.user.UserInfoEntity;
 import com.sz.site7road.service.RoleInfoService;
 import com.sz.site7road.service.UsrService;
@@ -15,6 +16,7 @@ import org.apache.shiro.util.ByteSource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -32,6 +34,8 @@ public class MyReal extends AuthorizingRealm {
 
     @Resource
     private RoleInfoService roleInfoService;
+
+
 
     /**
      * Retrieves the AuthorizationInfo for the given principals from the underlying data store.  When returning
@@ -53,11 +57,26 @@ public class MyReal extends AuthorizingRealm {
         String username = (String) principals.getPrimaryPrincipal();
 
         //查找到用户的角色集合
-        Set<String> roles = userInfoService.findRoleSetStr(username);
+        UserInfoEntity userInfoEntity=  userInfoService.findUserInfoByUserName(username);
+
         //查找到用户的资源操作集合
-        Set<String> stringPermissions = roleInfoService.findPermissionSetStr(roles);
-        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo(roles);
-        authorizationInfo.setStringPermissions(stringPermissions);
+        List<ResourceEntity> resourceEntityList = roleInfoService.findRolePerssionSet(userInfoEntity.getRoleId());
+
+        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+        authorizationInfo.addRole(String.valueOf(userInfoEntity.getRoleId()));
+        for(ResourceEntity resourceEntity:resourceEntityList)
+        {
+            String shiroPermission = resourceEntity.getShiroPermission();
+            if(Strings.isNullOrEmpty(shiroPermission)) {
+                String resourceUrl = resourceEntity.getResourceUrl();
+                if(resourceUrl.startsWith("/"))
+                {
+                  resourceUrl=  resourceUrl.replaceFirst("/","");
+                }
+                shiroPermission=resourceUrl.replaceAll("/",":");
+            }
+            authorizationInfo.addStringPermission(shiroPermission);
+        }
         return authorizationInfo;
     }
 

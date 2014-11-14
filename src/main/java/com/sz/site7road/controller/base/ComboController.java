@@ -40,8 +40,15 @@ public class ComboController {
             "icon-sum",
             "icon-tip",
             "icon-undo",
-            "icon-save"
+            "icon-save",
+            "icon-tv",
+            "icon-wheel",
+            "icon-computer",
+            "icon-door",
+            "icon-cup"
+
     };
+
 
     @RequestMapping(value = "gender")
     @ResponseBody

@@ -6,6 +6,10 @@ import com.sz.site7road.framework.grid.ResultForGridForm;
 import com.sz.site7road.framework.treegrid.RequestTreeGridEntity;
 import com.sz.site7road.framework.treegrid.ResponseTreeGridEntity;
 import com.sz.site7road.service.BaseService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.Permission;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -37,9 +41,14 @@ public abstract class BaseGridController<T> {
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(ModelMap map) {
-        map.addAttribute("title", getTitle());
-        map.addAttribute("entityName", getTemplateDir());
-        return getTemplateDir() + "/index";
+        Subject currentUser = SecurityUtils.getSubject();
+        if(currentUser.isPermitted(getTemplateDir()+":index")) {
+            map.addAttribute("title", getTitle());
+            map.addAttribute("entityName", getTemplateDir());
+            return getTemplateDir() + "/index";
+        }else{
+            return "redirect:/noRight";
+        }
     }
 
     @RequestMapping(value = "/list")
@@ -54,12 +63,17 @@ public abstract class BaseGridController<T> {
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     protected String create(ModelMap map) throws IllegalAccessException, Exception {
-        map.addAttribute("entity", getService().createEmptyEntity());
-        map.addAttribute("title", "增加" + getTitle());
-        map.addAttribute("titleName", getTitle());
-        map.addAttribute("op", System.currentTimeMillis());
-        map.addAttribute("entityName", getTemplateDir());
-        return getTemplateDir() + "/form";
+        Subject currentUser = SecurityUtils.getSubject();
+        if(currentUser.isPermitted(getTemplateDir()+":create")) {
+            map.addAttribute("entity", getService().createEmptyEntity());
+            map.addAttribute("title", "增加" + getTitle());
+            map.addAttribute("titleName", getTitle());
+            map.addAttribute("op", System.currentTimeMillis());
+            map.addAttribute("entityName", getTemplateDir());
+            return getTemplateDir() + "/form";
+        }else{
+            return "redirect:/noRight";
+        }
     }
 
     @RequestMapping(value = "/{id}/remove", method = RequestMethod.POST)

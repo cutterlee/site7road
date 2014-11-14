@@ -36,6 +36,10 @@
                     <td><input name="resourceUrl" class="easyui-textbox" style="width: 400px;" required="true" validType="length[1,100]" value="${entity.resourceUrl!''}"></td>
                 </tr>
                 <tr>
+                    <td><label>权限字符:</label></td>
+                    <td><input name="shiroPermission" class="easyui-textbox" style="width: 400px;" required="true" validType="length[1,100]" value="${entity.shiroPermission!''}"></td>
+                </tr>
+                <tr>
                     <td><label>资源图标:</label></td>
                     <td>
                         <span class="icon-man" id="resourceIconImg">&nbsp;&nbsp;&nbsp;</span>

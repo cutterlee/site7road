@@ -1,8 +1,9 @@
 package com.sz.site7road.service;
 
+import com.sz.site7road.entity.resource.ResourceEntity;
 import com.sz.site7road.entity.role.RoleInfoEntity;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * User： cutter.li
@@ -12,10 +13,10 @@ import java.util.Set;
  */
 public interface RoleInfoService  extends BaseService<RoleInfoEntity>{
     /**
-     * 通过角色集合，查找得到权限集合
+     * 通过角色，查找得到权限集合
      *
-     * @param roles
-     * @return
+     * @param roleId 角色id
+     * @return  权限的集合
      */
-    Set<String> findPermissionSetStr(Set<String> roles);
+    List<ResourceEntity> findRolePerssionSet(int roleId);
 }

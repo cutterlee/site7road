@@ -65,6 +65,27 @@
 	background:url('icons/lock.png') no-repeat center center;
 }
 
+.icon-tv{
+    background:url('icons/television/television.png') no-repeat center center;
+}
+
+.icon-wheel{
+    background:url('icons/color_wheel.png') no-repeat center center;
+}
+
+.icon-computer{
+    background:url('icons/computer.png') no-repeat center center;
+}
+
+.icon-door{
+    background:url('icons/door.png') no-repeat center center;
+}
+
+.icon-cup{
+    background:url('icons/cup.png') no-repeat center center;
+}
+
+
 
 .icon-mini-add{
 	background:url('icons/mini_add.png') no-repeat center center;

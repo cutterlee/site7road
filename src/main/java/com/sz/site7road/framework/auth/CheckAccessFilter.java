@@ -27,6 +27,9 @@ public class CheckAccessFilter extends AccessControlFilter {
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
+
+        System.out.println("time:"+System.currentTimeMillis());
+
         return false;
     }
 

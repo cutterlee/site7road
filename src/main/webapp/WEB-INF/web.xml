@@ -84,7 +84,7 @@
     </session-config>
 
     <welcome-file-list>
-        <welcome-file>/login</welcome-file>
+        <welcome-file>/login.html</welcome-file>
     </welcome-file-list>
 
     <error-page>

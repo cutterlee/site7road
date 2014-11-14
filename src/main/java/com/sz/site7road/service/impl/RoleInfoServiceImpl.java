@@ -2,12 +2,13 @@ package com.sz.site7road.service.impl;
 
 import com.sz.site7road.dao.base.BaseDao;
 import com.sz.site7road.dao.role.RoleInfoDao;
+import com.sz.site7road.entity.resource.ResourceEntity;
 import com.sz.site7road.entity.role.RoleInfoEntity;
 import com.sz.site7road.service.RoleInfoService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Set;
+import java.util.List;
 
 /**
  * User： cutter.li
@@ -20,15 +21,16 @@ public class RoleInfoServiceImpl extends AbstractBaseServiceImpl<RoleInfoEntity>
 
     @Resource
     private RoleInfoDao dao;
+
     /**
-     * 通过角色集合，查找得到权限集合
+     * 通过角色，查找得到权限集合
      *
-     * @param roles
-     * @return
+     * @param roleId 角色id
+     * @return 权限的集合
      */
     @Override
-    public Set<String> findPermissionSetStr(Set<String> roles) {
-        return null;
+    public List<ResourceEntity> findRolePerssionSet(int roleId) {
+        return dao.findRolePermissionSet(roleId);
     }
 
     @Override

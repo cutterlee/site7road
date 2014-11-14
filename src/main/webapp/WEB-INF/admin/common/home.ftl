@@ -3,6 +3,28 @@
 <head>
     <title>${systemName}---系统主页</title>
 </head>
+<style type="text/css">
+    body{
+        font:  1em "宋体"
+    }
+    a{
+        color: #666666;
+        text-decoration: none;
+    }
+    .link a:hover {
+        height: 26px;
+        line-height: 26px;
+        display: block;
+        padding-left: 10px;
+        color: #5a6656;
+        font: bold 1em "宋体"
+        outline: none;
+    }
+    .block{
+        border:1px solid rgba(56, 56, 56, 0.55);
+        color: cornflowerblue;
+    }
+</style>
 <body>
 <div class="easyui-layout" style="width:100%;height:100%;">
     <div data-options="region:'north'" style="height:63px;overflow: hidden;">
@@ -29,35 +51,73 @@
     </div>
 <#--<div data-options="region:'east',split:true" title="East" style="width:100px;"></div>-->
     <div data-options="region:'west',split:true,collapsible:false" title="${systemName}" style="width:180px;">
-        <ul class="easyui-tree" >
-        <#if authList??>
-            <#list  authList as item >
-            <li>
-                <span class="menu" iconCls="${item.iconCls!'icon-man'}"  >${item.text}</span>
-                <#if item.children??>
-                    <ul>
-                        <#list item.children as subItem>
-                            <li>
-                                <#if subItem.children??>
-                                    <span class="menu ${item.iconCls!'icon-man'}">${subItem.text}</span>
-                                    <ul>
-                                        <#list subItem.children  as thirdItem>
-                                            <li>
-                                                <a class="link"  iconCls="${thirdItem.iconCls!'icon-man'}"  path="${req.contextPath}${thirdItem.path}">${thirdItem.text}</a>
-                                            </li>
-                                        </#list>
-                                    </ul>
-                                <#else >
-                                    <a class="link"  iconCls="${subItem.iconCls!'icon-man'}"   path="${req.contextPath}${subItem.path}">${subItem.text}</a>
-                                </#if>
-                            </li>
-                        </#list>
-                    </ul>
+        <#if menu=='tree'>
+            <ul class="easyui-tree" data-options="url:'${req.contextPath}/authTree',method:'post',lines:'true',animate:'true'">
+            <#if authList??>
+                <#list  authList as item >
+                <li>
+                    <span class="menu " iconCls="${item.iconCls!'icon-man'}">${item.text}</span>
+                    <#if item.children??>
+                        <ul>
+                            <#list item.children as subItem>
+                                <li>
+                                    <#if subItem.children??>
+                                        <span class="menu ${item.iconCls!'icon-man'}">${subItem.text}</span>
+                                        <ul>
+                                            <#list subItem.children  as thirdItem>
+                                                <li>
+                                                    <a class="link"  iconCls="${thirdItem.iconCls!'icon-man'}"  path="${req.contextPath}${thirdItem.path}">${thirdItem.text}</a>
+                                                </li>
+                                            </#list>
+                                        </ul>
+                                    <#else >
+                                        <a class="link"  iconCls="${subItem.iconCls!'icon-man'}"   path="${req.contextPath}${subItem.path}">${subItem.text}</a>
+                                    </#if>
+                                </li>
+                            </#list>
+                        </ul>
+                    </#if>
+                </li>
+            </#list>
+            </#if>
+            </ul>
+        <#else>
+
+            <div class="easyui-accordion" data-options="border:true">
+                <#if authList??>
+                    <#list  authList as item >
+                        <div title="${item.text}" iconCls="${item.iconCls!'icon-man'}" style="padding:10px;">
+                            <#if item.children??>
+                                <#list item.children as subItem>
+                                    <#if subItem.children??>
+                                        <div class="easyui-accordion" >
+                                            <div title="${subItem.text}" iconCls="${subItem.iconCls!'icon-man'}" style="padding:10px;">
+                                                <#list subItem.children as thirdItem>
+                                                    <div style="line-height: 32px;" class="block">
+                                                        <a path="${thirdItem.path!''}" iconCls="${thirdItem.iconCls!'icon-man'}"  title="${thirdItem.text}" class="link"><span class="${thirdItem.iconCls!'icon-man'}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>${thirdItem.text}</a>
+                                                    </div>
+                                                </#list>
+                                            </div>
+                                        </div>
+                                    <#else>
+                                        <div style="line-height: 32px;" class="block">
+                                            <a path="${subItem.path!''}" iconCls="${subItem.iconCls!'icon-man'}"  title="${subItem.text}" class="link"><span class="${subItem.iconCls!'icon-man'}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>${subItem.text}</a>
+                                        </div>
+                                    </#if>
+
+                                </#list>
+                            </#if>
+                        </div>
+                    </#list>
                 </#if>
-            </li>
-        </#list>
+            </div>
+
         </#if>
-        </ul>
+
+
+
+
+
     </div>
     <div class="easyui-tabs" id="handleArea" style="height:100%"
          data-options="region:'center',minHeight:500">
@@ -103,7 +163,7 @@
                 });
 
                 $(".link").bind("click", function () {
-                    var titleName = $(this).text();
+                    var titleName = $(this).attr("title");
                     var contentHref = $(this).attr("path");
                     var iconCls = $(this).attr("iconCls");
                     openTab(titleName, contentHref, iconCls,"${req.contextPath}");

@@ -37,6 +37,11 @@ public class ResourceEntity implements Serializable {
     /**
      * 资源的类型,分为menu(1菜单,用来导航),page(2页面显示,导航),function(3功能,限定功能的使用)
      */
+    /**
+     * shiro的权限控制字符串
+     */
+    private String shiroPermission;
+
     private int resourceType=1;
 
     private Date createTime=new Date(System.currentTimeMillis());
@@ -139,5 +144,12 @@ public class ResourceEntity implements Serializable {
         this.itemStatus = itemStatus;
     }
 
+    @Column(name = "shiro_permission")
+    public String getShiroPermission() {
+        return shiroPermission;
+    }
 
+    public void setShiroPermission(String shiroPermission) {
+        this.shiroPermission = shiroPermission;
+    }
 }
