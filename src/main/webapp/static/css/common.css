@@ -1,1 +1,41 @@
-.roleName{color: green;font: bolder;}
+.roleName {
+    color: green;
+    font: bolder;
+}
+
+.loginTop {
+    position: absolute;
+    left: 50%;
+    top: 200px;
+    margin-left: -150px;
+    width: 400px;
+}
+
+a {
+    color: #666666;
+    text-decoration: none;
+}
+
+#navTree a:hover {
+    height: 26px;
+    line-height: 26px;
+    display: block;
+    padding-left: 10px;
+    color: #5a6656;
+    background-color: #808080;
+    font: bold 1em "宋体" outline : none;
+}
+
+.click {
+    color: darkslategray;
+    height: 26px;
+    line-height: 26px;
+    display: block;
+    background-color: skyblue;
+    font: bold 1em "宋体" outline : none;
+}
+
+.block {
+    background-color: silver;
+    color: cornflowerblue;
+}

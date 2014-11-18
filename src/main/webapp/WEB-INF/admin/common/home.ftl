@@ -1,37 +1,15 @@
 <#include "resource.ftl">
 <#import "/spring.ftl" as spring>
 <head>
-    <title>${systemName}---系统主页</title>
+    <title><@spring.message "system.name"/>---系统主页</title>
 </head>
-<style type="text/css">
-    body{
-        font:  1em "宋体"
-    }
-    a{
-        color: #666666;
-        text-decoration: none;
-    }
-    .link a:hover {
-        height: 26px;
-        line-height: 26px;
-        display: block;
-        padding-left: 10px;
-        color: #5a6656;
-        font: bold 1em "宋体"
-        outline: none;
-    }
-    .block{
-        border:1px solid rgba(56, 56, 56, 0.55);
-        color: cornflowerblue;
-    }
-</style>
 <body>
 <div class="easyui-layout" style="width:100%;height:100%;">
     <div data-options="region:'north'" style="height:63px;overflow: hidden;">
         <table width="100%">
             <tr>
                 <td><img src="${req.contextPath}/static/img/headerLogo.jpg"></td>
-                <td align="right" >
+                <td align="right" >选择切换主题:
                     <select class="setTheme">
                         <option  value="default">default</option>
                         <option  value="bootstrap">bootstrap</option>
@@ -50,7 +28,7 @@
         </table>
     </div>
 <#--<div data-options="region:'east',split:true" title="East" style="width:100px;"></div>-->
-    <div data-options="region:'west',split:true,collapsible:false" title="${systemName}" style="width:180px;">
+    <div data-options="region:'west',split:true,collapsible:true"  id="navTree" title="${systemName}" style="width:180px;">
         <#if menu=='tree'>
             <ul class="easyui-tree" data-options="url:'${req.contextPath}/authTree',method:'post',lines:'true',animate:'true'">
             <#if authList??>
@@ -90,7 +68,7 @@
                             <#if item.children??>
                                 <#list item.children as subItem>
                                     <#if subItem.children??>
-                                        <div class="easyui-accordion" >
+                                        <div class="easyui-accordion" data-options="border:false" >
                                             <div title="${subItem.text}" iconCls="${subItem.iconCls!'icon-man'}" style="padding:10px;">
                                                 <#list subItem.children as thirdItem>
                                                     <div style="line-height: 32px;" class="block">
@@ -113,37 +91,12 @@
             </div>
 
         </#if>
-
-
-
-
-
     </div>
-    <div class="easyui-tabs" id="handleArea" style="height:100%"
-         data-options="region:'center',minHeight:500">
-        <div title="系统说明" data-options="iconCls:'icon-help',closable:true">
-            <p>
-                重构公司官网
-            <ul>
-                <li>后台采用的技术是springMVC,Hibernate,freemarker</li>
-                <li>权限控制采用的是shiro框架</li>
-                <li>前端使用js库 easyui,富文本编辑器使用百度编辑器ueditor</li>
-                <li>把公司官网,招聘站点,公众号站点的现有业务都转移过来</li>
-                <li>弹出层的例子,请看用户管理</li>
-                <li>ueditor的例子,请看职位信息</li>
-                <li>treeGrid的例子,请看权限管理</li>
-            </ul>
-            </p>
-            <p>
-                快捷导航
-                <span class="icon-man">&nbsp;&nbsp;&nbsp;</span>
-
-
-            </p>
-        </div>
+    <div class="easyui-tabs" id="handleArea" style="height:100%" data-options="region:'center',minHeight:500,fit:true">
+       <#include "index.ftl">
     </div>
     <div data-options="region:'south',split:true" style="height:30px; text-align: center;line-height: 23px;">
-        <span>Copyright &copy; &nbsp; 深圳###########科技有限公司 &nbsp;cutter.li </span>
+        <span>Copyright &copy; &nbsp;<@spring.message "dev.info"/>  &nbsp; </span>
     </div>
 </div>
 <script type="text/javascript" src="${req.contextPath}/static/js/sys/common.js"></script>
@@ -163,6 +116,8 @@
                 });
 
                 $(".link").bind("click", function () {
+                    $("a").removeClass("click");
+                    $(this).addClass("click");
                     var titleName = $(this).attr("title");
                     var contentHref = $(this).attr("path");
                     var iconCls = $(this).attr("iconCls");

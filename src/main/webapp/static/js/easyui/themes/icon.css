@@ -70,7 +70,7 @@
 }
 
 .icon-wheel{
-    background:url('icons/color_wheel.png') no-repeat center center;
+    background:url('icons/cog.png') no-repeat center center;
 }
 
 .icon-computer{
@@ -83,6 +83,14 @@
 
 .icon-cup{
     background:url('icons/cup.png') no-repeat center center;
+}
+
+.icon-world{
+    background:url('icons/world/world.png') no-repeat center center;
+}
+
+.icon-book{
+    background:url('icons/book.png') no-repeat center center;
 }
 
 

@@ -45,7 +45,9 @@ public class ComboController {
             "icon-wheel",
             "icon-computer",
             "icon-door",
-            "icon-cup"
+            "icon-cup",
+            "icon-world",
+            "icon-book"
 
     };
 

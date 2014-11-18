@@ -1,4 +1,10 @@
-
+/**
+ * 打开一个tab
+ * @param titleName
+ * @param contentHref
+ * @param iconCls
+ * @param contextPath
+ */
 function openTab(titleName, contentHref,iconCls,contextPath) {
     var isExists = $('#handleArea').tabs("exists", titleName);
     //如果不存在,创建tab
@@ -19,53 +25,87 @@ function openTab(titleName, contentHref,iconCls,contextPath) {
     });
 }
 
-//格式化dataGrid的日期
-//EasyUI用DataGrid用日期格式化
-function TimeFormatter(value, rec, index) {
-    if (value == undefined) {
-        return "";
-    }
-    /*json格式时间转js时间格式*/
-    value = value.substr(1, value.length - 2);
-    var obj = eval('(' + "{Date: new " + value + "}" + ')');
-    var dateValue = obj["Date"];
-    if (dateValue.getFullYear() < 1900) {
-        return "";
-    }
-    var val = dateValue.format("yyyy-mm-dd HH:MM:ss");
-    return val.substr(11, 5);
+/**
+ * 打开增加页面的对话框
+ * @param entityName
+ * @param title
+ */
+function openAddDialog(entityName,title) {
+    $('#' + entityName+'Fm').form('clear');
+    $('.textbox-value').val('0');
+    $('#' + entityName+'dlg').dialog('open').dialog('setTitle', '增加'+title);
 }
 
-function DateTimeFormatter(value, rec, index) {
-    if (value == undefined) {
-        return "";
+/**
+ * 打开编辑页面的对话框
+ * @param entityName
+ * @param title
+ */
+function openEditDialog(entityName,title) {
+    var row = $('#' + entityName+'grid').datagrid('getSelected');
+    if (row) {
+        $('#' + entityName+'dlg').dialog('open').dialog('setTitle', '编辑'+title);
+        $('#' + entityName+'Fm').form('load', row);
+    }else{
+        $.messager.alert("编辑","请先选择编辑的行","error");
     }
-    /*json格式时间转js时间格式*/
-    value = value.substr(1, value.length - 2);
-    var obj = eval('(' + "{Date: new " + value + "}" + ')');
-    var dateValue = obj["Date"];
-    if (dateValue.getFullYear() < 1900) {
-        return "";
-    }
-
-    return dateValue.format("yyyy-mm-dd HH:MM:ss");
 }
 
-//EasyUI用DataGrid用日期格式化
- function DateFormatter(value, rec, index) {
-    if (value == undefined) {
-        return "";
+/**
+ * 删除grid的某一行
+ * @param entityName
+ * @param contextPath
+ */
+function removeGridItem(entityName,contextPath) {
+    var row = $('#' + entityName+'grid').datagrid('getSelected');
+    if (row) {
+        $.messager.confirm('确认', '你确定删除这条数据?', function (r) {
+            if (r) {
+                $.post('/'+contextPath+'/'+entityName +'/'+ row.id + '/remove', function (result) {
+                    if (result.success) {
+                        $('#'+entityName+'grid').datagrid('reload');    // reload the user data
+                    } else {
+                        $.messager.show({    // show error message
+                            title: '错误提示',
+                            msg: result.errorMsg
+                        });
+                    }
+                }, 'json');
+            }
+        });
+    }else{
+        $.messager.alert("删除","请先选择删除的行","error");
     }
-    /*json格式时间转js时间格式*/
-    value = value.substr(1, value.length - 2);
-    var obj = eval('(' + "{Date: new " + value + "}" + ')');
-    var dateValue = obj["Date"];
-    if (dateValue.getFullYear() < 1900) {
-        return "";
-    }
-
-    return dateValue.format("yyyy-mm-dd HH:MM:ss");
 }
+
+/**
+ * 表单保存数据,并重新加载grid
+ * @param entityName
+ * @param contextPath
+ */
+function  saveGridForm(entityName,contextPath) {
+    $('#' + entityName+'Fm').form('submit', {
+        url: contextPath+'/'+entityName+'/save',
+        onSubmit: function () {
+            return $(this).form('validate');
+        },
+        success: function (result) {
+            var result = eval('(' + result + ')');
+            if (result.success) {
+                $('#' + entityName+'dlg').dialog('close');        // close the dialog
+                $('#' + entityName+'grid').datagrid('reload');    // reload the user data
+
+            } else {
+                $.messager.show({
+                    title: '错误提示',
+                    msg: result.errorMsg
+                });
+            }
+        }
+    });
+}
+
+
 
 
 /**
@@ -105,5 +145,14 @@ function formateDateTime(value,row,index){
 
 function setIcon(value, row, index) {
     return "<span class='"+value+"'>&nbsp;&nbsp;&nbsp;</span>";
+}
+/**
+ * 格式化grid的日期
+ * @param value
+ * @returns {*}
+ */
+function formateGridDate(value){
+    var unixTimestamp = new Date(value);
+    return unixTimestamp.format('yyyy-MM-dd hh:mm:ss');
 }
 
