@@ -26,7 +26,7 @@ public class ResourceEntity implements Serializable {
     @Length(min = 4,max = 20)
     private String resourceName;
 
-    private String resourceIcon="icon_man";
+    private String resourceIcon="icon-man";
    @NotBlank
    @Length(min = 4,max = 200)
     private String resourceSummary;

@@ -100,6 +100,7 @@ public class MyReal extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 
+
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
         String username = usernamePasswordToken.getUsername();
 

@@ -10,4 +10,8 @@ public interface AppConstant {
      * 系统的语言文件名称
      */
     String MESSAGE_NAME="message";
+    /**
+     * 登陆验证码在session中的key
+     */
+    String LOGIN_CAPTCHA_KEY="VERIFY_CODE_SESSION_KEY";
 }

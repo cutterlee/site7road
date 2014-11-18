@@ -33,6 +33,8 @@ public class UsrDaoImpl  extends BaseDaoImpl<UserInfoEntity> implements UsrDao{
         } catch (Exception ex) {
             ex.printStackTrace();
             transaction.rollback();
+        }finally {
+            session.close();
         }
         return null;
     }

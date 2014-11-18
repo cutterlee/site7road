@@ -44,6 +44,8 @@ public class RoleResourceDaoImpl extends BaseDaoImpl<RoleResourceEntity> impleme
         } catch (Exception ex) {
             ex.printStackTrace();
             transaction.rollback();
+        }finally {
+            session.close();
         }
         return removeCount >= 0;
     }
@@ -77,6 +79,8 @@ public class RoleResourceDaoImpl extends BaseDaoImpl<RoleResourceEntity> impleme
         } catch (Exception ex) {
             ex.printStackTrace();
             transaction.rollback();
+        }finally {
+            session.close();
         }
         return false;
     }
@@ -99,6 +103,7 @@ public class RoleResourceDaoImpl extends BaseDaoImpl<RoleResourceEntity> impleme
 
         List<RoleResourceEntity> entityList = criteria.list();
         transaction.commit();
+        session.close();
         return entityList;
     }
 }

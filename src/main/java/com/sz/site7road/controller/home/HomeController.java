@@ -21,6 +21,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -50,6 +51,7 @@ import java.util.ResourceBundle;
 public class HomeController {
 
     private Logger logger = Logger.getLogger(HomeController.class);
+    public static final ResourceBundle MESSAGE = ResourceBundle.getBundle("message");
 
     @Resource
     private Producer captchaProducer;
@@ -81,7 +83,13 @@ public class HomeController {
         modelAndView.setViewName("common/login");
         subjectSession = SecurityUtils.getSubject().getSession(true);
         subjectSession.setAttribute("version", System.currentTimeMillis());//用户信息
-        subjectSession.setAttribute("systemName", ResourceBundle.getBundle("message").getString("system.name"));
+        Subject currentUser=SecurityUtils.getSubject();
+        String username = "";
+        if(currentUser.getPrincipals()!=null)
+        {
+            username=(String) currentUser.getPrincipals().getPrimaryPrincipal();
+        }
+        subjectSession.setAttribute("username", username);
         subjectSession.setAttribute("errorMsg", errorMsg);
         return modelAndView;
     }
@@ -89,7 +97,7 @@ public class HomeController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public ResultForGridForm loginSubmit(@Valid @ModelAttribute("entity") LoginRequestEntity entity, BindingResult bindingResult) {
+    public ResultForGridForm loginSubmit(@Valid @ModelAttribute("entity") LoginRequestEntity entity, BindingResult bindingResult, HttpServletRequest request) {
 
         ResultForGridForm result = new ResultForGridForm();
         result.setSuccess();
@@ -103,20 +111,35 @@ public class HomeController {
             result.setFail();
             result.setErrorMsg(errorMsg);
         } else {
-            try {
-                Subject subject = SecurityUtils.getSubject();
-                subject.login(new UsernamePasswordToken(entity.getUsername(), entity.getPassword()));
-                result.setSuccess();
-            } catch (UnknownAccountException ex) {
+            Subject subject = SecurityUtils.getSubject();
+            //check verifyCode
+            String verifyCode = WebUtils.getCleanParam(request, "verifyCode");
+            String sessionCode = (String) request.getSession().getAttribute(AppConstant.LOGIN_CAPTCHA_KEY);
+            if (!sessionCode.equalsIgnoreCase(verifyCode)) {
                 result.setFail();
-                result.setErrorMsg("用户名不存在");
-            } catch (IncorrectCredentialsException ex) {
-                result.setFail();
-                result.setErrorMsg("密码错误");
-            } catch (Exception ex) {
-                result.setFail();
-                result.setErrorMsg(ex.getMessage());
+                result.setErrorMsg(MESSAGE.getString("verifyCode.error"));
+            } else {
+                UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(entity.getUsername(), entity.getPassword());
+                usernamePasswordToken.setRememberMe(entity.getRememberMe());
+                try {
+                    subject.login(usernamePasswordToken);
+                    result.setSuccess();
+                } catch (UnknownAccountException ex) {
+                    usernamePasswordToken.clear();
+                    result.setFail();
+                    result.setErrorMsg(MESSAGE.getString("username.not.exist"));
+                } catch (IncorrectCredentialsException ex) {
+                    usernamePasswordToken.clear();
+                    result.setFail();
+                    result.setErrorMsg(MESSAGE.getString("password.error"));
+                } catch (Exception ex) {
+                    usernamePasswordToken.clear();
+                    result.setFail();
+                    result.setErrorMsg(ex.getMessage());
+                }
             }
+
+
         }
         return result;
     }
@@ -138,6 +161,8 @@ public class HomeController {
 
     @RequestMapping(value = "/home.html")
     public ModelAndView loginSubmit(HttpServletRequest request) {
+
+
         ModelAndView modelAndView = new ModelAndView();
         Subject subject = SecurityUtils.getSubject();
         subjectSession = SecurityUtils.getSubject().getSession(true);
@@ -157,6 +182,10 @@ public class HomeController {
 
             List<TreeNode> treeNodeListByPid = resourceService.getUserAuthTree(userInfoEntity.getRoleId());
             subjectSession.setAttribute("authList", treeNodeListByPid);//权限列表
+
+            //加载系统的新增和编辑页面的交互方式,放到session和application中
+            subjectSession.setAttribute("page_show_way",MESSAGE.getString("page.show.way"));
+            request.getServletContext().setAttribute("page_show_way",MESSAGE.getString("page.show.way"));
             //更新登陆次数和最后登陆ip
             userInfoEntity.setLastLoginIp(HttpUtil.getIpAddress(request));
             userInfoEntity.setLastLoginTime(new Date(System.currentTimeMillis()));
@@ -164,9 +193,8 @@ public class HomeController {
             usrService.modify(userInfoEntity);
 
             String menuType = ResourceBundle.getBundle(AppConstant.MESSAGE_NAME).getString("system.menu");
-            if(Strings.isNullOrEmpty(menuType))
-            {
-                menuType="accordion";
+            if (Strings.isNullOrEmpty(menuType)) {
+                menuType = "accordion";
             }
             subjectSession.setAttribute("menu", menuType);
         }
@@ -189,7 +217,7 @@ public class HomeController {
         // create the text for the image
         String capText = captchaProducer.createText();
         // store the text in the session
-        request.getSession().setAttribute("KAPTCHA_SESSION_KEY", capText);
+        request.getSession().setAttribute(AppConstant.LOGIN_CAPTCHA_KEY, capText);
         // create the image with the text
         BufferedImage bi = captchaProducer.createImage(capText);
         ServletOutputStream out = response.getOutputStream();

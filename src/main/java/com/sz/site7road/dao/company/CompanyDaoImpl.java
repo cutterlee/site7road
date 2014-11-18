@@ -40,6 +40,8 @@ public class CompanyDaoImpl extends BaseDaoImpl<CompanyEntity> implements Compan
             return true;
         } catch (Exception ex) {
             transaction.rollback();
+        }finally {
+            session.close();
         }
         return false;
     }
@@ -62,6 +64,8 @@ public class CompanyDaoImpl extends BaseDaoImpl<CompanyEntity> implements Compan
         } catch (Exception ex) {
             ex.printStackTrace();
             transaction.rollback();
+        }finally {
+            session.close();
         }
         return false;
     }
@@ -82,6 +86,8 @@ public class CompanyDaoImpl extends BaseDaoImpl<CompanyEntity> implements Compan
             return true;
         } catch (Exception ex) {
             transaction.rollback();
+        }finally {
+            session.close();
         }
         return false;
     }
@@ -110,6 +116,7 @@ public class CompanyDaoImpl extends BaseDaoImpl<CompanyEntity> implements Compan
        Transaction transaction= session.beginTransaction();
         List<CompanyEntity> companyEntityList = session.createQuery(" from CompanyEntity").setFirstResult(pageEntity.getStartPosition()).setMaxResults(pageEntity.getPageSize()).list();
        transaction.commit();
+        session.close();
         return companyEntityList;
     }
 

@@ -27,9 +27,9 @@
         <property name="username" value="${jdbc.username}"></property>
         <property name="password" value="${jdbc.password}"></property>
         <!--连接池初始化值 -->
-        <property name="initialSize" value="1"></property>
+        <property name="initialSize" value="2"></property>
         <!--连接池最大值 -->
-        <property name="maxActive" value="500"></property>
+        <property name="maxActive" value="30"></property>
         <!--最大空闲值，当经过一高峰期，慢慢释放连接，直到达到maxIdle -->
         <property name="maxIdle" value="2"></property>
         <!--最小空闲值，当空闲连接少于阀值时，连接池会预申请一些连接 -->

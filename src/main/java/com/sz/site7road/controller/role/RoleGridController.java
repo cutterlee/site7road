@@ -33,7 +33,7 @@ import java.util.ResourceBundle;
 @RequestMapping(value = "/role")
 public class RoleGridController extends BaseGridController<RoleInfoEntity> {
 
-    private static final Logger log=Logger.getLogger(RoleGridController.class);
+    private static final Logger log = Logger.getLogger(RoleGridController.class);
 
     @Resource
     private RoleInfoService service;
@@ -41,9 +41,6 @@ public class RoleGridController extends BaseGridController<RoleInfoEntity> {
     @Resource
     private ResourceService resourceService;
 
-
-    @Resource
-    private UsrService usrService;
 
     @Override
     protected BaseService getService() {
@@ -62,64 +59,78 @@ public class RoleGridController extends BaseGridController<RoleInfoEntity> {
 
     /**
      * 给角色分配权限
+     *
      * @return
      */
     @RequestMapping(value = "/auth")
-    public String auth(ModelMap map,int roleId) {
-        map.addAttribute("title", getTitle());
-        map.addAttribute("titleName","角色管理");
-        map.addAttribute("entityName", getTemplateDir());
-        map.addAttribute("roleId",roleId);
-        return getTemplateDir() + "/right";
+    public String auth(ModelMap map, int roleId) {
+        String authPermission = getTemplateDir() + ":auth";
+        if (hasPermission(authPermission)) {
+            map.addAttribute("title", MESSAGE.getString("give.right"));
+            map.addAttribute("entityName", getTemplateDir());
+            map.addAttribute("roleId", roleId);
+            //set index title and icon
+            setIndexPageIcon(map,getTemplateDir()+":index");
+            return getTemplateDir() + "/right";
+        } else {
+            return "redirect:/noRight";
+        }
     }
 
     @RequestMapping(value = "/authTree")
     @ResponseBody
-    public List<TreeNode> authTree(ModelMap map,int roleId) {
-        return  resourceService.getAuthCheckedTree(roleId);
+    public List<TreeNode> authTree(ModelMap map, int roleId) {
+        String authPermission = getTemplateDir() + ":auth";
+        if (hasPermission(authPermission)) {
+            return resourceService.getAuthCheckedTree(roleId);
+        }
+        return null;
     }
 
 
     /**
      * 权限分配
+     *
      * @return
      */
     @RequestMapping(value = "/giveRight")
     @ResponseBody
-    public ResultForGridForm giveRight(String resourceIdArray,int roleId){
+    public ResultForGridForm giveRight(String resourceIdArray, int roleId) {
 
-        ResultForGridForm resultForGridForm=new ResultForGridForm();
+        String giveRightPermission = getTemplateDir() + ":giveRight";
+
+        ResultForGridForm resultForGridForm = new ResultForGridForm();
         resultForGridForm.setSubject("分配权限");
-        //get the login userId
-        Subject loginUser= SecurityUtils.getSubject();
-        if(loginUser.isAuthenticated())
-        {
+        if (hasPermission(giveRightPermission)) {
+            //get the login userId
             //remove the old resource
-            boolean removeResult=resourceService.removeByRoleId(roleId);
+            boolean removeResult = resourceService.removeByRoleId(roleId);
             log.info("删除原有权限");
             //insert the new resource
-            int[] resourceIds={};
+            int[] resourceIds = {};
             try {
-                resourceIds=new ObjectMapper().readValue(resourceIdArray,(new int[]{}).getClass());
+                resourceIds = new ObjectMapper().readValue(resourceIdArray, (new int[]{}).getClass());
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            boolean giveRightResult=resourceService.batchInsertResource(resourceIds,roleId);
+            boolean giveRightResult = resourceService.batchInsertResource(resourceIds, roleId);
             log.info("增加现有权限");
-            if(giveRightResult)
-            {
+            if (giveRightResult) {
                 resultForGridForm.setSuccess();
                 resultForGridForm.setErrorMsg("分配权限成功");
-            }else{
+            } else {
                 resultForGridForm.setFail();
                 resultForGridForm.setErrorMsg("分配权限失败");
             }
+        } else {
+            resultForGridForm.setErrorMsg(MESSAGE.getString("no.right"));
         }
         return resultForGridForm;
     }
 
     /**
      * 删除角色之后,顺带删除角色对应的权限信息
+     *
      * @param id 角色id
      * @return 删除的结果
      */
@@ -128,5 +139,21 @@ public class RoleGridController extends BaseGridController<RoleInfoEntity> {
         //remove the role resource
         resourceService.removeByRoleId(id);
         return super.removeEntity(id);
+    }
+
+    /**
+     * 列表页
+     *
+     * @param map ftl用到的数据
+     * @return 数据列表页
+     */
+    @Override
+    protected String index(ModelMap map) {
+
+        String indexPage = super.index(map);
+        //check user has the auth
+        String authPermission = getTemplateDir() + ":auth";
+        map.addAttribute("authPermission", hasPermission(authPermission));
+        return indexPage;
     }
 }

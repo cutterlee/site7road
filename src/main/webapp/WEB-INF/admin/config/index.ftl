@@ -1,18 +1,16 @@
 <#import "/spring.ftl" as spring>
-<div style="width: 100%;height: 100%;">
+<div class="indexDiv">
 
             <div id="${entityName}tb" style="padding:2px;height:auto;">
                 <div style="margin-bottom:2px">
-                    <a href="#" class="easyui-linkbutton addEntity${entityName}" iconCls="icon-add" >增加</a>
-                    <a href="#" class="easyui-linkbutton editEntity${entityName}" iconCls="icon-edit" >编辑</a>
-                    <a href="#" class="easyui-linkbutton removeEntity${entityName}" iconCls="icon-remove" >删除</a>
+                  <#include "*/common/tree_button.ftl"/>
                     配置名称:<input class="easyui-textbox" style="width:120px" id="configTitle" propertyName="configTitle" where="like">
                     <a href="#" class="easyui-linkbutton searchEntity${entityName}" iconCls="icon-search">搜索</a>
                 </div>
             </div>
 
 
-            <table id="${entityName}grid" class="easyui-treegrid" style="width:100%;height:100%;"
+            <table id="${entityName}grid" class="easyui-treegrid indexTableDiv"
                    url="${req.contextPath}/${entityName}/tree" toolbar="#${entityName}tb"
                    iconCls="icon-reload" singleSelect="true" fitColumns="true" animate="true"
                    sortName="id" sortOrder="asc" idField="id" treeField="configTitle"

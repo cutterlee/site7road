@@ -10,7 +10,6 @@ import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * USER： cutter.li
@@ -38,6 +37,8 @@ public class RoleInfoDaoImpl extends BaseDaoImpl<RoleInfoEntity> implements Role
         } catch (Exception ex) {
             ex.printStackTrace();
             transaction.rollback();
+        }finally {
+            session.close();
         }
         return null;
     }

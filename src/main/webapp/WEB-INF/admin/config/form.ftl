@@ -66,7 +66,7 @@
                         var titleName = '${titleName}';
                         var contentHref = '${req.contextPath}/${entityName}/index';
                         var iconCls = 'icon-add';
-                        openTab(titleName, contentHref, iconCls,"${req.contextPath}");
+                        SITE_7ROAD.openTab(titleName, contentHref, iconCls,"${req.contextPath}");
                     }
                 }
             });

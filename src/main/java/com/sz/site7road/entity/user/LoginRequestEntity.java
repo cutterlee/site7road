@@ -35,6 +35,11 @@ public class LoginRequestEntity {
     @Length(max=4)
     private String  verifyCode;
 
+    /**
+     * 记住我
+     */
+    private String rememberMe;
+
     public String getUsername() {
         return username;
     }
@@ -60,6 +65,19 @@ public class LoginRequestEntity {
     }
 
    private static Map<String,String> fieldMap= Maps.newHashMap();
+
+    public boolean getRememberMe() {
+
+            if("on".equalsIgnoreCase(rememberMe))
+            {
+                return true;
+            }
+             return false;
+    }
+
+    public void setRememberMe(String rememberMe) {
+        this.rememberMe = rememberMe;
+    }
 
     public LoginRequestEntity() {
         fieldMap.put("username","用户名");

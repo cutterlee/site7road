@@ -2,8 +2,6 @@ package com.sz.site7road.dao.resource;
 
 import com.sz.site7road.dao.base.BaseDaoImpl;
 import com.sz.site7road.entity.resource.ResourceEntity;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
 /**

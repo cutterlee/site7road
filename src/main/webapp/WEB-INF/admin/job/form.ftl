@@ -28,13 +28,13 @@
                 <tr>
                     <td><label>工作职责:</label></td>
                     <td colspan="3">
-                        <textarea  name="positionDuty" id="positionDuty${op}"  style="width: 80%">${entity.positionDuty!""}</textarea>
+                        <textarea  name="positionDuty" id="positionDuty${version}"  style="width: 80%">${entity.positionDuty!""}</textarea>
                     </td>
                 </tr>
                 <tr>
                     <td><label>岗位要求:</label></td>
                     <td colspan="3">
-                        <textarea  name="positionRequirement" id="positionRequirement${op}" style="width: 80%">${entity.positionRequirement!""}</textarea>
+                        <textarea  name="positionRequirement" id="positionRequirement${version}" style="width: 80%">${entity.positionRequirement!""}</textarea>
 
                     </td>
                 </tr>
@@ -53,8 +53,8 @@
 <script type="text/javascript">
 
     $(function () {
-        var duty=  UE.getEditor("positionDuty${op}");
-      var requirement=  UE.getEditor("positionRequirement${op}");
+        var duty=  UE.getEditor("positionDuty${version}");
+      var requirement=  UE.getEditor("positionRequirement${version}");
 
 
         //防止工具栏的事件冒泡

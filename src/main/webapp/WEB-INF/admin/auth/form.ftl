@@ -1,7 +1,7 @@
 <#import "/spring.ftl" as spring>
 
     <div>
-        <form  method="POST"  id="${entityName}Fm">
+        <form  method="post"  id="${entityName}Fm">
 
             <table cellpadding="5">
                 <tr style="display: none;">
@@ -42,60 +42,33 @@
                 <tr>
                     <td><label>资源图标:</label></td>
                     <td>
-                        <span class="icon-man" id="resourceIconImg">&nbsp;&nbsp;&nbsp;</span>
-                        <input class="easyui-combotree" required="true"
-                               name="resourceIcon" value="${entity.resourceIcon!'icon-man'}"
-                               data-options=" url:'${req.contextPath}/combo/icon', method:'get',valueField:'id', textField:'text', panelHeight:'auto'
+                        <span class="${entity.resourceIcon!'icon-man'}" id="resourceIconImg">&nbsp;&nbsp;&nbsp;</span>
+                        <select class="easyui-combotree" required="true" style="width: 200px;"
+                               name="resourceIcon"
+                               data-options=" url:'${req.contextPath}/combo/icon', method:'get',valueField:'id', textField:'text', panelHeight:'auto',value:'${entity.resourceIcon!'icon-man'}'
                                ,onSelect:function(rec){
                                  $('#resourceIconImg').removeClass().addClass(rec.text);
                                 }
-                               ">
+                               "></select>
                     </td>
                 </tr>
                 <tr>
                     <td><label>资源简介:</label></td>
                     <td><input name="resourceSummary" class="easyui-textbox" style="width: 400px;height: 60px;" data-options="multiline:true" required="true"  validType="length[4,200]" value="${entity.resourceSummary!''}"></td>
                 </tr>
-                <tr>
-                    <td>
-                        <input type="button" value="保存" class="easyui-linkbutton c6 saveEntity" iconCls="icon-save" style="width:90px">
-                    </td>
-                </tr>
+                  <#include "*/common/form_save.ftl"/>
             </table>
         </form>
-
-
     </div>
 
-
 <script type="text/javascript">
-    $(function () {
-
-        $(".saveEntity").bind("click", function () {
-            $('input[name=resourceIcon]').val($("#resourceIconImg").attr("class"));
-            $('#' + '${entityName}Fm').form('submit', {
-                url: '${req.contextPath}/${entityName}/save',
-                onSubmit: function () {
-                    return $(this).form('validate');
-
-                },
-                success: function (result) {
-                    var result = eval('(' + result + ')');
-                    if ( !result.success) {
-                        $.messager.show({
-                            title: '错误提示',
-                            msg: result.errorMsg
-                        });
-                    } else {
-                        $('#handleArea').tabs('close', '${title}');
-                        var titleName = '权限管理';
-                        var contentHref = '${req.contextPath}/${entityName}/index';
-                        var iconCls = 'icon-add';
-                        openTab(titleName, contentHref, iconCls,'${req.contextPath}');
-                    }
-                }
-            });
-        });
-    });
+    function saveRole()
+    {
+        $('input[name=resourceIcon]').val($('#resourceIconImg').attr('class'));
+        saveEntity('${entityName}','${req.contextPath}','${indexTitle}','${indexIconCls}','${title}');
+    }
 </script>
+
+
+
 
