@@ -21,14 +21,14 @@
                         <option value="peppergrinder">peppergrinder</option>
                         <option value="sunny">sunny</option>
                     </select>
-                    <span class="realName"></span>你好,${userInfo.nickName} ,您是<span class="roleName">${roleInfo.roleName}</span>&nbsp;&nbsp;<span
+                    <span class="realName"></span>你好,<#if userInfo??>${userInfo.nickName}</#if> ,您是<span class="roleName"><#if roleInfo??>${roleInfo.roleName}</#if></span>&nbsp;&nbsp;<span
                         class="logout c1">注销</span>
                 </td>
             </tr>
         </table>
     </div>
 <#--<div data-options="region:'east',split:true" title="East" style="width:100px;"></div>-->
-    <div data-options="region:'west',split:true,collapsible:true"  id="navTree" title="${systemName}" style="width:180px;">
+    <div data-options="region:'west'"  id="navTree" title="${systemName}" style="width:180px;">
         <#if menu=='tree'>
             <ul class="easyui-tree" data-options="url:'${req.contextPath}/authTree',method:'post',lines:'true',animate:'true'">
             <#if authList??>
@@ -92,10 +92,10 @@
 
         </#if>
     </div>
-    <div class="easyui-tabs" id="handleArea" style="height:100%" data-options="region:'center',minHeight:500,fit:true">
+    <div class="easyui-tabs" id="handleArea" style="height:100%" data-options="region:'center',fit:true">
        <#include "index.ftl">
     </div>
-    <div data-options="region:'south',split:true" style="height:30px; text-align: center;line-height: 23px;">
+    <div data-options="region:'south'" style="height:26px; text-align: center;line-height: 23px;">
         <span>Copyright &copy; &nbsp;<@spring.message "dev.info"/>  &nbsp; </span>
     </div>
 </div>

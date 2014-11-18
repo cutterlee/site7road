@@ -1,3 +1,5 @@
+
+
 /**
  * 打开一个tab
  * @param titleName
@@ -61,14 +63,11 @@ function removeGridItem(entityName,contextPath) {
     if (row) {
         $.messager.confirm('确认', '你确定删除这条数据?', function (r) {
             if (r) {
-                $.post('/'+contextPath+'/'+entityName +'/'+ row.id + '/remove', function (result) {
+                $.post(contextPath+'/'+entityName +'/'+ row.id + '/remove', function (result) {
                     if (result.success) {
                         $('#'+entityName+'grid').datagrid('reload');    // reload the user data
                     } else {
-                        $.messager.show({    // show error message
-                            title: '错误提示',
-                            msg: result.errorMsg
-                        });
+                        $.messager.alert(result.subject, result.errorMsg,"error");
                     }
                 }, 'json');
             }
@@ -104,8 +103,74 @@ function  saveGridForm(entityName,contextPath) {
         }
     });
 }
+/**
+ * 从dataGrid的表格打开新增标签页
+ * @param entityName
+ * @param title
+ * @param contextPath
+ */
+function openAddGridTagPage(entityName,title,contextPath) {
+    var contentHref = contextPath+'/'+entityName+'/create';
+    var titleName = '增加'+title;
+    var iconCls = 'icon-add';
+    openTab(titleName, contentHref, iconCls,contextPath);
+}
 
+function openEditGridTagPage(entityName,title,contextPath) {
+    var row = $('#' + entityName+'grid').datagrid('getSelected');
+    if (row) {
+        var titleName = '编辑'+title;
+        var contentHref = contextPath+'/'+entityName+'/'+row.id+'/modify';
+        var iconCls = 'icon-edit';
+        openTab(titleName, contentHref, iconCls,contextPath);
 
+    }else{
+        $.messager.alert("编辑","请先选择编辑的行","error");
+    }
+}
+
+/**
+ * 保存页面信息,关闭当前页面,并打开列表页面
+ * @param entityName
+ * @param contextPath
+ * @param indexTitle
+ * @param indexIconCls
+ * @param titleName
+ */
+function saveEntity(entityName,contextPath,indexTitle,indexIconCls,titleName) {
+    $('#' + entityName+'Fm').form('submit', {
+        url: contextPath+'/'+entityName+'/save',
+        onSubmit: function () {
+            return $(this).form('validate');
+        },
+        success: function (result) {
+            var result = eval('(' + result + ')');
+            if ( !result.success) {
+                $.messager.show({
+                    title: result.subject,
+                    msg: result.errorMsg
+                });
+            } else {
+                $('#handleArea').tabs('close', titleName);
+                var contentHref = contextPath+'/'+entityName+'/index';
+                openTab(indexTitle, contentHref, indexIconCls,contextPath);
+            }
+        }
+    });
+}
+/**
+ * 关闭当前页面,打开列表页面
+ * @param entityName
+ * @param contextPath
+ * @param indexTitle
+ * @param indexIconCls
+ * @param titleName
+ */
+function returnIndexPage(entityName,contextPath,indexTitle,indexIconCls,titleName) {
+    $('#handleArea').tabs('close', titleName);
+    var contentHref = contextPath+'/'+entityName+'/index';
+    openTab(indexTitle, contentHref, indexIconCls,contextPath);
+}
 
 
 /**

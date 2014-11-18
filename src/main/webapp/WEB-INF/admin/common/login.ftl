@@ -2,7 +2,7 @@
 <#import "/spring.ftl" as spring>
 <#include "resource.ftl">
 <head>
-    <title><@spring.message "system.name"/>---登陆页</title>
+    <title><@spring.message "system.name"/>---<@spring.message "login.title"/></title>
     <style>
         body {
             background: url(${req.contextPath}/static/img/bg.jpg) no-repeat center top;
@@ -13,49 +13,52 @@
 </head>
 <body class="loginBody">
     <div class="loginTop">
-        <div class="easyui-panel" title="${systemName}-用户登录" style=";padding:10px;">
+        <div class="easyui-panel" title="<@spring.message 'system.name'/>-<@spring.message 'login.title'/>" style=";padding:10px;">
             <form id="ff" class="easyui-form" method="post" action="${req.contextPath}/login">
                 <table>
                     <tr>
-                        <td width="100px" height="45px">用户名:</td>
-                        <td>
+                        <td width="100px" height="45px"><@spring.message "login.username"/>:</td>
+                        <td width="250px">
                             <input name="username" class="f1 easyui-textbox" style="width:100%;height:40px;"
-                                   validType="length[8,20]"
-                                   data-options="required:true,prompt:'请输入您的用户名'"></input>
+                                   validType="length[8,20]" value="<#if username??>${username}</#if>"
+                                   data-options='required:true,prompt:"<@spring.message 'username.prompt'/>"'></input>
                         </td>
                     </tr>
                     <tr>
-                        <td height="45px">密码:</td>
+                        <td height="45px"><@spring.message "login.password"/>:</td>
                         <td>
                             <input name="password" class="f1 easyui-textbox" type="password" validType="length[8,20]"
                                    style="width:100%;height:40px;"
-                                   data-options="required:true,prompt:'请输入您的密码'"></input>
+                                   data-options='required:true,prompt:"<@spring.message 'password.prompt'/>"'></input>
                         </td>
                     </tr>
                     <tr>
-                        <td height="45px">验证码:</td>
+                        <td height="45px"><@spring.message "login.verifyCode"/>:</td>
                         <td>
-                            <img src="${req.contextPath}/captchaImage" style="vertical-align:middle;" width="120px"
-                                  height="40px" class="captchaImage" title="点击换图片"/>
-                            <input name="verifyCode" class="easyui-textbox easyui-tooltip"
+
+                            <input name="verifyCode" class="easyui-textbox easyui-tooltip" id="verifyCodeText"
                                    style="width:40%;height:40px;vertical-align:middle;" required="true" height="40px;"
                                    validType="mixLength[4]"
-                                   data-options="iconCls:'icon-edit',iconAlign:'right',prompt:'请输入验证码',position:'top'"></input>
-
-
+                                   data-options="prompt:'<@spring.message "verifyCode.prompt"/>',position:'top'"></input>
                         </td>
                     </tr>
                     <tr>
                         <td height="45px"></td>
                         <td>
-                            <input type="checkbox" checked="checked"><span>记住用户名</span>
+                            <img src="${req.contextPath}/captchaImage" style="vertical-align:middle;" width="120px" height="40px" class="captchaImage" title="<@spring.message 'image.title'/>"/>
+                        </td>
+                    </tr>
+                    <tr style="display: none;">
+                        <td height="45px"></td>
+                        <td >
+                            <input type="checkbox" checked="checked" name="rememberMe"><span><@spring.message "login.remember.me"/></span>
                         </td>
                     </tr>
                     <tr>
                         <td></td>
                         <td>
                             <a class="easyui-linkbutton loginButton" data-options="iconCls:'icon-ok'"
-                               style="width: 100%;height: 40px; display:block">登陆</a>
+                               style="width: 100%;height: 40px; display:block"><@spring.message "login.name"/></a>
                         </td>
                     </tr>
                     <tr>
@@ -69,14 +72,16 @@
 
 <script type="text/javascript">
     $(function () {
-        var THEME_COOKIE_NAME = "system_theme_name";
-        if ($.cookie(THEME_COOKIE_NAME)) {
-            $("#themeCss").attr("href", "${req.contextPath}/static/js/easyui/themes/" + $.cookie(THEME_COOKIE_NAME) + "/easyui.css");
-        }
         $(".captchaImage").bind("click", function () {
             $(this).attr("src", "${req.contextPath}/captchaImage");
         });
         $(".loginButton").bind("click", login);
+        $("#verifyCodeText").textbox('textbox').bind('keydown', function(e){
+            if (e.keyCode == 13){	// when press ENTER key, accept the inputed value.
+                $("#verifyCodeText").textbox('setValue', $(this).val());
+                login();
+            }
+        });
     });
     function login() {
         $(".loginButton").unbind("click", login);
@@ -95,5 +100,6 @@
         }
         $(".loginButton").bind("click", login);
     }
+
 </script>
 </body>

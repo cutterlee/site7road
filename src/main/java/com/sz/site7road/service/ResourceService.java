@@ -62,4 +62,11 @@ public interface ResourceService extends BaseService<ResourceEntity>{
      * @return 角色对应的权限树
      */
     List<TreeNode> getUserAuthTree(int roleId);
+
+    /**
+     * 通过权限字符串查找到对应的权限信息
+     * @param permission 权限字符串
+     * @return 权限信息
+     */
+    ResourceEntity findResourceByPermission(String permission);
 }

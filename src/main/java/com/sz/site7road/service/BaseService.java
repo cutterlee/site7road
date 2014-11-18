@@ -43,7 +43,7 @@ public interface BaseService <T>{
      * @throws InstantiationException
      * @throws IllegalAccessException
      */
-    T createEmptyEntity() throws InstantiationException, Exception;
+    T createEmptyEntity() throws  Exception;
 
     /**
      * 根据treeGrid的参数,得到总条数

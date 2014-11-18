@@ -2,6 +2,7 @@ package com.sz.site7road.service.impl;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -12,6 +13,7 @@ import com.sz.site7road.entity.resource.ResourceEntity;
 import com.sz.site7road.entity.resource.ResourceType;
 import com.sz.site7road.entity.role.RoleResourceEntity;
 import com.sz.site7road.framework.combotree.ComboTreeResponse;
+import com.sz.site7road.framework.grid.GridQueryCondition;
 import com.sz.site7road.framework.grid.RequestGridEntity;
 import com.sz.site7road.framework.tree.TreeNode;
 import com.sz.site7road.service.ResourceService;
@@ -304,6 +306,33 @@ public class ResourceServiceImpl extends AbstractBaseServiceImpl<ResourceEntity>
 
         }
         return treeNodeList;
+    }
+
+    /**
+     * 通过权限字符串查找到对应的权限信息
+     *
+     * @param permission 权限字符串
+     * @return 权限信息
+     */
+    @Override
+    public ResourceEntity findResourceByPermission(String permission) {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(permission));
+        RequestGridEntity dataGridParam = new RequestGridEntity();
+        dataGridParam.setPage(1);
+        dataGridParam.setRows(1);
+        dataGridParam.setSort("orderNum");
+        dataGridParam.setOrder("asc");
+        GridQueryCondition condition=new GridQueryCondition();
+        condition.setPropertyName("resourceUrl");
+        condition.setWhere("eq");
+        condition.setPropertyValue(permission);
+        dataGridParam.setCondition_1(condition);
+        List<ResourceEntity> resourceEntityList = resourceDao.findEntityListByRequestGridEntity(dataGridParam);
+        if(null!=resourceEntityList&&!resourceEntityList.isEmpty())
+        {
+            return  resourceEntityList.get(0);
+        }
+        return null;
     }
 
     /**

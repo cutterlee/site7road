@@ -93,6 +93,10 @@
     background:url('icons/book.png') no-repeat center center;
 }
 
+.icon-left{
+    background:url('icons/arrow/arrow_left.png') no-repeat center center;
+}
+
 
 
 .icon-mini-add{

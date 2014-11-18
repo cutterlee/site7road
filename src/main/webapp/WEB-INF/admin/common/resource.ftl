@@ -9,6 +9,7 @@
 <script type="text/javascript" src="${req.contextPath}/static/js/sys/validate.js"></script>
 <script type="text/javascript" src="${req.contextPath}/static/js/easyui/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="${req.contextPath}/static/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="${req.contextPath}/static/js/sys/common.js"></script>
 
 <!-- 配置文件 -->
 <script type="text/javascript" src="${req.contextPath}/static/js/ueditor/ueditor.config.js"></script>

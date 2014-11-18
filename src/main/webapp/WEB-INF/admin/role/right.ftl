@@ -1,8 +1,8 @@
 <#import "/spring.ftl" as spring>
-<div style="height: 100%;height: 100%;">
+<div style="height: 100%;height: 88%;">
 
 <div class="easyui-panel" style="padding:5px;height: 95%;">
-    <ul id="tt" class="easyui-tree" data-options="url:'${req.contextPath}/role/authTree?roleId=${roleId}',method:'get',animate:true,checkbox:true"></ul>
+    <ul id="tt" class="easyui-tree" data-options="url:'${req.contextPath}/role/authTree?roleId=${roleId}',method:'get',animate:true,cascadeCheck:false,checkbox:true"></ul>
 </div>
 
 <div style="text-align: center;align-content: center">
@@ -16,13 +16,13 @@
 <script type="text/javascript">
         $(function(){
             $(".checkAll").bind("click",function(){
-               var roots= $("#tt").tree('getRoots');
+               var roots= $("#tt").tree('getChildren');
                 $.each(roots,function(index,text){
                     $("#tt").tree('check',roots[index].target);
                 });
             });
             $(".disCheckAll").bind("click",function(){
-                var roots= $("#tt").tree('getRoots');
+                var roots= $("#tt").tree('getChildren');
                 $.each(roots,function(index,text){
                     $("#tt").tree('uncheck',roots[index].target);
                 });
@@ -49,6 +49,7 @@
                         }
                     });
                     resourceIdArray += "]";
+                    alert(resourceIdArray);
                     $.post('${req.contextPath}/role/giveRight', {'roleId':${roleId}, 'resourceIdArray': resourceIdArray}, function (data) {
                         if (data.success) {
                             openTab("角色管理", '${req.contextPath}/role/index', "icon-man", '${req.contextPath}');

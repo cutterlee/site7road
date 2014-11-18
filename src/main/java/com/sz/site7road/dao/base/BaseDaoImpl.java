@@ -44,6 +44,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         Transaction transaction = session.beginTransaction();
         List<T> enityList = session.createQuery(" from " + entityClass.getSimpleName()).setFirstResult(pageEntity.getStartPosition()).setMaxResults(pageEntity.getPageSize()).list();
         transaction.commit();
+        session.clear();
         return enityList;
     }
 
@@ -59,6 +60,8 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         } catch (Exception ex) {
             ex.printStackTrace();
             transaction.rollback();
+        }finally {
+            session.close();
         }
         return false;
     }
@@ -74,6 +77,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         } catch (Exception ex) {
             ex.printStackTrace();
             transaction.rollback();
+        }finally {
         }
         return null;
     }
@@ -88,6 +92,8 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
             return true;
         } catch (Exception ex) {
             transaction.rollback();
+        }finally {
+            session.close();
         }
         return false;
     }
@@ -103,6 +109,8 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         } catch (Exception ex) {
             ex.printStackTrace();
             transaction.rollback();
+        }finally {
+            session.close();
         }
         return id!=null;
     }
@@ -145,6 +153,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         Object idCount = criteria.uniqueResult();
         total = (Long) idCount;
         transaction.commit();
+        session.close();
         return total;
     }
 
@@ -199,6 +208,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         }
         List<T> entityList = criteria.setFirstResult(dataGridParam.getStart()).setMaxResults(dataGridParam.getRows()).list();
         transaction.commit();
+        session.close();
         return entityList;
     }
 
@@ -253,6 +263,8 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         } catch (Exception ex) {
             ex.printStackTrace();
             transaction.rollback();
+        }finally {
+            session.close();
         }
         return false;
     }
