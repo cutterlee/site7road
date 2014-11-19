@@ -47,6 +47,7 @@
                         }
                     });
                     resourceIdArray += "]";
+                    alert(resourceIdArray);
                     $.post('${req.contextPath}/role/giveRight', {'roleId':${roleId}, 'resourceIdArray': resourceIdArray}, function (data) {
                         if (data.success) {
                             $('#handleArea').tabs('close', '${title}');
