@@ -6,6 +6,7 @@ import com.sz.site7road.entity.resource.ResourceEntity;
 import com.sz.site7road.framework.grid.ResultForGridForm;
 import com.sz.site7road.service.BaseService;
 import com.sz.site7road.service.ResourceService;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -125,9 +127,23 @@ public abstract class BaseController<T> {
     @RequestMapping(value = "/save")
     @ResponseBody
     protected ResultForGridForm modifyEntitySave(@Valid @ModelAttribute("entity") T entity, BindingResult bindingResult) {
+
+        String savePermission = getTemplateDir() + ":create";
+        try {
+          int id= Integer.parseInt(BeanUtils.getProperty(entity, "id"));
+            if(id>0)
+            {
+                savePermission = getTemplateDir() + ":modify";
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
         ResultForGridForm result = new ResultForGridForm();
         result.setSubject(MESSAGE.getString("save"));
-        String savePermission = getTemplateDir() + ":save";
         if (hasPermission(savePermission)) {
             try {
                 if (!bindingResult.hasFieldErrors()) {

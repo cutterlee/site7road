@@ -122,7 +122,7 @@ SITE_7ROAD = {
      */
     openAddGridTagPage: function (entityName, title, contextPath) {
         var contentHref = contextPath + '/' + entityName + '/create?pid=0';
-        this.openTab(title, contentHref, 'icon-add', contextPath);
+        SITE_7ROAD.openTab(title, contentHref, 'icon-add', contextPath);
     },
 
     /**
@@ -136,7 +136,7 @@ SITE_7ROAD = {
         if (row) {
             var contentHref = contextPath + '/' + entityName + '/' + row.id + '/modify';
             var iconCls = 'icon-edit';
-            this.openTab(title, contentHref, iconCls, contextPath);
+            SITE_7ROAD.openTab(title, contentHref, iconCls, contextPath);
 
         } else {
             $.messager.alert(MSGTIP.modify, MSGTIP.modifySelect, "error");
@@ -155,7 +155,7 @@ SITE_7ROAD = {
         if (row) {
             contentHref = contextPath + '/' + entityName + '/create?pid=' + row.id;
         }
-        this.openTab(title, contentHref, 'icon-add', contextPath);
+        SITE_7ROAD.openTab(title, contentHref, 'icon-add', contextPath);
     },
 
     /**
@@ -168,7 +168,7 @@ SITE_7ROAD = {
         var row = $('#' + entityName + 'grid').treegrid('getSelected');
         if (row) {
             var contentHref = contextPath+'/'+entityName+'/' + row.id + '/modify';
-            this.openTab(title, contentHref, 'icon-edit', contextPath);
+            SITE_7ROAD.openTab(title, contentHref, 'icon-edit', contextPath);
         } else {
             $.messager.alert(MSGTIP.modify, MSGTIP.modifySelect, "error");
         }
@@ -206,8 +206,10 @@ SITE_7ROAD = {
      * @param indexTitle
      * @param indexIconCls
      * @param titleName
+     * @param beforeSaveCallBack 保存之前的回调函数
      */
-    saveEntity:function(entityName, contextPath, indexTitle, indexIconCls, titleName) {
+    saveEntity:function(entityName, contextPath, indexTitle, indexIconCls, titleName,beforeSaveCallBack) {
+        beforeSaveCallBack();
         $('#' + entityName + 'Fm').form('submit', {
             url: contextPath + '/' + entityName + '/save',
             onSubmit: function () {
@@ -218,7 +220,7 @@ SITE_7ROAD = {
                 if (result.success) {
                     $('#handleArea').tabs('close', titleName);
                     var contentHref = contextPath + '/' + entityName + '/index';
-                    this.openTab(indexTitle, contentHref, indexIconCls, contextPath);
+                    SITE_7ROAD.openTab(indexTitle, contentHref, indexIconCls, contextPath);
                 } else {
                     $.messager.alert(result.subject, result.errorMsg, "error");
                 }
@@ -236,7 +238,7 @@ SITE_7ROAD = {
     returnIndexPage:function (entityName, contextPath, indexTitle, indexIconCls, titleName) {
         $('#handleArea').tabs('close', titleName);
         var contentHref = contextPath + '/' + entityName + '/index';
-        this.openTab(indexTitle, contentHref, indexIconCls, contextPath);
+        SITE_7ROAD.openTab(indexTitle, contentHref, indexIconCls, contextPath);
     },
     setIcon:function (value) {
         return "<span class='" + value + "'>&nbsp;&nbsp;&nbsp;</span>";

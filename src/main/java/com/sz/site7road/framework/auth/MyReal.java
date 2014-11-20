@@ -36,7 +36,6 @@ public class MyReal extends AuthorizingRealm {
     private RoleInfoService roleInfoService;
 
 
-
     /**
      * Retrieves the AuthorizationInfo for the given principals from the underlying data store.  When returning
      * an instance from this method, you might want to consider using an instance of
@@ -57,25 +56,20 @@ public class MyReal extends AuthorizingRealm {
         String username = (String) principals.getPrimaryPrincipal();
 
         //查找到用户的角色集合
-        UserInfoEntity userInfoEntity=  userInfoService.findUserInfoByUserName(username);
+        UserInfoEntity userInfoEntity = userInfoService.findUserInfoByUserName(username);
 
         //查找到用户的资源操作集合
         List<ResourceEntity> resourceEntityList = roleInfoService.findRolePerssionSet(userInfoEntity.getRoleId());
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         authorizationInfo.addRole(String.valueOf(userInfoEntity.getRoleId()));
-        for(ResourceEntity resourceEntity:resourceEntityList)
-        {
-            String shiroPermission = resourceEntity.getShiroPermission();
-            if(Strings.isNullOrEmpty(shiroPermission)) {
-                String resourceUrl = resourceEntity.getResourceUrl();
-                if(resourceUrl.startsWith("/"))
-                {
-                  resourceUrl=  resourceUrl.replaceFirst("/","");
-                }
-                shiroPermission=resourceUrl.replaceAll("/",":");
+        for (ResourceEntity resourceEntity : resourceEntityList) {
+
+            String resourceUrl = resourceEntity.getResourceUrl();
+            if (resourceUrl.startsWith("/")) {
+                resourceUrl = resourceUrl.replaceFirst("/", "");
             }
-            authorizationInfo.addStringPermission(shiroPermission);
+            authorizationInfo.addStringPermission(resourceUrl.replaceAll("/", ":"));
         }
         return authorizationInfo;
     }

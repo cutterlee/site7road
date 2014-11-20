@@ -36,16 +36,12 @@
                     <td><input name="resourceUrl" class="easyui-textbox" style="width: 400px;" required="true" validType="length[1,100]" value="${entity.resourceUrl!''}"></td>
                 </tr>
                 <tr>
-                    <td><label>权限字符:</label></td>
-                    <td><input name="shiroPermission" class="easyui-textbox" style="width: 400px;" required="true" validType="length[1,100]" value="${entity.shiroPermission!''}"></td>
-                </tr>
-                <tr>
                     <td><label>资源图标:</label></td>
                     <td>
                         <span class="${entity.resourceIcon!'icon-man'}" id="resourceIconImg">&nbsp;&nbsp;&nbsp;</span>
                         <select class="easyui-combotree" required="true" style="width: 200px;"
                                name="resourceIcon"
-                               data-options=" url:'${req.contextPath}/combo/icon', method:'get',valueField:'id', textField:'text', panelHeight:'auto',value:'${entity.resourceIcon!'icon-man'}'
+                               data-options=" url:'${req.contextPath}/combo/icon', method:'get',valueField:'id',onlyLeafCheck:true, textField:'text', panelHeight:'auto',value:'${entity.resourceIcon!'icon-man'}'
                                ,onSelect:function(rec){
                                  $('#resourceIconImg').removeClass().addClass(rec.text);
                                 }
@@ -56,18 +52,18 @@
                     <td><label>资源简介:</label></td>
                     <td><input name="resourceSummary" class="easyui-textbox" style="width: 400px;height: 60px;" data-options="multiline:true" required="true"  validType="length[4,200]" value="${entity.resourceSummary!''}"></td>
                 </tr>
-                  <#include "*/common/form_save.ftl"/>
+                <tr>
+                    <td>
+                        <a class="easyui-linkbutton c6" iconCls="icon-save" style="width:120px;height: 36px;" onclick="SITE_7ROAD.saveEntity('${entityName}','${req.contextPath}','${indexTitle}','${indexIconCls}','${title}',function(){ $('input[name=resourceIcon]').val($('#resourceIconImg').attr('class'));});"><@spring.message "save"/></a>
+                    </td>
+                    <td>
+                        <a class="easyui-linkbutton c6" iconCls="icon-left" style="width:120px;;height: 36px;" onclick="SITE_7ROAD.returnIndexPage('${entityName}','${req.contextPath}','${indexTitle}','${indexIconCls}','${title}');"><@spring.message "return"/></a>
+                    </td>
+                </tr>
             </table>
         </form>
     </div>
 
-<script type="text/javascript">
-    function saveRole()
-    {
-        $('input[name=resourceIcon]').val($('#resourceIconImg').attr('class'));
-        saveEntity('${entityName}','${req.contextPath}','${indexTitle}','${indexIconCls}','${title}');
-    }
-</script>
 
 
 

@@ -1,5 +1,10 @@
 package com.sz.site7road.framework.config;
 
+import com.google.common.collect.Lists;
+import com.sz.site7road.framework.combotree.ComboTreeResponse;
+
+import java.util.List;
+
 /**
  * project: 公司官网重构---李福春
  * Created by cutter.li on 2014/9/19 11:09.
@@ -14,4 +19,6 @@ public interface AppConstant {
      * 登陆验证码在session中的key
      */
     String LOGIN_CAPTCHA_KEY="VERIFY_CODE_SESSION_KEY";
+
+    List<ComboTreeResponse> IconcomboTreeResponseList= Lists.newLinkedList();
 }

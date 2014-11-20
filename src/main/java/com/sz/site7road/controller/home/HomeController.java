@@ -2,9 +2,13 @@ package com.sz.site7road.controller.home;
 
 import com.google.code.kaptcha.Producer;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.sz.site7road.entity.role.RoleInfoEntity;
 import com.sz.site7road.entity.user.LoginRequestEntity;
 import com.sz.site7road.entity.user.UserInfoEntity;
+import com.sz.site7road.framework.combotree.ComboTreeResponse;
+import com.sz.site7road.framework.combotree.IconComboTree;
 import com.sz.site7road.framework.config.AppConstant;
 import com.sz.site7road.framework.grid.ResponseGridEntity;
 import com.sz.site7road.framework.grid.ResultForGridForm;
@@ -38,9 +42,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.awt.image.BufferedImage;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * Created by cutter.li on 2014/9/10.
@@ -197,6 +199,27 @@ public class HomeController {
                 menuType = "accordion";
             }
             subjectSession.setAttribute("menu", menuType);
+
+            Properties properties = System.getProperties();
+            //获取系统的信息
+            subjectSession.setAttribute("osName", properties.getProperty("os.name")+properties.getProperty("os.version"));
+            subjectSession.setAttribute("osArch", properties.getProperty("os.arch"));
+            subjectSession.setAttribute("javaVersion", properties.getProperty("java.version"));
+            subjectSession.setAttribute("javaHome", properties.getProperty("java.home"));
+            subjectSession.setAttribute("host",request.getRemoteHost()+request.getRemotePort());
+            subjectSession.setAttribute("ip", request.getRemoteAddr());
+
+            List<ComboTreeResponse> comboTreeResponseList=Lists.newLinkedList();
+            for(ComboTreeResponse treeResponse:IconComboTree.getIconComboTreeResponseList())
+            {
+                if(treeResponse.getChildren()==null)
+                {
+                    comboTreeResponseList.add(treeResponse);
+                }else{
+                    comboTreeResponseList.addAll(treeResponse.getChildren());
+                }
+            }
+            subjectSession.setAttribute("icons", comboTreeResponseList);
         }
 
         return modelAndView;

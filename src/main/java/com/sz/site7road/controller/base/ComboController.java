@@ -1,14 +1,25 @@
 package com.sz.site7road.controller.base;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sz.site7road.framework.combotree.ComboTreeResponse;
+import com.sz.site7road.framework.combotree.IconComboTree;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.WebUtils;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * project: 公司官网重构---李福春
@@ -18,6 +29,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/combo")
 public class ComboController {
+    private static final Logger log= Logger.getLogger(ComboController.class);
 
     String[] iconArray={
             "请选择",
@@ -72,7 +84,7 @@ public class ComboController {
 
     @RequestMapping(value = "icon")
     @ResponseBody
-    public List<ComboTreeResponse>  getIconCombo() {
+    public List<ComboTreeResponse>  getIconCombo(ServletRequest request) {
 
         /**
          *   <input type="radio" name="l value="icon-man"       ><span class="icon-man">&nbsp;&nbsp;&nbsp;</span><br/>
@@ -96,17 +108,14 @@ public class ComboController {
          <input type="radio" name="lang" value="icon-undo"    ><span class="icon-undo">&nbsp;&nbsp;&nbsp;</span><br/>
          <input type="radio" name="lang" value="icon-save"   ><span class="icon-save">&nbsp;&nbsp;&nbsp;</span>
          */
-        List<ComboTreeResponse>  comboTreeResponseList= Lists.newLinkedList();
 
-        for(int i=0;i<iconArray.length;i++)
-        {
-            ComboTreeResponse comboTreeResponse=new ComboTreeResponse();
-            comboTreeResponse.setId(i);
-            comboTreeResponse.setText(iconArray[i]);
-            comboTreeResponse.setIconCls(iconArray[i]);
-            comboTreeResponseList.add(comboTreeResponse);
-        }
-        return  comboTreeResponseList;
+        return IconComboTree.getIconComboTreeResponseList();
     }
+
+
+
+
+
+
 
 }

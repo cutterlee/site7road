@@ -70,7 +70,7 @@ public class RoleGridController extends BaseGridController<RoleInfoEntity> {
             map.addAttribute("entityName", getTemplateDir());
             map.addAttribute("roleId", roleId);
             //set index title and icon
-            setIndexPageIcon(map,getTemplateDir()+":index");
+            setIndexPageIcon(map,"/"+getTemplateDir()+"/index");
             return getTemplateDir() + "/right";
         } else {
             return "redirect:/noRight";
@@ -97,7 +97,7 @@ public class RoleGridController extends BaseGridController<RoleInfoEntity> {
     @ResponseBody
     public ResultForGridForm giveRight(String resourceIdArray, int roleId) {
 
-        String giveRightPermission = getTemplateDir() + ":giveRight";
+        String giveRightPermission = getTemplateDir() + ":auth";
 
         ResultForGridForm resultForGridForm = new ResultForGridForm();
         resultForGridForm.setSubject("分配权限");

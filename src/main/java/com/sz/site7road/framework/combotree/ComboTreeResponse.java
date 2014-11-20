@@ -18,6 +18,8 @@ public class ComboTreeResponse {
 
     private String iconCls;
 
+    private String state="closed";
+
     private Collection<ComboTreeResponse> children= Lists.newLinkedList();
 
     public int getId() {
@@ -50,5 +52,13 @@ public class ComboTreeResponse {
 
     public void setIconCls(String iconCls) {
         this.iconCls = iconCls;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

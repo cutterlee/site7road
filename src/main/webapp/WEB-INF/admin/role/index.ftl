@@ -16,7 +16,7 @@
             <th field="roleName" width="100" sortable="true" align="center"><@spring.message "role.name"/></th>
             <th field="roleSummary" width="100" align="left" sortable="true"><@spring.message "role.summary"/></th>
             <th field="lastModifyTime" width="100" align="left" data-options="formatter:function(value){return SITE_7ROAD.formateGridDate(value);}"><@spring.message "update.time"/></th>
-             <#if authPermission><th field="id" width="200" align="center" data-options="formatter:function(row){ return initButton(row);}"><@spring.message "operate"/></th></#if>
+             <#if authPermission><th field="id" width="200" align="center" data-options="formatter:function(value,row,index){ return initButton(row);}"><@spring.message "operate"/></th></#if>
         </tr>
         </thead>
     </table>

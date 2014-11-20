@@ -1,4 +1,5 @@
-<div title="系统说明" data-options="iconCls:'icon-help',closable:true">
+<#import "/spring.ftl" as spring>
+<div title="系统说明" data-options="iconCls:'icon-help',closable:true,height:'auto'">
     <p>
         重构公司官网
     <ul>
@@ -13,12 +14,42 @@
     </p>
     <p>
         快捷导航
-        <span class="icon-man">&nbsp;&nbsp;&nbsp;</span>
+        <#if icons??>
+        <table>  <tr>
+            <#list icons as icon>
+
+
+                <#if (icon_index+1)%25==0 >
+                </tr><tr>
+                <#else >
+                    <td><span class="${icon.text}">&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;</td>
+                </#if>
+
+
+            </#list></tr>
+            </table>
+        </#if>
+
 
 
     </p>
     <br>
+
     <p>
-        系统信息:
+        系统信息:<br>
+    <table>
+        <tr>
+            <td>JAVA版本:</td><td>${javaVersion}</td>
+            <td>JAVA路径:</td><td>${javaHome}</td>
+        </tr>
+        <tr>
+            <td>操作系统名称:</td><td>${osName}</td>
+            <td>操作系统构架:</td><td>${osArch}</td>
+        </tr>
+        <tr>
+            <td>服务器域名:</td><td>${host}</td>
+            <td>服务器ip:</td><td>${ip}</td>
+        </tr>
+    </table>
     </p>
 </div>
