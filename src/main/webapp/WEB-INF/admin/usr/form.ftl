@@ -12,7 +12,7 @@
                         <td>
                             <select name="roleId" style="width: 300px;"  class="easyui-combogrid" required="true" validType="selectValueRequired" data-options="
                             panelWidth: 500,
-                            value:'${entity.roleId!0}',
+                            value:'<#if entity.roleId gt 0 > ${entity.roleId}</#if>',
                             idField: 'id',
                             textField: 'roleName',
                             url: '${req.contextPath}/role/list',

@@ -1,32 +1,45 @@
 <#import "/spring.ftl" as spring>
 <div id="${entityName}tb" style="padding:2px;height:auto;">
     <div style="margin-bottom:2px">
-        <a href="#" class="easyui-linkbutton addEntity" iconCls="icon-add">增加</a>
-        <a href="#" class="easyui-linkbutton editEntity" iconCls="icon-edit">编辑</a>
-        <a href="#" class="easyui-linkbutton removeEntity" iconCls="icon-remove">删除</a>
-        站点名称:<input class="easyui-textbox" style="width:120px" id="companyNameSearch" name="siteName">
+       <#include "*/common/grid_button.ftl"/>
+        <@spring.message "site.name"/>:<input class="easyui-textbox" style="width:120px" id="siteName" propertyName="siteName" where="like">
         <a href="#" class="easyui-linkbutton searchEntity" iconCls="icon-search">搜索</a>
     </div>
 </div>
 
 
-<table id="${entityName}grid" class="easyui-datagrid" style="width:100%;height:100%"
+<table id="${entityName}grid" class="easyui-datagrid" style="width:100%;height:88%"
        url="${req.contextPath}/${entityName}/list" toolbar="#${entityName}tb"
        iconCls="icon-reload" singleSelect="true"
        sortName="id" sortOrder="asc"
        rownumbers="true" pagination="true" pageSize="20">
 <thead>
 <tr>
-<#--<th field="id" width="80">编号</th>-->
-    <th field="siteName" width="100" sortable="true" align="center">站点名称</th>
+
     <th field="siteAlias" width="100" align="left" sortable="true">站点简称</th>
-    <th field="siteUrl" width="100" align="left">站点域</th>
-    <th field="staticUrl" width="100">静态资源域</th>
+    <th field="siteName" width="100" sortable="true" align="center">站点名称</th>
     <th field="siteIcon" width="100">站点图标</th>
+    <th field="siteUrl" width="100" align="left">站点域名</th>
     <th field="siteDir" width="100">站点文件目录</th>
+    <th field="staticUrl" width="100">静态资源域</th>
     <th field="staticDir" width="100">静态文件目录</th>
     <th field="templateDir" width="100">模板文件目录</th>
-    <th field="companyEntity.comanyName" width="100">所属公司</th>
+
+    <th field="siteOwner" width="100">站点所有者</th>
+    <th field="address" width="100">联系地址</th>
+    <th field="phoneNum" width="100">联系电话</th>
+    <th field="zipCode" width="100">邮政编码</th>
+    <th field="backUpNum" width="100">备案编号</th>
+
+    <th field="closeMsg" width="100">站点关闭信息</th>
+    <th field="maxFileSize" width="100">上传文件最大限制</th>
+    <th field="fileTypes" width="100">上传文件的扩展名</th>
+    <th field="imageSavePath" width="100">上传的图片保存路径</th>
+    <th field="cssSavePath" width="100">上传的样式保存路径</th>
+    <th field="jsSavePath" width="100">上传的脚本保存路径</th>
+    <th field="otherSavePath" width="100">其它文件保存路径</th>
+    <th field="cookieDomain" width="100">cookie的域</th>
+
 </tr>
 </thead>
 

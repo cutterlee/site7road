@@ -22,30 +22,30 @@ public class SiteEntity implements Serializable {
      */
     private int id;
     /**
-     * 站点名称
-     */
-    private String siteName;
-    /**
      * 站点简称
      */
     private String siteAlias;
     /**
-     * 站点url
+     * 站点名称
      */
-    private String siteUrl;
-    /**
-     * 图片域名
-     */
-
-    private String staticUrl;
+    private String siteName;
     /**
      * 站点图标
      */
     private String siteIcon;
     /**
+     * 站点url
+     */
+    private String siteUrl;
+    /**
      * 站点目录
      */
     private String siteDir;
+    /**
+     * 图片域名
+     */
+
+    private String staticUrl;
     /**
      * 静态资源目录
      */
@@ -55,10 +55,58 @@ public class SiteEntity implements Serializable {
      */
     private String templateDir;
     /**
-     * 公司信息
+     * 站点所有者,如果是公司,填写公司名称,如果是个人,填写个人的口号
      */
-    @JsonIgnore
-    private CompanyEntity companyEntity=new CompanyEntity();
+    private String siteOwner;
+    /**
+     * 联系地址
+     */
+    private String address;
+    /**
+     * 联系电话
+     */
+    private String phoneNum;
+    /**
+     * 邮政编码
+     */
+    private String zipCode;
+    /**
+     * 备案编号
+     */
+    private String backUpNum;
+    /**
+     * 站点关闭信息
+     */
+    private String closeMsg;
+    /**
+     * 最大的上传文件大小
+     */
+    private Integer maxFileSize=1024;
+    /**
+     * 上传文件的后缀限制
+     */
+    private String fileTypes;
+    /**
+     * 图片的保存路径
+     */
+    private String imageSavePath;
+    /**
+     * css的保存路径
+     */
+    private String cssSavePath;
+    /**
+     * js文件的保存路径
+     */
+    private String jsSavePath;
+    /**
+     * 其它文件的保存路径
+     */
+    private String otherSavePath;
+    /**
+     * cookie的域名
+     */
+    private String cookieDomain;
+
 
     @Id
     @GeneratedValue(generator = "increment")
@@ -143,14 +191,113 @@ public class SiteEntity implements Serializable {
     public void setTemplateDir(String templateDir) {
         this.templateDir = templateDir;
     }
-
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id")
-    public CompanyEntity getCompanyEntity() {
-        return companyEntity;
+    @Column(name = "site_owner")
+    public String getSiteOwner() {
+        return siteOwner;
     }
 
-    public void setCompanyEntity(CompanyEntity companyEntity) {
-        this.companyEntity = companyEntity;
+    public void setSiteOwner(String siteOwner) {
+        this.siteOwner = siteOwner;
+    }
+
+    @Column(name = "site_address")
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @Column(name = "site_phonenum")
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
+    }
+    @Column(name = "zip_code")
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+    @Column(name = "back_up_num")
+    public String getBackUpNum() {
+        return backUpNum;
+    }
+
+    public void setBackUpNum(String backUpNum) {
+        this.backUpNum = backUpNum;
+    }
+
+    @Column(name = "close_msg")
+    public String getCloseMsg() {
+        return closeMsg;
+    }
+
+    public void setCloseMsg(String closeMsg) {
+        this.closeMsg = closeMsg;
+    }
+
+    @Column(name = "max_file_size")
+    public Integer getMaxFileSize() {
+        return maxFileSize;
+    }
+
+    public void setMaxFileSize(Integer maxFileSize) {
+        this.maxFileSize = maxFileSize;
+    }
+
+    @Column(name = "file_types")
+    public String getFileTypes() {
+        return fileTypes;
+    }
+
+    public void setFileTypes(String fileTypes) {
+        this.fileTypes = fileTypes;
+    }
+    @Column(name = "image_save_path")
+    public String getImageSavePath() {
+        return imageSavePath;
+    }
+
+    public void setImageSavePath(String imageSavePath) {
+        this.imageSavePath = imageSavePath;
+    }
+    @Column(name = "css_save_path")
+    public String getCssSavePath() {
+        return cssSavePath;
+    }
+
+    public void setCssSavePath(String cssSavePath) {
+        this.cssSavePath = cssSavePath;
+    }
+    @Column(name = "js_save_path")
+    public String getJsSavePath() {
+        return jsSavePath;
+    }
+
+    public void setJsSavePath(String jsSavePath) {
+        this.jsSavePath = jsSavePath;
+    }
+    @Column(name = "other_save_path")
+    public String getOtherSavePath() {
+        return otherSavePath;
+    }
+
+    public void setOtherSavePath(String otherSavePath) {
+        this.otherSavePath = otherSavePath;
+    }
+    @Column(name = "cookie_domain")
+    public String getCookieDomain() {
+        return cookieDomain;
+    }
+
+    public void setCookieDomain(String cookieDomain) {
+        this.cookieDomain = cookieDomain;
     }
 }

@@ -1,7 +1,5 @@
 package com.sz.site7road.entity.role;
 
-import com.sz.site7road.entity.resource.ResourceEntity;
-import com.sz.site7road.entity.site.SiteEntity;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -9,7 +7,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 
 /**
  * User： cutter.li
@@ -34,9 +31,8 @@ public class RoleInfoEntity implements Serializable {
 
     private Date lastModifyTime=new Date();
 
-    private SiteEntity site;
+    private int siteId;
 
-    private Set<ResourceEntity> funtionSet;
 
     @Id
     @GeneratedValue(generator = "increment")
@@ -77,21 +73,12 @@ public class RoleInfoEntity implements Serializable {
         this.lastModifyTime = lastModifyTime;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "site_id")
-    public SiteEntity getSite() {
-        return site;
+    @Column(name = "site_id")
+    public int getSiteId() {
+        return siteId;
     }
 
-    public void setSite(SiteEntity site) {
-        this.site = site;
+    public void setSiteId(int siteId) {
+        this.siteId = siteId;
     }
-//    @Column(name = "function_set_str")
-//    public Set<ResourceEntity> getFuntionSet() {
-//        return funtionSet;
-//    }
-//
-//    public void setFuntionSet(Set<ResourceEntity> funtionSet) {
-//        this.funtionSet = funtionSet;
-//    }
 }

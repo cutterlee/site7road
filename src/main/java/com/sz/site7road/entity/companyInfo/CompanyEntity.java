@@ -32,8 +32,8 @@ public class CompanyEntity {
 
     private String companyCulture;
 
-    @JsonIgnore
-    private Set<SiteEntity> siteEntitySet= Sets.newHashSet();
+//    @JsonIgnore
+//    private Set<SiteEntity> siteEntitySet= Sets.newHashSet();
 
 
     @Id
@@ -92,15 +92,15 @@ public class CompanyEntity {
         this.companyCulture = companyCulture;
     }
 
-    @OneToMany(mappedBy = "companyEntity")
-    @Cascade(value = { org.hibernate.annotations.CascadeType.SAVE_UPDATE,
-            org.hibernate.annotations.CascadeType.DELETE})
-    @LazyCollection(LazyCollectionOption.TRUE)
-    public Set<SiteEntity> getSiteEntitySet() {
-        return siteEntitySet;
-    }
-
-    public void setSiteEntitySet(Set<SiteEntity> siteEntitySet) {
-        this.siteEntitySet = siteEntitySet;
-    }
+//    @OneToMany(mappedBy = "companyEntity")
+//    @Cascade(value = { org.hibernate.annotations.CascadeType.SAVE_UPDATE,
+//            org.hibernate.annotations.CascadeType.DELETE})
+//    @LazyCollection(LazyCollectionOption.TRUE)
+//    public Set<SiteEntity> getSiteEntitySet() {
+//        return siteEntitySet;
+//    }
+//
+//    public void setSiteEntitySet(Set<SiteEntity> siteEntitySet) {
+//        this.siteEntitySet = siteEntitySet;
+//    }
 }
