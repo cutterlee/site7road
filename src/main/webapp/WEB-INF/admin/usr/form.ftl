@@ -22,7 +22,8 @@
                                 {field:'roleName',title:'<@spring.message "role.name"/>',width:80},
                                 {field:'roleSummary',title:'<@spring.message "role.summary"/>',width:200}
                             ]],
-                            fitColumns: true
+                            fitColumns: true,
+                             panelHeight:'auto'
                         ">
                             </select>
                         </td>
@@ -60,7 +61,7 @@
                     <tr>
                         <td><label><@spring.message "user.status"/>:</label></td>
                         <td>
-                            <select name="userStatus"  value="${entity.userStatus!''}" style="width: 150px;" class="easyui-combobox" value="1" required="true" validType="selectValueRequired">
+                            <select name="userStatus"  value="${entity.userStatus!''}" style="width: 150px;height: auto;" class="easyui-combobox" value="1" required="true" validType="selectValueRequired">
                                 <option value="1" checked="checked"><@spring.message "account.normal"/></option>
                                 <option value="2"><@spring.message "account.fenghao"/></option>
                             </select>

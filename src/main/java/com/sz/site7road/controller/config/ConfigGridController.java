@@ -1,5 +1,6 @@
 package com.sz.site7road.controller.config;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sz.site7road.controller.base.BaseGridController;
@@ -8,6 +9,9 @@ import com.sz.site7road.entity.config.ConfigEntity;
 import com.sz.site7road.entity.config.ConfigType;
 import com.sz.site7road.framework.combotree.ComboTreeResponse;
 import com.sz.site7road.framework.config.AppConstant;
+import com.sz.site7road.framework.grid.GridQueryCondition;
+import com.sz.site7road.framework.grid.RequestGridEntity;
+import com.sz.site7road.framework.grid.ResultForGridForm;
 import com.sz.site7road.framework.tree.TreeNode;
 import com.sz.site7road.service.BaseService;
 import com.sz.site7road.service.ConfigService;
@@ -15,6 +19,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.lang.reflect.InvocationTargetException;
@@ -56,10 +62,14 @@ public class ConfigGridController extends BaseTreeController<ConfigEntity> {
      */
     @Override
     protected List<ComboTreeResponse>  getComboTreeResponse() {
-        List<ComboTreeResponse> children=configService.getComboTreeListByPid(0);
+
         ComboTreeResponse treeNode=new ComboTreeResponse();
         treeNode.setId(0);
         treeNode.setText("根");
+        List<ComboTreeResponse> children=configService.getComboTreeListByPid(0);
+        if(children.isEmpty()){
+            children=null;
+        }
         treeNode.setChildren(children);
         List<ComboTreeResponse> comboTreeResponseList= Lists.newLinkedList();
         comboTreeResponseList.add(treeNode);
@@ -84,4 +94,22 @@ public class ConfigGridController extends BaseTreeController<ConfigEntity> {
         map.put("configParent",configService.getTopLevelConfig());
         return super.modifyEntity(id, map);
     }
+
+
+    @RequestMapping(value = "/select")
+    @ResponseBody
+    public List<ConfigEntity> removeEntity( String  configKey) {
+
+        List<ConfigEntity> configEntityList=Lists.newLinkedList();
+
+        if(Strings.isNullOrEmpty(configKey))
+        {
+            return configEntityList;
+        }
+
+        configEntityList=configService.findChildrenByConfigKey(configKey);
+        return configEntityList;
+
+    }
+
 }

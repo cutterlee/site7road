@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 /**
  * User： cutter.li
  * Date： 2014/7/30
@@ -37,6 +39,14 @@ public abstract class BaseGridController<T> extends BaseController<T> {
         return responseGridEntity;
     }
 
+    /**
+     * 上传文件之后,把得到的路径保存到实体的属性中去
+     *
+     * @param entity       实体
+     * @param fileUrlArray 文件的url路径列表
+     */
+    @Override
+    protected void setFilePathToEntityProperty(T entity, List<String> fileUrlArray) {
 
-
+    }
 }

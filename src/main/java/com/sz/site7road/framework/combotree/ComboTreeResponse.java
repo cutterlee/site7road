@@ -1,7 +1,5 @@
 package com.sz.site7road.framework.combotree;
 
-import com.google.common.collect.Lists;
-
 import java.util.Collection;
 import java.util.List;
 
@@ -18,9 +16,9 @@ public class ComboTreeResponse {
 
     private String iconCls;
 
-    private String state="closed";
+    private String state="open";
 
-    private Collection<ComboTreeResponse> children= Lists.newLinkedList();
+    private Collection<ComboTreeResponse> children;
 
     public int getId() {
         return id;

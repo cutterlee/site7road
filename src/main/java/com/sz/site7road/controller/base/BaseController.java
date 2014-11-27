@@ -2,11 +2,14 @@ package com.sz.site7road.controller.base;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.sz.site7road.entity.resource.ResourceEntity;
 import com.sz.site7road.framework.grid.ResultForGridForm;
 import com.sz.site7road.service.BaseService;
 import com.sz.site7road.service.ResourceService;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -14,14 +17,20 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 /**
  * project: 公司官网重构---李福春
@@ -50,6 +59,13 @@ public abstract class BaseController<T> {
      * @return
      */
     protected abstract String getTemplateDir();
+
+    /**
+     * 上传文件之后,把得到的路径保存到实体的属性中去
+     * @param entity 实体
+     * @param fileUrlArray 文件的url路径列表
+     */
+    protected abstract void setFilePathToEntityProperty(T entity, List<String> fileUrlArray);
 
     /**
      * 列表页
@@ -126,7 +142,7 @@ public abstract class BaseController<T> {
      */
     @RequestMapping(value = "/save")
     @ResponseBody
-    protected ResultForGridForm modifyEntitySave(@Valid @ModelAttribute("entity") T entity, BindingResult bindingResult) {
+    protected ResultForGridForm modifyEntitySave(@Valid @ModelAttribute("entity") T entity, BindingResult bindingResult,@RequestParam(required = false) MultipartFile[] files,HttpServletRequest request) {
 
         String savePermission = getTemplateDir() + ":create";
         try {
@@ -147,6 +163,15 @@ public abstract class BaseController<T> {
         if (hasPermission(savePermission)) {
             try {
                 if (!bindingResult.hasFieldErrors()) {
+                    //save file
+                    if(files!=null&&files.length>0)
+                    {
+                       List<String> fileUrlArray= uploadFile(request,files);
+                        if(!fileUrlArray.isEmpty())
+                        {
+                            setFilePathToEntityProperty(entity,fileUrlArray);
+                        }
+                    }
                     boolean saveResult = getService().modify(entity);
                     if (saveResult) {
                         result.setSuccess();
@@ -168,6 +193,31 @@ public abstract class BaseController<T> {
             result.setErrorMsg(MESSAGE.getString("no.right"));
         }
         return result;
+    }
+
+
+
+    /**
+     * 保存上传的文件
+     * @param request 请求对象
+     * @param files  文件对象
+     */
+    protected List<String> uploadFile(HttpServletRequest request, MultipartFile[] files) {
+        List<String> fileUrlArray = Lists.newLinkedList();
+        String realPath = request.getSession().getServletContext().getRealPath("/static/img/upload");
+        //这里不必处理IO流关闭的问题，因为FileUtils.copyInputStreamToFile()方法内部会自动把用到的IO流关掉
+            try {
+                for (MultipartFile file : files) {
+                    String originalFilename = file.getOriginalFilename();
+                    String fileName = new File(UUID.randomUUID().toString())+ originalFilename.substring(originalFilename.lastIndexOf("."),originalFilename.length());
+                    File destination= new File(realPath,fileName);
+                    FileUtils.copyInputStreamToFile(file.getInputStream(), destination);
+                    fileUrlArray.add("/static/img/upload/"+fileName);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        return fileUrlArray;
     }
 
 

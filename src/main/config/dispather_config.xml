@@ -101,7 +101,7 @@
         <property name="exceptionMappings">
             <props>
                 <!-- 遇到MaxUploadSizeExceededException异常时，自动跳转到/WEB-INF/jsp/error_fileupload.jsp页面 -->
-                <prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">error_fileupload</prop>
+                <prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">common/error_fileupload</prop>
             </props>
         </property>
     </bean>

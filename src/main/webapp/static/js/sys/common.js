@@ -249,14 +249,13 @@ SITE_7ROAD = {
     expandTree: function (entityName) {
         $('#' + entityName+'grid').treegrid('expandAll');
     },
-    /**
-     * 格式化grid的日期
-     * @param value
-     * @returns {*}
-     */
     formateGridDate:function (value) {
         var unixTimestamp = new Date(value);
         return unixTimestamp.format('yyyy-MM-dd hh:mm:ss');
+    },
+    transGridDate:function (value) {
+        var unixTimestamp = new Date(value);
+        return unixTimestamp.format('yyyy'+MSGTIP.year+'MM'+MSGTIP.month+'dd'+MSGTIP.day);
     }
 
 }

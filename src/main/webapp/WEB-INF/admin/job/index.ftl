@@ -1,9 +1,7 @@
 <#import "/spring.ftl" as spring>
 <div id="${entityName}tb" style="padding:2px;height:auto;">
     <div style="margin-bottom:2px">
-        <a href="#" class="easyui-linkbutton addEntity" iconCls="icon-add">增加</a>
-        <a href="#" class="easyui-linkbutton editEntity" iconCls="icon-edit">编辑</a>
-        <a href="#" class="easyui-linkbutton removeEntity" iconCls="icon-remove">删除</a>
+       <#include "*/common/grid_button.ftl"/>
         职位名称:<input class="easyui-textbox" style="width:120px" id="companyNameSearch" name="positionName">
 
         <a href="#" class="easyui-linkbutton searchEntity" iconCls="icon-search">搜索</a>

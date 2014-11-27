@@ -30,7 +30,7 @@ public class JobEntity {
     private String positionPlace;//职位所在地
 
     @Column(name = "position_need_num")
-    private int positionNeedNum; //所需人数
+    private int positionNeedNum=1; //所需人数
 
     @Column(name = "position_property")
     private String positionProperty;//职位性质

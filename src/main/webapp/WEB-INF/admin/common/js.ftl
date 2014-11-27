@@ -7,7 +7,10 @@
         modifySelect: '<@spring.message "modify.select"/>',
         remove: '<@spring.message "remove"/>',
         removeTip: '<@spring.message "remove.tip"/>',
-        loadingMessage:'<@spring.message "loading"/>'
+        loadingMessage:'<@spring.message "loading"/>',
+        year:'<@spring.message "year"/>',
+        month:'<@spring.message "month"/>',
+        day:'<@spring.message "day"/>'
     }
 </script>
 <script type="text/javascript" src="${req.contextPath}/static/js/sys/common.js"></script>

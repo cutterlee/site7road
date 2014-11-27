@@ -18,6 +18,7 @@
                 /img/upload=anon
                 /test/**=anon
                 /combo/**=anon
+                /config/select**=anon
                 /static/**=anon
                 /**=authc
             </value>

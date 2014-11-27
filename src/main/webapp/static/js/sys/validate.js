@@ -2,9 +2,6 @@
  * 扩展easyui的validator插件rules，支持更多类型验证
  */
 
-
-
-
 $.extend($.fn.validatebox.defaults.rules, {
     minLength : { // 判断最小长度
         validator : function(value, param) {

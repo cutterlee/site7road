@@ -17,7 +17,6 @@
                         <option  value="black">black</option>
                         <option value="metro">metro</option>
                         <option value="cupertino">cupertino</option>
-                        <option value="darkhive">darkhive</option>
                         <option value="peppergrinder">peppergrinder</option>
                         <option value="sunny">sunny</option>
                     </select>
@@ -91,7 +90,7 @@
 
         </#if>
     </div>
-    <div class="easyui-tabs" id="handleArea" style="height:100%" data-options="region:'center',fit:true">
+    <div class="easyui-tabs" id="handleArea" style="height:100%" data-options="region:'center'">
        <#include "index.ftl">
     </div>
     <div data-options="region:'south'" style="height:26px; text-align: center;line-height: 23px;">

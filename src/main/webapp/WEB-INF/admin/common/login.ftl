@@ -28,7 +28,7 @@
                         <td height="45px"><@spring.message "login.password"/>:</td>
                         <td>
                             <input name="password" class="f1 easyui-textbox" type="password" validType="length[8,20]"
-                                   style="width:100%;height:40px;"
+                                   style="width:100%;height:40px;" value="abcabcabc"
                                    data-options='required:true,prompt:"<@spring.message 'password.prompt'/>"'></input>
                         </td>
                     </tr>

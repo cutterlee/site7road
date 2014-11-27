@@ -23,4 +23,11 @@ public interface ConfigService extends BaseService<ConfigEntity>{
      * @return  treeGrid所需树形数据
      */
     List<ComboTreeResponse> getComboTreeListByPid(int pid);
+
+    /**
+     * 通过configKey获取孩子集合
+     * @param configKey 配置的key
+     * @return 对应的孩子集合
+     */
+    List<ConfigEntity> findChildrenByConfigKey(String configKey);
 }

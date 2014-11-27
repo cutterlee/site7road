@@ -1,6 +1,8 @@
 package com.sz.site7road.service.impl;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.sz.site7road.dao.base.BaseDao;
@@ -80,16 +82,29 @@ public class ConfigServiceImpl extends AbstractBaseServiceImpl<ConfigEntity> imp
             });
             if(children !=null&&!children.isEmpty())
             {
-                comboTreeResponseList.add(comboTreeResponse);
                 comboTreeResponse.setChildren(getComboTreeChildrenFromTreeNode(children));
+                comboTreeResponseList.add(comboTreeResponse);
             }
         }
         return comboTreeResponseList;
     }
 
+    /**
+     * 通过configKey获取孩子集合
+     *
+     * @param configKey 配置的key
+     * @return 对应的孩子集合
+     */
+    @Override
+    public List<ConfigEntity> findChildrenByConfigKey(String configKey) {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(configKey));
+        return configDao.findChildrenByConfigKey(configKey);
+    }
+
     public List<ComboTreeResponse> getComboTreeChildrenFromTreeNode( Collection<ConfigEntity> treeNodeList)
     {
         List<ComboTreeResponse> comboTreeResponseList=Lists.newLinkedList();
+        if(treeNodeList!=null&&!treeNodeList.isEmpty())
         for(final ConfigEntity treeNode:treeNodeList)
         {
             ComboTreeResponse comboTreeResponse=new ComboTreeResponse();

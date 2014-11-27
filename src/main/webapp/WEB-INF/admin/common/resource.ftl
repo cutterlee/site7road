@@ -23,4 +23,8 @@
 <script type="text/javascript">
     window.UEDITOR_CONFIG.UEDITOR_HOME_URL="${req.contextPath}/static/js/ueditor/";
     window.UEDITOR_CONFIG.serverUrl = "${req.contextPath}/img/upload";
+    //防止工具栏的事件冒泡
+    $(this.container).click(function (e) {
+        e.stopPropagation()
+    });
 </script>

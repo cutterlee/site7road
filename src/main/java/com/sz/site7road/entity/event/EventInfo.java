@@ -28,9 +28,7 @@ public class EventInfo {
     @Column(name = "event_content_summary")
     private String eventContentSmall;//事件内容简介
     @Column(name = "event_content_detail")
-    private String eventContentDetail="aaa";//事件内容简介
-    @Column(name = "event_html_name")
-    private String eventHtmlName="aaa";//生成的详细页面的英文名称
+    private String eventContentDetail="aaa";//事件内容详细
     @Column(name = "publish_time")
     private Date publishTime;//显示的发布时间
     @Column(name = "item_status")
@@ -86,9 +84,6 @@ public class EventInfo {
         this.orderNum = orderNum;
     }
 
-    public String getEventHtmlName() {
-        return eventHtmlName;
-    }
 
     public Date getPublishTime() {
         return publishTime;
@@ -114,7 +109,4 @@ public class EventInfo {
         this.updateTime = updateTime;
     }
 
-    public void setEventHtmlName(String eventHtmlName) {
-        this.eventHtmlName = eventHtmlName;
-    }
 }

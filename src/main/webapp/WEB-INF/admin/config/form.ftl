@@ -33,11 +33,7 @@
                     <td><input name="configRemark" value="${entity.configRemark!''}" class="easyui-textbox" data-options="multiline:true" required="true" validType="length[2,100]" style="width: 400px;height: 60px;" /></td>
                 </tr>
 
-                <tr>
-                    <td>
-                        <input type="button" value="保存" class="easyui-linkbutton c6 saveEntity" iconCls="icon-ok" style="width:90px">
-                    </td>
-                </tr>
+               <#include "*/common/form_save.ftl"/>
             </table>
         </form>
 
@@ -45,32 +41,4 @@
     </div>
 
 
-<script type="text/javascript">
-
-    $(function () {
-        $(".saveEntity").bind("click", function () {
-            $('#' + '${entityName}Fm').form('submit', {
-                url: '${req.contextPath}/${entityName}/save',
-                onSubmit: function () {
-                    return $(this).form('validate');
-                },
-                success: function (result) {
-                    var result = eval('(' + result + ')');
-                    if ( !result.success) {
-                        $.messager.show({
-                            title: '错误提示',
-                            msg: result.errorMsg
-                        });
-                    } else {
-                        $('#handleArea').tabs('close', '${title}');
-                        var titleName = '${titleName}';
-                        var contentHref = '${req.contextPath}/${entityName}/index';
-                        var iconCls = 'icon-add';
-                        SITE_7ROAD.openTab(titleName, contentHref, iconCls,"${req.contextPath}");
-                    }
-                }
-            });
-        });
-    });
-</script>
 
