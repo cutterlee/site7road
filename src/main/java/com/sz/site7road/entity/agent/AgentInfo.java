@@ -2,6 +2,8 @@ package com.sz.site7road.entity.agent;
 
 import com.sz.site7road.entity.base.ItemStatus;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -20,14 +22,20 @@ public class AgentInfo {
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     private int id;
+
     @Column(name = "order_num")
     private int orderNum;
+
     @Column(name = "region_tag")
-    private String regionTag; //地区代号英文名
+    private int region; //地区代号英文名
+    @NotBlank
+    @Length(max = 50)
     @Column(name = "agent_name")
     private String agentName; //代理商名称
+    @Length(max = 200)
     @Column(name = "agent_img")
     private String agentImg; //代理上图片
+    @Length(max = 200)
     @Column(name = "agent_url")
     private String agentUrl; //代理商的链接地址
     @Column(name = "item_status")
@@ -35,14 +43,13 @@ public class AgentInfo {
     @Column(name = "update_time")
     private Date updateTime=new Date();
 
-    public String getRegionTag() {
-        return regionTag;
+    public int getRegion() {
+        return region;
     }
 
-    public void setRegionTag(String regionTag) {
-        this.regionTag = regionTag;
+    public void setRegion(int region) {
+        this.region = region;
     }
-
 
     public String getAgentName() {
         return agentName;

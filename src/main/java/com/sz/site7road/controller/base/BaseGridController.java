@@ -39,14 +39,5 @@ public abstract class BaseGridController<T> extends BaseController<T> {
         return responseGridEntity;
     }
 
-    /**
-     * 上传文件之后,把得到的路径保存到实体的属性中去
-     *
-     * @param entity       实体
-     * @param fileUrlArray 文件的url路径列表
-     */
-    @Override
-    protected void setFilePathToEntityProperty(T entity, List<String> fileUrlArray) {
 
-    }
 }

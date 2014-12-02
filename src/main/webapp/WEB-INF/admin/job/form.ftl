@@ -1,6 +1,6 @@
 <#import "/spring.ftl" as spring>
 <div style="width: 100%;height: auto;">
-    <form method="post" id="${entityName}Fm">
+    <form method="post" id="${entityName}Fm" enctype="multipart/form-data">
         <table cellpadding="5">
             <tr style="display: none;">
                 <td colspan="4"><input name="id" value="${entity.id}" id="entityId" type="number"  class="easyui-textbox"/></td>
@@ -17,32 +17,36 @@
                     <input class="easyui-combobox"
                            name="positionProperty" style="width: 200px;" required="true"
                            data-options="
-                    url:'${req.contextPath}/config/select?configKey=work_property',
-                    method:'post',
-                    valueField:'id',
-                    textField:'configTitle',
-                    panelHeight:'auto'
+                            editable:false,
+                           value:'<#if entity.positionProperty gt 0>${entity.positionProperty}</#if>',
+                            url:'${req.contextPath}/config/select?configKey=work_property',
+                            method:'post',
+                            valueField:'id',
+                            textField:'configTitle',
+                            panelHeight:'auto'
             ">
                 </td>
                 <td><label>所在城市:</label></td>
                 <td>
                     <input class="easyui-combobox"
-                           name="positionPlace" style="width: 200px;" required="true"
                            data-options="
-                    url:'${req.contextPath}/config/select?configKey=work_city',
-                    method:'post',
-                    valueField:'id',
-                    textField:'configTitle',
-                    panelHeight:'auto'
+                           editable:false,
+                            value:'<#if entity.positionPlace gt 0>${entity.positionPlace}</#if>',
+                            url:'${req.contextPath}/config/select?configKey=work_city',
+                            method:'post',
+                            valueField:'id',
+                            textField:'configTitle',
+                            panelHeight:'auto'"
+                           name="positionPlace" style="width: 200px;" required="true"
             ">
             </tr>
             <tr>
                 <td><label>工作职责:</label></td>
-                <td colspan="3"><textarea name="positionDuty" id="positionDuty${op}"style="width: 98%;">${entity.positionDuty!""}</textarea></td>
+                <td colspan="3"><textarea validType="required" name="positionDuty" id="positionDuty${op}"style="width: 98%;">${entity.positionDuty!""}</textarea></td>
             </tr>
             <tr>
                 <td><label>岗位要求:</label></td>
-                <td colspan="3"> <textarea name="positionRequirement" id="positionRequirement${op}" style="width: 98%;">${entity.positionRequirement!""}</textarea></td>
+                <td colspan="3"> <textarea validType="required" name="positionRequirement" id="positionRequirement${op}" style="width: 98%;">${entity.positionRequirement!""}</textarea></td>
             </tr>
         <#include "*/common/form_save.ftl"/>
         </table>

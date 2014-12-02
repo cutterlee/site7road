@@ -2,6 +2,8 @@ package com.sz.site7road.entity.job;
 
 import com.sz.site7road.entity.base.ItemStatus;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -23,24 +25,28 @@ public class JobEntity {
     @Column(name = "order_num")
     private int orderNum;
 
+    @NotBlank
+    @Length(min = 2,max = 50)
     @Column(name = "position_name")
     private String positionName;//职位名称
 
     @Column(name = "position_place")
-    private String positionPlace;//职位所在地
+    private int positionPlace=0;//职位所在地
 
     @Column(name = "position_need_num")
     private int positionNeedNum=1; //所需人数
 
     @Column(name = "position_property")
-    private String positionProperty;//职位性质
+    private int positionProperty=0;//职位性质
 
     @Column(name = "is_hot_job")
     private JobStatus hotStatus=JobStatus.hot;//是否是热招职位
 
+    @NotBlank
     @Column(name = "position_duty")
     private String positionDuty;//工作职责
 
+    @NotBlank
     @Column(name = "position_requirement")
     private String positionRequirement;//要求
 
@@ -75,13 +81,7 @@ public class JobEntity {
         this.positionName = positionName;
     }
 
-    public String getPositionPlace() {
-        return positionPlace;
-    }
 
-    public void setPositionPlace(String positionPlace) {
-        this.positionPlace = positionPlace;
-    }
 
     public int getPositionNeedNum() {
         return positionNeedNum;
@@ -91,11 +91,19 @@ public class JobEntity {
         this.positionNeedNum = positionNeedNum;
     }
 
-    public String getPositionProperty() {
+    public int getPositionPlace() {
+        return positionPlace;
+    }
+
+    public void setPositionPlace(int positionPlace) {
+        this.positionPlace = positionPlace;
+    }
+
+    public int getPositionProperty() {
         return positionProperty;
     }
 
-    public void setPositionProperty(String positionProperty) {
+    public void setPositionProperty(int positionProperty) {
         this.positionProperty = positionProperty;
     }
 

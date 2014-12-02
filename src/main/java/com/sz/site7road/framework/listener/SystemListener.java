@@ -1,20 +1,10 @@
 package com.sz.site7road.framework.listener;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-import com.sz.site7road.framework.combotree.ComboTreeResponse;
 import com.sz.site7road.framework.combotree.IconComboTree;
 import org.apache.log4j.Logger;
 import org.springframework.web.context.ContextLoaderListener;
-import org.springframework.web.util.WebUtils;
 
 import javax.servlet.ServletContextEvent;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * project: 公司官网重构---李福春

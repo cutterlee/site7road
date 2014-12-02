@@ -1,17 +1,8 @@
 .icon-blank{
 	background:url('icons/blank.gif') no-repeat center center;
 }
-.icon-add{
-	background:url('icons/edit_add.png') no-repeat center center;
-}
-.icon-edit{
-	background:url('icons/pencil.png') no-repeat center center;
-}
 .icon-clear{
 	background:url('icons/clear.png') no-repeat center center;
-}
-.icon-remove{
-	background:url('icons/edit_remove.png') no-repeat center center;
 }
 .icon-save{
 	background:url('icons/filesave.png') no-repeat center center;
@@ -25,9 +16,7 @@
 .icon-no{
 	background:url('icons/no.png') no-repeat center center;
 }
-.icon-cancel{
-	background:url('icons/cancel.png') no-repeat center center;
-}
+
 .icon-reload{
 	background:url('icons/reload.png') no-repeat center center;
 }
@@ -52,17 +41,11 @@
 .icon-sum{
 	background:url('icons/sum.png') no-repeat center center;
 }
-.icon-tip{
-	background:url('icons/tip.png') no-repeat center center;
-}
 .icon-filter{
 	background:url('icons/filter.png') no-repeat center center;
 }
 .icon-man{
 	background:url('icons/man.png') no-repeat center center;
-}
-.icon-lock{
-	background:url('icons/lock.png') no-repeat center center;
 }
 
 .icon-tv{
@@ -132,7 +115,6 @@
 .icon-large-chart{
 	background:url('icons/large_chart.png') no-repeat center center;
 }
-
 
 .icon-anchor{ background:url('icons/anchor.png') no-repeat center center;}
 .icon-arrow_green{ background:url('icons/arrow_green.png') no-repeat center center;}
@@ -207,7 +189,6 @@
 .icon-bullet_wrench{ background:url('icons/bullet_wrench.png') no-repeat center center;}
 .icon-bullet_yellow{ background:url('icons/bullet_yellow.png') no-repeat center center;}
 .icon-cake{ background:url('icons/cake.png') no-repeat center center;}
-.icon-cancel{ background:url('icons/cancel.png') no-repeat center center;}
 .icon-clear{ background:url('icons/clear.png') no-repeat center center;}
 .icon-clock{ background:url('icons/clock.png') no-repeat center center;}
 .icon-clock_add{ background:url('icons/clock_add.png') no-repeat center center;}
@@ -301,8 +282,6 @@
 .icon-dvd_go{ background:url('icons/dvd_go.png') no-repeat center center;}
 .icon-dvd_key{ background:url('icons/dvd_key.png') no-repeat center center;}
 .icon-dvd_link{ background:url('icons/dvd_link.png') no-repeat center center;}
-.icon-edit_add{ background:url('icons/edit_add.png') no-repeat center center;}
-.icon-edit_remove{ background:url('icons/edit_remove.png') no-repeat center center;}
 .icon-emoticon_evilgrin{ background:url('icons/emoticon_evilgrin.png') no-repeat center center;}
 .icon-emoticon_grin{ background:url('icons/emoticon_grin.png') no-repeat center center;}
 .icon-emoticon_happy{ background:url('icons/emoticon_happy.png') no-repeat center center;}
@@ -380,7 +359,6 @@
 .icon-link_edit{ background:url('icons/link_edit.png') no-repeat center center;}
 .icon-link_error{ background:url('icons/link_error.png') no-repeat center center;}
 .icon-link_go{ background:url('icons/link_go.png') no-repeat center center;}
-.icon-lock{ background:url('icons/lock.png') no-repeat center center;}
 .icon-lorry{ background:url('icons/lorry.png') no-repeat center center;}
 .icon-lorry_add{ background:url('icons/lorry_add.png') no-repeat center center;}
 .icon-lorry_delete{ background:url('icons/lorry_delete.png') no-repeat center center;}
@@ -432,7 +410,6 @@
 .icon-paintbrush{ background:url('icons/paintbrush.png') no-repeat center center;}
 .icon-paintcan{ background:url('icons/paintcan.png') no-repeat center center;}
 .icon-palette{ background:url('icons/palette.png') no-repeat center center;}
-.icon-pencil{ background:url('icons/pencil.png') no-repeat center center;}
 .icon-pencil_add{ background:url('icons/pencil_add.png') no-repeat center center;}
 .icon-pencil_delete{ background:url('icons/pencil_delete.png') no-repeat center center;}
 .icon-pencil_go{ background:url('icons/pencil_go.png') no-repeat center center;}
@@ -477,7 +454,6 @@
 .icon-ruby_link{ background:url('icons/ruby_link.png') no-repeat center center;}
 .icon-ruby_put{ background:url('icons/ruby_put.png') no-repeat center center;}
 .icon-search{ background:url('icons/search.png') no-repeat center center;}
-.icon-server{ background:url('icons/server.png') no-repeat center center;}
 .icon-server_add{ background:url('icons/server_add.png') no-repeat center center;}
 .icon-server_chart{ background:url('icons/server_chart.png') no-repeat center center;}
 .icon-server_compressed{ background:url('icons/server_compressed.png') no-repeat center center;}
@@ -538,7 +514,6 @@
 .icon-sport_shuttlecock{ background:url('icons/sport_shuttlecock.png') no-repeat center center;}
 .icon-sport_soccer{ background:url('icons/sport_soccer.png') no-repeat center center;}
 .icon-sport_tennis{ background:url('icons/sport_tennis.png') no-repeat center center;}
-.icon-star{ background:url('icons/star.png') no-repeat center center;}
 .icon-status_away{ background:url('icons/status_away.png') no-repeat center center;}
 .icon-status_busy{ background:url('icons/status_busy.png') no-repeat center center;}
 .icon-status_offline{ background:url('icons/status_offline.png') no-repeat center center;}
@@ -614,7 +589,6 @@
 .icon-time_add{ background:url('icons/time_add.png') no-repeat center center;}
 .icon-time_delete{ background:url('icons/time_delete.png') no-repeat center center;}
 .icon-time_go{ background:url('icons/time_go.png') no-repeat center center;}
-.icon-tip{ background:url('icons/tip.png') no-repeat center center;}
 .icon-transmit{ background:url('icons/transmit.png') no-repeat center center;}
 .icon-transmit_add{ background:url('icons/transmit_add.png') no-repeat center center;}
 .icon-transmit_blue{ background:url('icons/transmit_blue.png') no-repeat center center;}
@@ -633,13 +607,10 @@
 .icon-weather_lightning{ background:url('icons/weather_lightning.png') no-repeat center center;}
 .icon-weather_rain{ background:url('icons/weather_rain.png') no-repeat center center;}
 .icon-weather_snow{ background:url('icons/weather_snow.png') no-repeat center center;}
-.icon-weather_sun{ background:url('icons/weather_sun.png') no-repeat center center;}
 .icon-webcam{ background:url('icons/webcam.png') no-repeat center center;}
 .icon-webcam_add{ background:url('icons/webcam_add.png') no-repeat center center;}
 .icon-webcam_delete{ background:url('icons/webcam_delete.png') no-repeat center center;}
 .icon-webcam_error{ background:url('icons/webcam_error.png') no-repeat center center;}
-.icon-wrench{ background:url('icons/wrench.png') no-repeat center center;}
-.icon-wrench_orange{ background:url('icons/wrench_orange.png') no-repeat center center;}
 .icon-xhtml{ background:url('icons/xhtml.png') no-repeat center center;}
 .icon-xhtml_add{ background:url('icons/xhtml_add.png') no-repeat center center;}
 .icon-xhtml_delete{ background:url('icons/xhtml_delete.png') no-repeat center center;}
@@ -682,6 +653,17 @@
 .icon-application_view_tile{ background:url('icons/application/application_view_tile.png') no-repeat center center;}
 .icon-application_xp{ background:url('icons/application/application_xp.png') no-repeat center center;}
 .icon-application_xp_terminal{ background:url('icons/application/application_xp_terminal.png') no-repeat center center;}
+.icon-cancel{ background:url('icons/application/cancel.png') no-repeat center center;}
+.icon-add{ background:url('icons/application/edit_add.png') no-repeat center center;}
+.icon-remove{ background:url('icons/application/edit_remove.png') no-repeat center center;}
+.icon-lock{ background:url('icons/application/lock.png') no-repeat center center;}
+.icon-edit{ background:url('icons/application/pencil.png') no-repeat center center;}
+.icon-server{ background:url('icons/application/server.png') no-repeat center center;}
+.icon-star{ background:url('icons/application/star.png') no-repeat center center;}
+.icon-tip{ background:url('icons/application/tip.png') no-repeat center center;}
+.icon-weather_sun{ background:url('icons/application/weather_sun.png') no-repeat center center;}
+.icon-wrench{ background:url('icons/application/wrench.png') no-repeat center center;}
+.icon-wrench_orange{ background:url('icons/application/wrench_orange.png') no-repeat center center;}
 .icon-accept{ background:url('icons/arrow/accept.png') no-repeat center center;}
 .icon-add{ background:url('icons/arrow/add.png') no-repeat center center;}
 .icon-arrow_branch{ background:url('icons/arrow/arrow_branch.png') no-repeat center center;}

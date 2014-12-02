@@ -57,7 +57,7 @@ public final class IconComboTree {
                                 comboTreeResponse.setText(iconCls);
                                 comboTreeResponse.setIconCls(iconCls);
                                 i.incrementAndGet();
-                                System.out.println(String.format(cssFormatter,file.getName().replace(".png",""),"icons/"+file.getName()));
+//                                System.out.println(String.format(cssFormatter,file.getName().replace(".png",""),"icons/"+file.getName()));
                                 comboTreeResponse.setState("open");
                                 comboTreeResponse.setChildren(null);
                                 comboTreeResponseLinkedList.add(comboTreeResponse);
@@ -73,7 +73,6 @@ public final class IconComboTree {
                                 comboTreeResponse.setText(iconCls);
                                 comboTreeResponse.setIconCls(iconCls);
                                 i.incrementAndGet();
-                                //打印出文件的名字
                                 comboTreeResponse.setState("closed");
                                 //如果是目录,进去遍历
                                 comboTreeResponse.setChildren(readIcon(file,i));
@@ -147,7 +146,6 @@ public final class IconComboTree {
                                 comboTreeResponse.setText(iconCls);
                                 comboTreeResponse.setIconCls(iconCls);
                                 i.incrementAndGet();
-                                //打印出文件的名字
                                 comboTreeResponse.setState("closed");
                                 //如果是目录,进去遍历
                                 comboTreeResponse.setChildren(readIcon(file,i));
@@ -166,7 +164,7 @@ public final class IconComboTree {
                                 comboTreeResponse.setIconCls(iconCls);
                                 i.incrementAndGet();
 
-                                System.out.println(String.format(cssFormatter,file.getName().replace(".png",""),"icons/"+iconPath.getName()+"/"+file.getName()));
+//                                System.out.println(String.format(cssFormatter,file.getName().replace(".png",""),"icons/"+iconPath.getName()+"/"+file.getName()));
                                 comboTreeResponse.setState("open");
                                 comboTreeResponse.setChildren(null);
                                 myComboTreeList.add(comboTreeResponse);

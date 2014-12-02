@@ -38,17 +38,6 @@ public abstract class BaseTreeController<T> extends BaseController<T> {
     protected abstract List<ComboTreeResponse> getComboTreeResponse();
 
     /**
-     * 上传文件之后,把得到的路径保存到实体的属性中去
-     *
-     * @param entity       实体
-     * @param fileUrlArray 文件的url路径列表
-     */
-    @Override
-    protected void setFilePathToEntityProperty(T entity, List<String> fileUrlArray) {
-
-    }
-
-    /**
      * 给返回的list对象添加parent属性
      *
      * @param entityListByRequestTreeGridEntity 查询得到的列表

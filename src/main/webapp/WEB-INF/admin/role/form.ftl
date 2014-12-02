@@ -1,7 +1,7 @@
 <#import "/spring.ftl" as spring>
 
     <div>
-        <form  method="post"  id="${entityName}Fm">
+        <form  method="post"  id="${entityName}Fm" enctype="multipart/form-data">
 
             <table cellpadding="5">
                 <tr style="display: none;">

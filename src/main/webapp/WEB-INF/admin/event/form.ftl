@@ -15,7 +15,8 @@
                     </tr>
                     <tr>
                         <td><label><@spring.message "event.list.page.image"/></label></td>
-                        <td><input class="easyui-filebox" name="files" data-options="prompt:'<@spring.message "file.choose.prompt"/>'" style="width:400px;"></td>
+                        <td><input type="hidden" name="eventImgInEventPage" value="${entity.eventImgInEventPage!''}"/>
+                            <input class="easyui-filebox" name="files" data-options="prompt:'<@spring.message "file.choose.prompt"/>'" style="width:400px;"></td>
                     </tr>
                     <tr>
                         <td><label><@spring.message "event.summary"/>:</label></td>

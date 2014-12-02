@@ -2,14 +2,13 @@
 <div id="${entityName}tb" style="padding:2px;height:auto;">
     <div style="margin-bottom:2px">
        <#include "*/common/grid_button.ftl"/>
-        职位名称:<input class="easyui-textbox" style="width:120px" id="companyNameSearch" name="positionName">
-
+        职位名称:<input class="easyui-textbox" style="width:120px" id="positionName" propertyName="positionName" where="like">
         <a href="#" class="easyui-linkbutton searchEntity" iconCls="icon-search">搜索</a>
     </div>
 </div>
 
 
-<table id="${entityName}grid" class="easyui-datagrid" style="width:100%;height:100%"
+<table id="${entityName}grid" class="easyui-datagrid" style="width:100%;height:auto;"
        url="${req.contextPath}/${entityName}/list" toolbar="#${entityName}tb"
        iconCls="icon-reload" singleSelect="true" fitColumns="true" autoRowHeight="false"
        sortName="id" sortOrder="asc"
@@ -17,13 +16,13 @@
     <thead>
     <tr>
         <th field="positionName"  sortable="true" align="center">职位名称</th>
-        <th field="positionPlace"  align="left" sortable="true">所在城市</th>
+        <th field="positionPlace"  align="left" sortable="true" data-options="formatter:function(value,row,index){return CONFIGMAP[value]}">所在城市</th>
          <th field="positionNeedNum"  align="left">所需人数</th>
-        <th field="positionProperty"  align="left">职位性质</th>
+        <th field="positionProperty"  align="left"  data-options="formatter:function(value,row,index){return CONFIGMAP[value]}">职位性质</th>
         <th field="positionDuty" width="200px" fixed="true" rowspan="1" colspan="1">工作职责</th>
         <th field="positionRequirement" width="200px">职位要求</th>
-        <th field="hotStatus" >是否热招</th>
-        <th data-options="field:'createTime',formatter:
+        <#--<th field="hotStatus" >是否热招</th>-->
+        <th data-options="field:'createTime',sortable:true,formatter:
                     function(value,row,index){
                     var unixTimestamp = new Date(value);
                     return unixTimestamp.format('yyyy-MM-dd hh:mm:ss');
@@ -75,7 +74,7 @@ $(function(){
 
         $(".searchEntity").bind("click", function () {
             $('#' + '${entityName}grid').datagrid('load', {
-                "condition.propertyName": $("#companyNameSearch").attr("textboxname"), "condition.where": "like", "condition.propertyValue": $("#companyNameSearch").val()
+                "condition_1.propertyName": $("#positionName").attr("propertyName"), "condition_1.where":$("#positionName").attr("where") , "condition_1.propertyValue": $("#positionName").val()
             });
         });
     });

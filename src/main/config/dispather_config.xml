@@ -14,6 +14,9 @@
                           http://www.springframework.org/schema/mvc
                           http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+
+
+
     <!--开启mvc的注解驱动-->
     <mvc:annotation-driven/>
     <!--开放后台系统的资源-->
@@ -23,7 +26,7 @@
     <context:component-scan base-package="com.sz.site7road.controller"/>
     <!--默认访问跳转到登陆页面    -->
     <mvc:view-controller path="/" view-name="forward:/login"/>
-    
+
     <!--设置freemarker为默认视图-->
     <bean id="FreeMarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/admin/"/>

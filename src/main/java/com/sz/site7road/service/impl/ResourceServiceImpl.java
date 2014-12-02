@@ -9,16 +9,18 @@ import com.google.common.collect.Maps;
 import com.sz.site7road.dao.base.BaseDao;
 import com.sz.site7road.dao.resource.ResourceDao;
 import com.sz.site7road.dao.roleresource.RoleResourceDao;
+import com.sz.site7road.entity.config.ConfigEntity;
 import com.sz.site7road.entity.resource.ResourceEntity;
-import com.sz.site7road.entity.resource.ResourceType;
 import com.sz.site7road.entity.role.RoleResourceEntity;
 import com.sz.site7road.framework.combotree.ComboTreeResponse;
 import com.sz.site7road.framework.grid.GridQueryCondition;
 import com.sz.site7road.framework.grid.RequestGridEntity;
 import com.sz.site7road.framework.tree.TreeNode;
+import com.sz.site7road.service.ConfigService;
 import com.sz.site7road.service.ResourceService;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.*;
 
@@ -30,11 +32,34 @@ import java.util.*;
 @Service
 public class ResourceServiceImpl extends AbstractBaseServiceImpl<ResourceEntity> implements ResourceService {
 
+
     @Resource
     private ResourceDao resourceDao;
 
     @Resource
     private RoleResourceDao roleResourceDao;
+
+    @Resource
+    private ConfigService configService;
+
+    public int MENU_TYPE_ID = 0;
+
+    @PostConstruct
+    public void init()
+    {
+        List<ConfigEntity> resource_type_menu = configService.findChildrenByConfigKey("resource_type");
+        if(null!=resource_type_menu&&!resource_type_menu.isEmpty())
+        {
+            for(ConfigEntity configEntity:resource_type_menu)
+            {
+                if(configEntity.getConfigKey().equals("resource_type_menu"))
+                {
+                    MENU_TYPE_ID= resource_type_menu.get(0).getId();
+                    break;
+                }
+            }
+        }
+    }
 
     @Override
     protected BaseDao getBaseDao() {
@@ -276,7 +301,7 @@ public class ResourceServiceImpl extends AbstractBaseServiceImpl<ResourceEntity>
 
         if (resourceEntityList != null && !resourceEntityList.isEmpty()) {
             for (final ResourceEntity resourceEntity : resourceEntityList) {
-                if (resourceIdMap.containsKey(resourceEntity.getId())&&resourceEntity.getResourceType()== ResourceType.menu.getTypeId()) {
+                if (resourceIdMap.containsKey(resourceEntity.getId())&&resourceEntity.getResourceType()== MENU_TYPE_ID) {
                     TreeNode treeNode = new TreeNode();
                     treeNode.setId(resourceEntity.getId());
                     treeNode.setText(resourceEntity.getResourceName());
@@ -345,7 +370,7 @@ public class ResourceServiceImpl extends AbstractBaseServiceImpl<ResourceEntity>
         List<TreeNode> childrenNode = Lists.newLinkedList();
         if (children != null && !children.isEmpty()) {
             for (final ResourceEntity resourceEntity : children) {
-                if (resourceIdMap.containsKey(resourceEntity.getId())&&resourceEntity.getResourceType()== ResourceType.menu.getTypeId()) {
+                if (resourceIdMap.containsKey(resourceEntity.getId())&&resourceEntity.getResourceType()== MENU_TYPE_ID) {
                     TreeNode treeNode = new TreeNode();
                     treeNode.setId(resourceEntity.getId());
                     treeNode.setText(resourceEntity.getResourceName());
@@ -355,7 +380,7 @@ public class ResourceServiceImpl extends AbstractBaseServiceImpl<ResourceEntity>
                     Collection<ResourceEntity> mychilidren = Collections2.filter(resourceEntityList, new Predicate<ResourceEntity>() {
                         @Override
                         public boolean apply(ResourceEntity resource) {
-                            return resourceEntity.getId() == resource.getPid() && resourceIdMap.containsKey(resource.getId())&&resource.getResourceType()== ResourceType.menu.getTypeId();
+                            return resourceEntity.getId() == resource.getPid() && resourceIdMap.containsKey(resource.getId())&&resource.getResourceType()== MENU_TYPE_ID;
                         }
                     });
 

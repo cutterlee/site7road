@@ -1,7 +1,7 @@
 <#import "/spring.ftl" as spring>
 
     <div >
-        <form  method="post"  id="${entityName}Fm" style="height: 70%;">
+        <form  method="post"  id="${entityName}Fm" style="height: 70%;" enctype="multipart/form-data">
             <div class="easyui-tabs" data-options="fit:true,plain:true,tabPosition:'left'">
                 <div title="生成配置" style="padding:10px;">
                     <table cellpadding="5">

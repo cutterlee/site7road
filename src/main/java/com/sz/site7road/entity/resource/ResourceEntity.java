@@ -37,7 +37,7 @@ public class ResourceEntity implements Serializable {
     /**
      * 资源的类型,分为menu(1菜单,用来导航),page(2页面显示,导航),function(3功能,限定功能的使用)
      */
-    private int resourceType=1;
+    private int resourceType;
 
     private Date createTime=new Date(System.currentTimeMillis());
 

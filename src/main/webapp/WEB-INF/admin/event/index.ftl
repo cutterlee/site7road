@@ -11,7 +11,7 @@
 <table id="${entityName}grid" class="easyui-datagrid indexTableDiv" style="height: 88%;"
        url="${req.contextPath}/${entityName}/list" toolbar="#${entityName}tb"
        iconCls="icon-reload" singleSelect="true" fitColumns="true"
-       sortName="id" sortOrder="asc" stripe="true"
+       sortName="id" sortOrder="asc" stripe="true" autoRowHeight="false"
        rownumbers="true" pagination="true" pageSize="20">
     <thead>
         <tr>
@@ -21,8 +21,8 @@
             return SITE_7ROAD.transGridDate(value);
             }
             ">发生日期</th>
-            <th field="eventContentSmall"  align="left">大事件内容简介</th>
-            <th field="eventContentDetail"  align="left">大事件详细内容</th>
+            <th field="eventContentSmall"  align="left" fixed="true" rowspan="1" colspan="1">大事件内容简介</th>
+            <th field="eventContentDetail"  align="left" fixed="true" rowspan="1" colspan="1">大事件详细内容</th>
             <th field="eventImgInEventPage"  align="left">列表页图片</th>
 
         </tr>

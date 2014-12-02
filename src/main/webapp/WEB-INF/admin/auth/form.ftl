@@ -1,8 +1,6 @@
 <#import "/spring.ftl" as spring>
-
     <div>
-        <form  method="post"  id="${entityName}Fm">
-
+        <form  method="post"  id="${entityName}Fm" enctype="multipart/form-data">
             <table cellpadding="5">
                 <tr style="display: none;">
                     <td><input name="id" id="entityId" class="easyui-textbox" value="${entity.id!0}"/></td>
@@ -24,11 +22,15 @@
                 <tr>
                     <td><label>资源类型:</label></td>
                     <td>
-                        <select name="resourceType" class="easyui-combobox" style="width: 400px;" required="true" value="${entity.resourceType!1}">
-                            <option value=1>菜单</option>
-                            <option value=2>页面</option>
-                            <option value=3>接口</option>
-                        </select>
+                        <select name="resourceType" class="easyui-combobox" style="width: 200px;" required="true"
+                            data-options="editable:false,
+                            value:'<#if entity.resourceType gt 0>${entity.resourceType}</#if>',
+                            url:'${req.contextPath}/config/select?configKey=resource_type',
+                            method:'post',
+                            valueField:'id',
+                            textField:'configTitle',
+                            panelHeight:'auto'
+            "></select>
                     </td>
                 </tr>
                 <tr>

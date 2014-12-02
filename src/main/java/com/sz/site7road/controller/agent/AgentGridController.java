@@ -8,8 +8,10 @@ import com.sz.site7road.service.BaseService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -38,5 +40,20 @@ public class AgentGridController extends BaseGridController<AgentInfo> {
     @Override
     protected String getTemplateDir() {
         return "agent";
+    }
+
+    /**
+     * 上传文件之后,把得到的路径保存到实体的属性中去
+     *
+     * @param entity       实体
+     * @param fileUrlArray 文件的url路径列表
+     */
+    @Override
+    protected void setFilePathToEntityProperty(AgentInfo entity, List<String> fileUrlArray) {
+        super.setFilePathToEntityProperty(entity, fileUrlArray);
+        if(!fileUrlArray.isEmpty())
+        {
+            entity.setAgentImg(fileUrlArray.get(0));
+        }
     }
 }

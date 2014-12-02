@@ -4,7 +4,9 @@ import com.google.code.kaptcha.Producer;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.sz.site7road.entity.config.ConfigEntity;
 import com.sz.site7road.entity.role.RoleInfoEntity;
+import com.sz.site7road.entity.system.PageEntity;
 import com.sz.site7road.entity.user.LoginRequestEntity;
 import com.sz.site7road.entity.user.UserInfoEntity;
 import com.sz.site7road.framework.combotree.ComboTreeResponse;
@@ -13,6 +15,7 @@ import com.sz.site7road.framework.config.AppConstant;
 import com.sz.site7road.framework.grid.ResponseGridEntity;
 import com.sz.site7road.framework.grid.ResultForGridForm;
 import com.sz.site7road.framework.tree.TreeNode;
+import com.sz.site7road.service.ConfigService;
 import com.sz.site7road.service.ResourceService;
 import com.sz.site7road.service.RoleInfoService;
 import com.sz.site7road.service.UsrService;
@@ -26,6 +29,9 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -52,6 +58,7 @@ import java.util.*;
 @RequestMapping(value = "/")
 public class HomeController {
 
+
     private Logger logger = Logger.getLogger(HomeController.class);
     public static final ResourceBundle MESSAGE = ResourceBundle.getBundle("message");
 
@@ -63,6 +70,11 @@ public class HomeController {
     private RoleInfoService roleInfoService;
     @Resource
     private UsrService usrService;
+    @Resource
+    private ConfigService configService;
+
+    private String PAGE_SHOW_WAY=MESSAGE.getString("page.show.way");
+    private  String MENU_TYPE=MESSAGE.getString("system.menu") ;
 
     Session subjectSession = null;
 
@@ -186,19 +198,15 @@ public class HomeController {
             subjectSession.setAttribute("authList", treeNodeListByPid);//权限列表
 
             //加载系统的新增和编辑页面的交互方式,放到session和application中
-            subjectSession.setAttribute("page_show_way",MESSAGE.getString("page.show.way"));
-            request.getServletContext().setAttribute("page_show_way",MESSAGE.getString("page.show.way"));
+            subjectSession.setAttribute("page_show_way",PAGE_SHOW_WAY);
+
             //更新登陆次数和最后登陆ip
             userInfoEntity.setLastLoginIp(HttpUtil.getIpAddress(request));
             userInfoEntity.setLastLoginTime(new Date(System.currentTimeMillis()));
             userInfoEntity.setLoginTimes(userInfoEntity.getLoginTimes() + 1);
             usrService.modify(userInfoEntity);
 
-            String menuType = ResourceBundle.getBundle(AppConstant.MESSAGE_NAME).getString("system.menu");
-            if (Strings.isNullOrEmpty(menuType)) {
-                menuType = "accordion";
-            }
-            subjectSession.setAttribute("menu", menuType);
+            subjectSession.setAttribute("menu", MENU_TYPE);
 
             Properties properties = System.getProperties();
             //获取系统的信息
@@ -208,18 +216,24 @@ public class HomeController {
             subjectSession.setAttribute("javaHome", properties.getProperty("java.home"));
             subjectSession.setAttribute("host",request.getRemoteHost()+request.getRemotePort());
             subjectSession.setAttribute("ip", request.getRemoteAddr());
+//
+//            PageEntity pageEntity = new PageEntity();
+//            pageEntity.setPageIndex(1);
+//            pageEntity.setPageSize(10000);
+//            List<ConfigEntity> configEntityList= configService.findByPage(pageEntity);
+//            subjectSession.setAttribute("configList",configEntityList);
+//            List<ComboTreeResponse> comboTreeResponseList=Lists.newLinkedList();
+//            for(ComboTreeResponse treeResponse:IconComboTree.getIconComboTreeResponseList())
+//            {
+//                if(treeResponse.getChildren()==null)
+//                {
+//                    comboTreeResponseList.add(treeResponse);
+//                }else{
+//                    comboTreeResponseList.addAll(treeResponse.getChildren());
+//                }
+//            }
+//            subjectSession.setAttribute("icons", comboTreeResponseList);
 
-            List<ComboTreeResponse> comboTreeResponseList=Lists.newLinkedList();
-            for(ComboTreeResponse treeResponse:IconComboTree.getIconComboTreeResponseList())
-            {
-                if(treeResponse.getChildren()==null)
-                {
-                    comboTreeResponseList.add(treeResponse);
-                }else{
-                    comboTreeResponseList.addAll(treeResponse.getChildren());
-                }
-            }
-            subjectSession.setAttribute("icons", comboTreeResponseList);
         }
 
         return modelAndView;

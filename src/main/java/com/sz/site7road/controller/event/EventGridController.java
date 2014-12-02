@@ -63,4 +63,5 @@ public class EventGridController extends BaseGridController<EventInfo> {
         }
         super.setFilePathToEntityProperty(entity, fileUrlArray);
     }
+
 }

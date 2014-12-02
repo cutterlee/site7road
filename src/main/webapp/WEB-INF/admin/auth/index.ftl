@@ -17,7 +17,7 @@
             </div>
 
 
-            <table id="${entityName}grid" class="easyui-treegrid " style="height: 88%;"
+            <table id="${entityName}grid" class="easyui-treegrid " style="height:auto;"
                    url="${req.contextPath}/${entityName}/tree" toolbar="#${entityName}tb"
                    iconCls="icon-reload" singleSelect="true" fitColumns="true" autoRowHeight="true" lines="true"
                    sortName="id" sortOrder="asc" idField="id" treeField="resourceName" showFooter="true"

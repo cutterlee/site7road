@@ -41,7 +41,7 @@ a {
 }
 
 .indexDiv{
-    height: 100%;
+    height: auto;
     width: auto;
     min-height: 610px;
 

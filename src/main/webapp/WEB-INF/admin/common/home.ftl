@@ -26,7 +26,7 @@
             </tr>
         </table>
     </div>
-    <div data-options="region:'west'"  id="navTree" title="${systemName}" style="width:180px;">
+    <div data-options="region:'west'"  id="navTree" title="${systemName}" style="width:180px;height: auto;">
         <#if menu=='tree'>
             <ul class="easyui-tree" data-options="url:'${req.contextPath}/authTree',method:'post',lines:'true',animate:'true'">
             <#if authList??>
@@ -90,7 +90,7 @@
 
         </#if>
     </div>
-    <div class="easyui-tabs" id="handleArea" style="height:100%" data-options="region:'center'">
+    <div class="easyui-tabs" id="handleArea" style="height:auto;" data-options="region:'center'">
        <#include "index.ftl">
     </div>
     <div data-options="region:'south'" style="height:26px; text-align: center;line-height: 23px;">

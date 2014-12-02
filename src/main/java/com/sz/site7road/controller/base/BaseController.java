@@ -12,7 +12,9 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.core.env.Environment;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -42,6 +44,9 @@ public abstract class BaseController<T> {
 
     @Resource
     private ResourceService resourceService;
+
+    protected String IMG_SAVE_PATH=MESSAGE.getString("image.save.path");
+
     /**
      * 获得service
      * @return
@@ -65,7 +70,7 @@ public abstract class BaseController<T> {
      * @param entity 实体
      * @param fileUrlArray 文件的url路径列表
      */
-    protected abstract void setFilePathToEntityProperty(T entity, List<String> fileUrlArray);
+    protected  void setFilePathToEntityProperty(T entity, List<String> fileUrlArray){}
 
     /**
      * 列表页
@@ -196,7 +201,6 @@ public abstract class BaseController<T> {
     }
 
 
-
     /**
      * 保存上传的文件
      * @param request 请求对象
@@ -204,15 +208,22 @@ public abstract class BaseController<T> {
      */
     protected List<String> uploadFile(HttpServletRequest request, MultipartFile[] files) {
         List<String> fileUrlArray = Lists.newLinkedList();
-        String realPath = request.getSession().getServletContext().getRealPath("/static/img/upload");
         //这里不必处理IO流关闭的问题，因为FileUtils.copyInputStreamToFile()方法内部会自动把用到的IO流关掉
             try {
                 for (MultipartFile file : files) {
                     String originalFilename = file.getOriginalFilename();
-                    String fileName = new File(UUID.randomUUID().toString())+ originalFilename.substring(originalFilename.lastIndexOf("."),originalFilename.length());
-                    File destination= new File(realPath,fileName);
-                    FileUtils.copyInputStreamToFile(file.getInputStream(), destination);
-                    fileUrlArray.add("/static/img/upload/"+fileName);
+                    if(!Strings.isNullOrEmpty(originalFilename))
+                    {
+                        String fileName = new File(UUID.randomUUID().toString())+ originalFilename.substring(originalFilename.lastIndexOf("."),originalFilename.length());
+                        if(!Strings.isNullOrEmpty(getTemplateDir()))
+                        {
+                            fileName="/"+getTemplateDir()+"/"+fileName;
+                        }
+                        File destination= new File(IMG_SAVE_PATH,fileName);
+                        FileUtils.copyInputStreamToFile(file.getInputStream(), destination);
+                        fileUrlArray.add(fileName);
+                    }
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();

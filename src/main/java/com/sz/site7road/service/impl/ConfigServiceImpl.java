@@ -25,7 +25,7 @@ import java.util.List;
  * remark: 配置管理的service接口实现类
  */
 @Service
-public class ConfigServiceImpl extends AbstractBaseServiceImpl<ConfigEntity> implements ConfigService{
+public class ConfigServiceImpl extends AbstractBaseServiceImpl<ConfigEntity> implements ConfigService {
 
     @Resource
     private ConfigDao configDao;
@@ -42,7 +42,7 @@ public class ConfigServiceImpl extends AbstractBaseServiceImpl<ConfigEntity> imp
      */
     @Override
     public List<ConfigEntity> getTopLevelConfig() {
-        RequestGridEntity dataGridParam=new RequestGridEntity();
+        RequestGridEntity dataGridParam = new RequestGridEntity();
         dataGridParam.setPage(1);
         dataGridParam.setRows(100);
         dataGridParam.setOrder("order_num");
@@ -62,27 +62,29 @@ public class ConfigServiceImpl extends AbstractBaseServiceImpl<ConfigEntity> imp
      */
     @Override
     public List<ComboTreeResponse> getComboTreeListByPid(int pid) {
-        List<ComboTreeResponse> comboTreeResponseList= Lists.newLinkedList();
+        List<ComboTreeResponse> comboTreeResponseList = Lists.newLinkedList();
         //find the whole config list
-        RequestGridEntity dataGridParam=new RequestGridEntity();
+        RequestGridEntity dataGridParam = new RequestGridEntity();
         dataGridParam.setPage(1);
         dataGridParam.setRows(10000);
-        List<ConfigEntity> configEntityList= configDao.findEntityListByRequestGridEntity(dataGridParam);
+        List<ConfigEntity> configEntityList = configDao.findEntityListByRequestGridEntity(dataGridParam);
 
-        for(final ConfigEntity entity:configEntityList)
-        {
-            ComboTreeResponse comboTreeResponse=new ComboTreeResponse();
-            comboTreeResponse.setId(entity.getId());
-            comboTreeResponse.setText(entity.getConfigTitle());
-            Collection<ConfigEntity> children = Collections2.filter(configEntityList,new Predicate<ConfigEntity>() {
-                @Override
-                public boolean apply(ConfigEntity configEntity) {
-                    return configEntity.getPid()==entity.getId();
+        for (final ConfigEntity entity : configEntityList) {
+            if (entity.getPid() == 0) {
+                ComboTreeResponse comboTreeResponse = new ComboTreeResponse();
+                comboTreeResponse.setId(entity.getId());
+                comboTreeResponse.setText(entity.getConfigTitle());
+                Collection<ConfigEntity> children = Collections2.filter(configEntityList, new Predicate<ConfigEntity>() {
+                    @Override
+                    public boolean apply(ConfigEntity configEntity) {
+                        return configEntity.getPid() == entity.getId();
+                    }
+                });
+                if (children != null && !children.isEmpty()) {
+                    comboTreeResponse.setChildren(getComboTreeChildrenFromTreeNode(children));
+                } else {
+                    comboTreeResponse.setChildren(null);
                 }
-            });
-            if(children !=null&&!children.isEmpty())
-            {
-                comboTreeResponse.setChildren(getComboTreeChildrenFromTreeNode(children));
                 comboTreeResponseList.add(comboTreeResponse);
             }
         }
@@ -101,27 +103,24 @@ public class ConfigServiceImpl extends AbstractBaseServiceImpl<ConfigEntity> imp
         return configDao.findChildrenByConfigKey(configKey);
     }
 
-    public List<ComboTreeResponse> getComboTreeChildrenFromTreeNode( Collection<ConfigEntity> treeNodeList)
-    {
-        List<ComboTreeResponse> comboTreeResponseList=Lists.newLinkedList();
-        if(treeNodeList!=null&&!treeNodeList.isEmpty())
-        for(final ConfigEntity treeNode:treeNodeList)
-        {
-            ComboTreeResponse comboTreeResponse=new ComboTreeResponse();
-            comboTreeResponse.setId(treeNode.getId());
-            comboTreeResponse.setText(treeNode.getConfigTitle());
-            Collection<ConfigEntity> children = Collections2.filter(treeNodeList,new Predicate<ConfigEntity>() {
-                @Override
-                public boolean apply(ConfigEntity configEntity) {
-                    return configEntity.getPid()==treeNode.getId();
+    public List<ComboTreeResponse> getComboTreeChildrenFromTreeNode(Collection<ConfigEntity> treeNodeList) {
+        List<ComboTreeResponse> comboTreeResponseList = Lists.newLinkedList();
+        if (treeNodeList != null && !treeNodeList.isEmpty())
+            for (final ConfigEntity treeNode : treeNodeList) {
+                ComboTreeResponse comboTreeResponse = new ComboTreeResponse();
+                comboTreeResponse.setId(treeNode.getId());
+                comboTreeResponse.setText(treeNode.getConfigTitle());
+                Collection<ConfigEntity> children = Collections2.filter(treeNodeList, new Predicate<ConfigEntity>() {
+                    @Override
+                    public boolean apply(ConfigEntity configEntity) {
+                        return configEntity.getPid() == treeNode.getId();
+                    }
+                });
+                if (children != null && !children.isEmpty()) {
+                    comboTreeResponse.setChildren(getComboTreeChildrenFromTreeNode(children));
                 }
-            });
-            if(children !=null&&!children.isEmpty())
-            {
-                comboTreeResponse.setChildren(getComboTreeChildrenFromTreeNode(children));
+                comboTreeResponseList.add(comboTreeResponse);
             }
-            comboTreeResponseList.add(comboTreeResponse);
-        }
         return comboTreeResponseList;
     }
 }

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+
+<beans  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -11,9 +13,34 @@
     <context:component-scan base-package="com.sz.site7road.dao"/>
     <context:component-scan base-package="com.sz.site7road.service"/>
     <context:component-scan base-package="com.sz.site7road.framework.auth"/>
-    <!--引用属性文件-->
-    <context:property-placeholder file-encoding="utf8" ignore-resource-not-found="true" location="classpath:db_config.properties"/>
 
+
+
+    <beans profile="dev">
+        <bean  class="com.sz.site7road.framework.security.PropertyCipher">
+            <property name="locations">
+                <list>
+                    <value>classpath:db_config.properties</value>
+                </list>
+            </property>
+            <property name="fileEncoding" value="utf8"/>
+            <property name="ignoreResourceNotFound" value="true"/>
+        </bean>
+    </beans>
+
+    <beans profile="deploy">
+        <bean  class="com.sz.site7road.framework.security.PropertyCipher">
+            <property name="locations">
+                <list>
+                    <value>classpath:db_config_deploy.properties</value>
+                </list>
+            </property>
+            <property name="fileEncoding" value="utf8"/>
+            <property name="ignoreResourceNotFound" value="true"/>
+        </bean>
+    </beans>
+
+    <beans>
     <!--国际化资源-->
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basename" value="message" />
@@ -69,11 +96,6 @@
             </bean>
         </property>
     </bean>
-
-
-
-
-
-
-
 </beans>
+</beans>
+

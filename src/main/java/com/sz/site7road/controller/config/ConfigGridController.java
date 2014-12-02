@@ -98,7 +98,7 @@ public class ConfigGridController extends BaseTreeController<ConfigEntity> {
 
     @RequestMapping(value = "/select")
     @ResponseBody
-    public List<ConfigEntity> removeEntity( String  configKey) {
+    public List<ConfigEntity> select( String  configKey) {
 
         List<ConfigEntity> configEntityList=Lists.newLinkedList();
 
