@@ -10,22 +10,26 @@
                     <tr>
                         <td style="width: 150px;"><label><@spring.message "user.role"/>:</label></td>
                         <td>
-                            <select name="roleId" style="width: 300px;"  class="easyui-combogrid" required="true" validType="selectValueRequired" data-options="
-                            panelWidth: 500,
-                            value:'<#if entity.roleId gt 0 > ${entity.roleId}</#if>',
-                            idField: 'id',
-                            textField: 'roleName',
-                            url: '${req.contextPath}/role/list',
-                            method: 'get',
-                            pagination:true,
-                            columns: [[
-                                {field:'roleName',title:'<@spring.message "role.name"/>',width:80},
-                                {field:'roleSummary',title:'<@spring.message "role.summary"/>',width:200}
-                            ]],
-                            fitColumns: true,
-                             panelHeight:'auto'
-                        ">
-                            </select>
+                            <ul id="tt" class="easyui-tree" data-options="url:'${req.contextPath}/role/roleTree',method:'get',animate:true,cascadeCheck:false,checkbox:true"></ul>
+
+
+
+                        <#--<select name="roleId" style="width: 300px;"  class="easyui-combogrid" required="true" validType="selectValueRequired" data-options="-->
+                            <#--panelWidth: 500,-->
+                            <#--value:'<#if entity.roleId gt 0 > ${entity.roleId}</#if>',-->
+                            <#--idField: 'id',-->
+                            <#--textField: 'roleName',-->
+                            <#--url: '${req.contextPath}/role/list',-->
+                            <#--method: 'get',-->
+                            <#--pagination:true,-->
+                            <#--columns: [[-->
+                                <#--{field:'roleName',title:'<@spring.message "role.name"/>',width:80},-->
+                                <#--{field:'roleSummary',title:'<@spring.message "role.summary"/>',width:200}-->
+                            <#--]],-->
+                            <#--fitColumns: true,-->
+                             <#--panelHeight:'auto'-->
+                        <#--">-->
+                            <#--</select>-->
                         </td>
                     </tr>
                     <tr>

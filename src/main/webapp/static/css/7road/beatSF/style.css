@@ -1,0 +1,390 @@
+body,div,ul,li,p,form{
+    margin: 0;
+    padding: 0;
+}
+ul,li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+    outline: none;
+    _outline: expression(this.hideFocus=true);
+    color: #000;
+}
+img{
+    border: none;
+}
+body{
+    color: #000;
+    font-size: 12px;
+    line-height: 22px;
+    background:#000 url(http://image.my.7road.com/beatSF/bg.jpg) center top no-repeat;
+}
+.fn-left{
+    float: left;
+    display: inline;
+}
+.fn-right{
+    float: right;
+    display: inline;
+}
+/* 清理浮动 */
+.fn-clear:after{
+    visibility:hidden;
+    display:block;
+    font-size:0;
+    content:" ";
+    clear:both;
+    height:0;
+}
+.fn-clear{
+    zoom:1; /* for IE6 IE7 */
+}
+.header{
+    width: 1000px;
+    margin: 0 auto;
+    height: 540px; 
+    background:url(http://image.my.7road.com/beatSF/h.jpg) no-repeat; 
+}
+.main{
+    position: relative;
+    width: 1000px;
+    margin: 0 auto;  
+    height: 894px;
+    background: url(http://image.my.7road.com/beatSF/main.jpg) no-repeat; 
+    overflow: hidden;
+}
+.news,.case{
+    position: absolute;
+    top: 70px;
+    width: 360px;
+    height: 132px;
+    overflow: hidden;
+}
+.news{
+    left: 110px; 
+}
+.case{
+    left: 540px;
+}
+.news a,.case a,.law a{
+    float: left;
+    width: 360px;
+    height: 22px;
+    line-height: 22px;
+    overflow: hidden;
+}
+.pic{
+    position: absolute;
+    top: 295px;
+    left: 95px;
+    width: 800px;
+    height: 100px;
+    overflow: hidden;
+}
+.pic ul li{
+    float: left;
+    width: 100px;
+    height: 100px;
+    margin-left: 12px;
+}
+.pic ul li img{
+    width: 100px;
+    height: 100px;
+}
+.law{
+    position: absolute;
+    top: 495px;
+    left: 105px;
+    width: 460px;
+    height: 115px;
+    overflow: hidden;
+}
+.report{
+    position: absolute;
+    top: 495px;
+    left: 675px;
+    width: 260px;
+    height: 120px;
+    overflow: hidden;
+    font-family: "Microsoft Yahei";
+    font-size: 14px;
+}
+.report-btn{
+    display: block;
+    width: 186px;
+    height: 61px;
+    margin-bottom: 10px;
+    background: url(http://image.my.7road.com/beatSF/pop.png) -44px -695px no-repeat;
+}
+.related-links{
+    position: absolute;
+    top: 708px;
+    left: 90px;
+    width: 480px;
+    height: 60px;
+    overflow: hidden;
+}
+.related-links a{
+    float: left;
+    width: 110px;
+    height: 60px;
+    overflow: hidden;
+    margin-left: 10px;
+}
+.related-links a img{
+    width: 110px;
+    height: 60px;
+}
+.statement{
+    position: absolute;
+    top: 708px;
+    left: 650px;
+    width: 250px;
+    height: 60px;
+    line-height: 20px;
+    overflow: hidden;
+}
+
+.pop-close, .pop-header, .pop-footer, .pop .add ,.pop .text{
+    background: url(http://image.my.7road.com/beatSF/pop.png) no-repeat;
+}
+.pop .textarea {
+    background: none;
+}
+.pop-content {
+    background: url(http://image.my.7road.com/beatSF/pop-c.png) repeat-y;
+    min-height: 63px;
+    _height: 63px;
+}
+
+/*投诉弹出框*/
+.pop{
+  	display: none;
+  	width: 646px;
+    position: absolute;
+  	top: 50px;
+  	left: 50%;
+  	margin-left: -323px;
+    z-index: 101;
+}
+.pop-close{
+  	display: block;
+  	width: 40px;
+  	height: 43px;
+  	background-position: -274px -650px;
+  	position: absolute;
+  	top: 200px;
+  	right: -12px;
+  	z-index: 102;
+}
+.pop-header{
+  	height: 262px;
+  	background-position: 0 0;
+}
+.pop-content{
+    padding-left: 66px;
+  	min-height: 63px;
+  	_height: 63px;
+}
+.pop-footer{
+    padding-left: 66px;
+  	background-position: 0 -324px;
+  	height: 324px;
+}
+.pop p{
+    padding-top: 5px;
+}
+.pop p.first ,.pop p.last{
+    padding-top: 0;
+}
+.pop label{
+    width: 130px;
+    margin-right: 10px;
+    text-align: right;
+    color: #ffe35c;
+    font-weight: 900;
+    font-size: 20px; 
+    height: 32px;
+    line-height: 32px; 
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.6);  
+}
+.pop .text{
+    border:0;
+    display: block;
+    width: 355px;
+    height: 32px;
+    line-height: 32px;
+    background-position: -274px -693px;
+    color: #fff;
+    font-weight: 900;
+    font-size: 14px;
+    background-color:#000;
+}
+.pop .captcha {
+  	width: 100px;
+  	display: inline;
+}
+.pop-content img{
+  	cursor:pointer;
+  	width: 90px;
+  	height: 25px;
+  	vertical-align: middle;
+  	*position: relative;
+  	*top: -5px;
+}
+.pop .warnTxt{
+	  border:#f00 solid 1px;
+}
+.pop .textarea{
+    width: 355px;
+    height: 100px;
+    color: #fff;
+    font-weight: 900;
+    font-size: 14px; 
+    border:0 none;
+    /*background-position: -206px -366px;*/
+    overflow: auto; 
+}
+.pop .add{
+    text-indent: -9999px;
+    display: block;
+    width: 59px;
+    height: 16px;
+    position: absolute;
+    top:300px;
+    right:15px;
+    /*_text-indent: 0;
+    color: #fff;
+    font-weight: 900;
+    font-size: 15px;
+    _background: none;*/
+    background-position: -430px -650px;
+    _background-position: -573px -300px;
+    cursor: pointer;
+}
+#inform-sub{
+    display: block;
+    width: 150px;
+    height: 55px;
+    text-indent: -9999px;
+    cursor: pointer;
+    margin-right: 80px;
+    background: none;
+    border:0 none;
+}
+/* 文章页 */
+.container{
+    width: 1000px;
+  	margin: -23px auto 0;
+  	height: 918px;
+  	background: url(http://image.my.7road.com/beatSF/content.jpg) 50% 0 no-repeat; 
+    overflow: hidden;
+}
+.article{
+  	margin:0 auto;
+  	overflow: hidden;
+}
+.article h3{
+  	font-size: 24px;
+  	font-weight: bold;
+  	text-align: center;
+  	width: 760px;
+  	margin: 80px auto 0;
+    line-height: 26px;
+}
+.content{
+  	margin: 20px auto;
+  	width: 760px;
+  	line-height: 25px;
+  	height: 630px;
+  	padding: 0 10px;
+  	overflow: hidden;
+}
+.content .viewport{
+  	width: 730px;
+  	height: 630px;
+  	overflow-y: auto;
+  	position: relative;
+  	_float: left; /*for IE6*/
+    word-wrap:break-word;
+}
+.content .overview{
+  	
+}
+.content .scrollbar{
+  	background:transparent url(http://image.my.7road.com/beatSF/track.png) no-repeat 0 0;
+  	position:relative;
+  	float:right;
+  	width:10px;
+  	padding:0;
+}
+.content .track{
+  	height:100%;
+  	width:10px;
+  	position:relative;
+  	padding:0 1px;
+}
+.content .thumb{
+  	background:transparent url(http://image.my.7road.com/beatSF/thumb.png) no-repeat 0 0;
+  	width:10px;
+  	margin:0 0 0;
+  	cursor:pointer;
+  	overflow:hidden;
+  	position:absolute;
+  	top:0;
+  	left:-3px;
+}
+.disable{
+    display:none;
+}
+.noSelect{ 
+    user-select:none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; 
+}
+
+
+/*举报弹出提示*/
+.ui-tiptext {
+    margin: 0;
+    color: #4D4D4D;
+    position:relative;
+    font-size: 12px;
+    zoom:1;
+}
+.ui-tiptext-container {
+    padding: 20px;
+    position:absolute;
+    zoom:1;
+    border-radius:5px;
+    box-shadow:0 0 20px rgba(0,0,0,0.8);
+    z-index: 108;
+    width:200px;
+}
+.ui-tiptext-container-message {
+    background: #e5f5ff;
+    border: 1px solid #c9d5e2;
+}
+.ui-tiptext-container-success {
+    background: #E7FFCE;
+    border: 1px solid #B9E2A0;
+}
+.ui-tiptext-container-error {
+    background: #fceee8;
+    border: 1px solid #f6c8b5;
+}
+.ui-tiptext-container-warning {
+    background: #ffff8d;
+    border: 1px solid #e7c560;
+}
+.ui-tiptext-container-question {
+    background: #e5f5ff;
+    border: 1px solid #c9d5e2;
+}
+.ui-tiptext-container-stop {
+    background: #fceee8;
+    border: 1px solid #f6c8b5;
+}
+.ui-tiptext-container-wait{
+    background: #FFF9D9;
+    border: 1px solid #E6CBB1;
+}

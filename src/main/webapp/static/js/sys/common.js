@@ -121,7 +121,19 @@ SITE_7ROAD = {
      * @param contextPath
      */
     openAddGridTagPage: function (entityName, title, contextPath) {
-        var contentHref = contextPath + '/' + entityName + '/create?pid=0';
+        var contentHref = contextPath + '/' + entityName + '/create?typeId=0&pid=0';
+        SITE_7ROAD.openTab(title, contentHref, 'icon-add', contextPath);
+    },
+
+    /**
+     * 增加打开增加文章的标签
+     * @param entityName
+     * @param title
+     * @param contextPath
+     * @param typeId
+     */
+    openAddArticleTagPage: function (entityName, title, contextPath,typeId) {
+        var contentHref = contextPath + '/' + entityName + '/create?pid=0&typeId='+typeId;
         SITE_7ROAD.openTab(title, contentHref, 'icon-add', contextPath);
     },
 
@@ -150,10 +162,10 @@ SITE_7ROAD = {
      * @param contextPath
      */
     openAddTreeTagPage: function (entityName, title, contextPath) {
-        var contentHref = contextPath + '/' + entityName + '/create?pid=0';
+        var contentHref = contextPath + '/' + entityName + '/create?pid=0&typeId=0';
         var row = $('#' + entityName + 'grid').treegrid('getSelected');
         if (row) {
-            contentHref = contextPath + '/' + entityName + '/create?pid=' + row.id;
+            contentHref = contextPath + '/' + entityName + '/create?typeId=0&pid=' + row.id;
         }
         SITE_7ROAD.openTab(title, contentHref, 'icon-add', contextPath);
     },

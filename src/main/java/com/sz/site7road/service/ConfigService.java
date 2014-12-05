@@ -17,12 +17,6 @@ public interface ConfigService extends BaseService<ConfigEntity>{
      */
     List<ConfigEntity> getTopLevelConfig();
 
-    /**
-     * 获取treeGrid的树形数据
-     * @param pid 父id
-     * @return  treeGrid所需树形数据
-     */
-    List<ComboTreeResponse> getComboTreeListByPid(int pid);
 
     /**
      * 通过configKey获取孩子集合

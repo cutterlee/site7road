@@ -216,12 +216,13 @@ public class HomeController {
             subjectSession.setAttribute("javaHome", properties.getProperty("java.home"));
             subjectSession.setAttribute("host",request.getRemoteHost()+request.getRemotePort());
             subjectSession.setAttribute("ip", request.getRemoteAddr());
-//
-//            PageEntity pageEntity = new PageEntity();
-//            pageEntity.setPageIndex(1);
-//            pageEntity.setPageSize(10000);
-//            List<ConfigEntity> configEntityList= configService.findByPage(pageEntity);
-//            subjectSession.setAttribute("configList",configEntityList);
+
+            PageEntity pageEntity = new PageEntity();
+            pageEntity.setPageIndex(1);
+            pageEntity.setPageSize(10000);
+            List<ConfigEntity> configEntityList= configService.findByPage(pageEntity);
+            subjectSession.setAttribute("configList",configEntityList);
+
 //            List<ComboTreeResponse> comboTreeResponseList=Lists.newLinkedList();
 //            for(ComboTreeResponse treeResponse:IconComboTree.getIconComboTreeResponseList())
 //            {

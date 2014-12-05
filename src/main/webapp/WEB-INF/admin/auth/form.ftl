@@ -8,7 +8,7 @@
                 <tr>
                     <td><label>父权限:</label></td>
                     <td>
-                        <input name="pid"  class="easyui-combotree" required="true" value="${entity.pid!0}" data-options="url:'${req.contextPath}/${entityName}/comboTree',method:'get'" style="width:50%;height:26px">
+                        <input name="pid"  class="easyui-combotree" required="true" value="${entity.pid!0}" data-options="url:'${req.contextPath}/${entityName}/comboTree',method:'post',panelHeight:'auto'" style="width:50%;height:26px">
                     </td>
                 </tr>
                 <tr>

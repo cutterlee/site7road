@@ -12,10 +12,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -35,7 +32,25 @@ public abstract class BaseTreeController<T> extends BaseController<T> {
      *
      * @return
      */
-    protected abstract List<ComboTreeResponse> getComboTreeResponse();
+    protected  List<ComboTreeResponse> getComboTreeResponse(){
+        ComboTreeResponse treeNode=new ComboTreeResponse();
+        treeNode.setId(0);
+        treeNode.setText("根");
+        List<ComboTreeResponse> children=getService().getComboTreeListByPid(0, getTreeNodeTitleField());
+        if(children.isEmpty()){
+            children=null;
+        }
+        treeNode.setChildren(children);
+        List<ComboTreeResponse> comboTreeResponseList= Lists.newLinkedList();
+        comboTreeResponseList.add(treeNode);
+        return comboTreeResponseList;
+    }
+
+    /**
+     * 获得树的title字段
+     * @return
+     */
+    protected abstract String getTreeNodeTitleField();
 
     /**
      * 给返回的list对象添加parent属性
@@ -139,12 +154,13 @@ public abstract class BaseTreeController<T> extends BaseController<T> {
      * @throws Exception
      */
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    protected String create(ModelMap map, int pid) throws Exception {
+    protected String create(ModelMap map, int pid,@RequestParam(required = false)int typeId) throws Exception {
         Object emptyEntity = getService().createEmptyEntity();
         if (pid > 0) {
             BeanUtils.setProperty(emptyEntity, "pid", pid);
         }
-        String cratePage = super.create(map,pid);
+
+        String cratePage = super.create(map,pid,typeId);
         map.addAttribute("entity", emptyEntity);
         return cratePage;
     }

@@ -1,0 +1,351 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    
+<#include "head.ftl">
+
+<link href="http://www.7road.com/website7road/static/easyui/themes/default/easyui.css" type="text/css" rel="stylesheet">
+    <link href="http://www.7road.com/website7road/static/easyui/themes/icon.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="http://www.7road.com/website7road/static/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="http://www.7road.com/website7road/static/easyui/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="http://www.7road.com/website7road/static/easyui/jquery.easyui.min.js"></script>
+</head>
+
+<body>
+    
+    <!-- 菜单 -->
+    <#include "menu.ftl">
+
+    <div class="bg-box">
+        <div class="user-center">
+            <div class="user-left">
+                <h3 class="title-model">
+                    <i></i>
+                    <span>用户中心</span>
+                </h3>
+                <ul class="user-left-nav">
+                    <li><a href="javascript:;" class="curr">我的简历</a></li>
+                    <li><a href="${HrServerHost}/center/applyRecord.html">职位申请记录</a></li>
+                    <li><a href="${HrServerHost}/center/resetPassword.html">修改密码</a></li>
+                    <li><a href="${HrServerHost}/center/collectRecord.html">已收藏职位</a></li>
+                </ul>
+            </div>
+            <div class="user-right">
+                <h3 class="title-model">
+                    <i></i>
+                    <span>我的简历</span>
+                </h3>
+                
+                <!--基本信息展示start-->
+                <div class="user-resume basic-info-show">
+                    <div class="later-complete-resume"></div>
+                    <div class="resume-btn"><span class="btn-box basic-info-modify-btn">修改</span></div>
+                    <div class="title-flag">
+                        <span class="title-text">基本信息</span>
+                    </div>
+                    <table cellpadding="0" cellspacing="0" class="table-box">
+                        <tr>
+                            <td class="w4">姓名：</td>
+                            <td class="w5" id="showRealName"></td>
+                            <td class="w4">性别：</td>
+                            <td id="showSex"></td>
+                        </tr>
+                        <tr>
+                            <td class="w4">手机号码：</td>
+                            <td class="w5" id="showUsername"></td>
+                            <td class="w4">学历：</td>
+                            <td id="showEducation"></td>
+                        </tr>
+                        <tr>
+                            <td class="w4">毕业院校：</td>
+                            <td class="w5" id="showSchool"></td>
+                            <td class="w4">Email：</td>
+                            <td id="showEmail"></td>
+                        </tr>
+                        <tr>
+                            <td class="w4">婚姻状况：</td>
+                            <td class="w5" id="showMarry"></td>
+                            <td class="w4">英语等级：</td>
+                            <td id="showEnglishDegree"></td>
+                        </tr>                            
+                        <tr>
+                            <td class="w4">工作年限：</td>
+                            <td class="w5" id="showWorkYear"></td>
+                            <td class="w4">所属专业：</td>
+                            <td id="showProfessional"></td>
+                        </tr>
+                    </table>
+                    <table cellpadding="0" cellspacing="0" class="table-box">
+                        <tr>
+                            <td class="w4">个人简介：</td>
+                            <td id="showProfile"></td>
+                        </tr>
+                    </table>
+                </div>
+                <!--基本信息展示end-->
+
+                <!--基本信息修改start-->
+                <div class="user-resume basic-info-modify">
+                    <div class="later-complete-resume"></div>
+                    <div class="resume-btn"><span class="btn-box basic-info-save-btn">保存</span></div>
+                    <div class="title-flag">
+                        <span class="title-text">基本信息</span>
+                    </div>
+                    <table cellpadding="0" cellspacing="0" class="table-box">
+                        <tr>
+                            <td class="w4"><span class="red">*</span>姓名：</td>
+                            <td class="w5">
+                                <input class="input4" type="text" maxlength="8" id="modifyRealName" />
+                            </td>
+                            <td class="w4"><span class="red">*</span>性别：</td>
+                            <td>
+                                <input class="radio" type="radio" name="modifySex" value="male" checked="checked" />
+                                <span>男</span>
+                                <input class="radio" type="radio" name="modifySex" value="female" />
+                                <span>女</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w4"><span class="red">*</span>手机号码：</td>
+                            <td class="w5">
+                                <input class="input4 gray-bg" type="text" disabled="disabled" maxlength="11" id="modifyUsername" />
+                            </td>
+                            <td class="w4"><span class="red">*</span>学历：</td>
+                            <td>
+                                <select id="modifyEducation">
+                                    <option value="select">-- 请选择 --</option>
+                                    <option value="dazhuan">大专</option>
+                                    <option value="benke">本科</option>
+                                    <option value="suoshi">硕士</option>
+                                    <option value="boshi">博士</option>
+                                    <option value="mba">MBA</option>
+                                    <option value="emba">EMBA</option>
+                                    <option value="zhongzhuan">中专</option>
+                                    <option value="zhongji">中技</option>
+                                    <option value="gaozhong">高中</option>
+                                    <option value="chuzhong">初中</option>
+                                    <option value="qita">其他</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w4"><span class="red">*</span>毕业院校：</td>
+                            <td class="w5">
+                                <input class="input4" type="text" maxlength="30" id="modifySchool" />
+                            </td>
+                            <td class="w4"><span class="red">*</span>Email：</td>
+                            <td>
+                                <input class="input4" type="text" maxlength="50" id="modifyEmail" />
+                            </td>
+                        </tr>
+                        <tr>
+                            
+                            <td class="w4"><span class="red">*</span>婚姻状况：</td>
+                            <td class="w5">
+                                <select id="modifyMarry">
+                                    <option value="select">-- 请选择 --</option>
+                                    <option value="single">未婚</option>
+                                    <option value="married">已婚</option>
+                                    <option value="divorce">保密</option>
+                                </select>
+                            </td>
+                            <td class="w4"><span class="red">*</span>英语等级：</td>
+                            <td>
+                                <select id="modifyEnglishDegree">
+                                    <option value="select">-- 请选择 --</option>
+                                    <option value="cet4">CET4</option>
+                                    <option value="cet6">CET6</option>
+                                    <option value="zhuan4">专业4级</option>
+                                    <option value="zhuan8">专业8级</option>
+                                </select>
+                            </td>
+                        </tr>                            
+                        <tr>
+                            <td class="w4"><span class="red">*</span>工作年限：</td>
+                            <td class="w5">
+                                <select id="modifyWorkYear">
+                                    <option value="select">-- 请选择 --</option>
+                                    <option value="zaidu">在读学生</option>
+                                    <option value="yinjie">应届毕业生</option>
+                                    <option value="lg1">一年以上</option>
+                                    <option value="lg2">二年以上</option>
+                                    <option value="lg3">三年以上</option>
+                                    <option value="lg5">五年以上</option>
+                              </select>
+                            </td>
+                            <td class="w4"><span class="red">*</span>所属专业：</td>
+                            <td>
+                                <input class="input4" type="text" maxlength="30" id="modifyProfessional" />
+                            </td>
+                        </tr>
+                    </table>
+                    <table cellpadding="0" cellspacing="0" class="table-box">
+                        <tr>
+                            <td class="w4"><span class="red">*</span>个人简介：</td>
+                            <td>
+                                <textarea class="user-textarea" id="modifyProfile" maxlength="400"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!--基本信息修改end-->
+
+                <div class="separated"></div>
+
+                <!--工作经验展示start-->
+                <div class="user-resume work-show">
+                    <div class="title-flag">
+                        <span class="title-text">简历信息</span>
+                    </div>
+                    <div class="add-btn">
+                        <span class="add-btn-text">工作经验</span>
+                    </div>
+                    <div class="work-list">
+                        
+                    </div>
+                </div>
+                <!--工作经验展示end-->
+
+                <!--添加工作经验盒子start-->
+                <div class="user-resume" style="display:none;">
+                    <div class="work-box">
+                        <div>
+                            <form id="work_0">
+                                <div class="remove-btn">
+                                    <span id="cancelAddWork">取消</span>
+                                </div>
+
+                                <table class="table-box" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td class="w4"><span class="red">*</span>时间：</td>
+                                        <td>
+                                            <select class="fromYear">
+                                                <option value="">年</option>
+                                            </select>
+                                            <select class="fromMonth">
+                                                <option value="">月</option>
+                                            </select>
+                                            到
+                                            <select class="toYear">
+                                                <option value="">年</option>
+                                            </select>
+                                            <select class="toMonth">
+                                                <option value="">月</option>
+                                            </select>
+                                    </td>
+                                        <td align="right"><span class="btn-box work-save-btn" id="0">保存</span></td>
+                                    </tr>
+                                </table>
+                                <table class="table-box" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td class="w4"><span class="red">*</span>公司名称：</td>
+                                        <td class="w5">
+                                            <input class="input4 companyName" type="text" maxlength="30">
+                                        </td>
+                                        <td class="w4"><span class="red">*</span>职位：</td>
+                                        <td>
+                                            <input class="input4 workPosition" type="text" maxlength="30">
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table cellpadding="0" cellspacing="0" class="table-box">
+                                    <tr>
+                                        <td class="w4"><span class="red">*</span>工作描述：</td>
+                                        <td>
+                                            <textarea class="user-textarea workContent" maxlength="800"></textarea>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="continue-add">
+                    <span class="add-work">继续添加</span>
+                </div>
+                <!--添加工作经验盒子end-->
+
+                <div class="separated"></div>
+
+                <!--项目经验展示start-->
+                <div class="user-resume project-show">    
+                    <div class="add-btn">
+                        <span class="add-btn-text">项目经验</span>
+                    </div>
+                    <div class="project-list">
+                        
+                    </div>
+                </div>
+                <!--项目经验展示end-->
+
+                <!--添加项目经验盒子start-->
+                <div class="user-resume" style="display:none;">
+                    <div class="project-box">
+                        <div>
+                            <form id="project_0">
+                                <div class="remove-btn">
+                                    <span id="cancelAddProject">取消</span>
+                                </div>
+                                <table class="table-box" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td class="w4"><span class="red">*</span>时间：</td>
+                                        <td>
+                                            <select class="fromYear">
+                                                <option value="">年</option>
+                                            </select>
+                                            <select class="fromMonth">
+                                                <option value="">月</option>
+                                            </select>
+                                            到
+                                            <select class="toYear">
+                                                <option value="">年</option>
+                                            </select>
+                                            <select class="toMonth">
+                                                <option value="">月</option>
+                                            </select>
+                                        </td>
+                                        <td align="right"><span class="btn-box project-save-btn" id="0">保存</span></td>
+                                    </tr>
+                                </table>
+                                <table class="table-box" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td class="w4"><span class="red">*</span>项目名称：</td>
+                                        <td class="w5">
+                                            <input class="input4 projectName" type="text" maxlength="30">
+                                        </td>
+                                        <td class="w4"><span class="red">*</span>项目职责：</td>
+                                        <td>
+                                            <input class="input4 projectPosition" type="text" maxlength="30">
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table cellpadding="0" cellspacing="0" class="table-box">
+                                    <tr>
+                                        <td class="w4"><span class="red">*</span>项目描述：</td>
+                                        <td>
+                                            <textarea class="user-textarea expContent" maxlength="800"></textarea>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                </div>
+                <!--添加项目经验盒子end-->
+                <div class="continue-add">
+                    <span class="add-project">继续添加</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部 -->
+    <#include "footer.ftl">
+
+    
+</body>
+</html>

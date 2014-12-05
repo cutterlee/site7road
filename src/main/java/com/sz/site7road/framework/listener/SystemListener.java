@@ -4,6 +4,7 @@ import com.sz.site7road.framework.combotree.IconComboTree;
 import org.apache.log4j.Logger;
 import org.springframework.web.context.ContextLoaderListener;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
 /**
@@ -17,7 +18,8 @@ public class SystemListener extends ContextLoaderListener {
     public void contextInitialized(ServletContextEvent event) {
         super.contextInitialized(event);
         //初始化图标树
-        IconComboTree.init(event.getServletContext());
+        ServletContext servletContext = event.getServletContext();
+        IconComboTree.init(servletContext);
         log.info("初始化图标树成功...");
 
 

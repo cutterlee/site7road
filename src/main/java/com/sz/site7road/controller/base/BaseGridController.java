@@ -32,7 +32,7 @@ public abstract class BaseGridController<T> extends BaseController<T> {
     protected ResponseGridEntity list(RequestGridEntity dataGridParam) {
         String indexPermission = getTemplateDir() + ":index";
         ResponseGridEntity responseGridEntity = new ResponseGridEntity();
-        if (hasPermission(indexPermission)) {
+        if (hasPermission(indexPermission)||hasPermission("role:index")) {
             responseGridEntity.setTotal(getService().getCountByRequestGridEntity(dataGridParam));
             responseGridEntity.setRows(getService().findEntityListByRequestGridEntity(dataGridParam));
         }

@@ -1,0 +1,37 @@
+.move-pic{position:relative;width:730px;margin-top:55px;}
+.pic-wrap{width:730px;height:410px;}
+.pic-main{position:relative;width:730px;height:410px;overflow:hidden;}
+.pic-image{position:absolute;overflow:hidden;top:0;left:0;}
+/*标题、简介*/
+.pic-description{position:absolute;bottom:0;left:0;padding:7px 10px;width:100%;background:url(http://image.my.7road.com/img/picTitleBg.png) no-repeat;}
+.pic-description .pic-description-title{height:20px;line-height:20px;color:#cc89d6;font-weight:bold;border:none;padding:0;}
+.pic-description .pic-description-content{color:#fff;line-height:20px;}
+/*左右两个区域点击*/
+.pic-next,.pic-prev{position:absolute;top:0;width:50%;height:100%;cursor:pointer;}
+.pic-next{right:0;}
+.pic-prev{left:0;}
+/*左右两个箭头点击*/
+.pic-prev-s,.pic-next-s{width:50px;height:55px;position:absolute;top:170px;z-index:2;cursor:pointer;background:url(http://image.my.7road.com/img/bannerBtn.png) no-repeat;}
+.pic-prev-s{left:20px;background-position:10px 0;}
+.pic-next-s{right:20px;background-position:-110px 0;}
+
+.pic-controls{height:20px;display:none;}
+.pic-info{float:left;}
+.pic-slideshow-controls{float:right;}
+.pic-slideshow-start,.pic-slideshow-stop{padding-left:5px;cursor:pointer;}
+.pic-slideshow-countdown{padding-left:5px;}
+.pic-slideshow-running .pic-slideshow-start{cursor:default;}
+
+.pic-nav{width:730px;margin-top:40px;position:relative;}
+.pic-forward,.pic-back{position:absolute;top:0;width:15px;height:100px;z-index:10;cursor:pointer;display:none;}
+.pic-back{left:-20px;}
+.pic-forward{right:-20px;}
+.pic-nav .pic-thumbs{overflow:hidden;width:100%;}
+.pic-thumbs .pic-thumb-list{float:left;width:9000px;}
+.pic-thumbs .pic-thumb-list li a img{}
+.pic-thumbs li {float:left;padding-right:16px;}
+.pic-thumbs li a{display:block;width:160px;height:90px;padding:4px;border:1px solid #dbdcdd;}
+.pic-thumbs li a img{width:160px;height:90px;}
+.pic-thumbs li a.pic-active{border:2px solid #cc89d6;padding:3px;}
+/* Can't do display none, since Opera won't load the images then */
+.pic-preloads{position:absolute;left:-9000px;top:-9000px;}

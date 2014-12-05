@@ -1,5 +1,6 @@
 package com.sz.site7road.entity.banner;
 
+import com.google.common.base.Strings;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -25,10 +26,14 @@ public class BannerEntity {
     private String keyWords;
     @Column(name = "description")
     private String description;
+    @Column(name = "show_nav")
+    private int showNav;
     @Column(name = "is_menu")
     private int isMenu;
-    @Column(name = "is_index")
-    private int isIndex;
+    @Column(name = "index_show")
+    private int indexShow;
+    @Column(name = "order_num")
+    private int orderNum;
     @Column(name = "index_num")
     private int indexNum;
     @Column(name = "is_link")
@@ -41,8 +46,6 @@ public class BannerEntity {
     private int target;
     @Column(name = "read_me")
     private String readMe;
-    @Column(name = "order_num")
-    private int orderNum;
     @Column(name = "i_rank")
     private int iRank;
     @Column(name = "path")
@@ -51,8 +54,14 @@ public class BannerEntity {
     private String showFields="";
     @Column(name = "list_path")
     private String listPath;
+    @Column(name = "detail_path")
+    private String detailPath;
     @Column(name = "page_path")
     private String pagePath;
+    @Column(name = "index_order_num")
+    private int indexOrderNum;
+    @Column(name = "html_name")
+    private String htmlName;
 
 
     public int getId() {
@@ -96,6 +105,12 @@ public class BannerEntity {
     }
 
     public int getIsMenu() {
+        if(pid>0)
+        {
+            isMenu=0;
+        }else{
+            isMenu=1;
+        }
         return isMenu;
     }
 
@@ -103,12 +118,12 @@ public class BannerEntity {
         this.isMenu = isMenu;
     }
 
-    public int getIsIndex() {
-        return isIndex;
+    public int getIndexShow() {
+        return indexShow;
     }
 
-    public void setIsIndex(int isIndex) {
-        this.isIndex = isIndex;
+    public void setIndexShow(int indexShow) {
+        this.indexShow = indexShow;
     }
 
     public int getIndexNum() {
@@ -152,6 +167,10 @@ public class BannerEntity {
     }
 
     public String getReadMe() {
+        if(Strings.isNullOrEmpty(readMe))
+        {
+            readMe=bannerName;
+        }
         return readMe;
     }
 
@@ -159,13 +178,7 @@ public class BannerEntity {
         this.readMe = readMe;
     }
 
-    public int getOrderNum() {
-        return orderNum;
-    }
 
-    public void setOrderNum(int orderNum) {
-        this.orderNum = orderNum;
-    }
 
     public int getiRank() {
         return iRank;
@@ -176,6 +189,10 @@ public class BannerEntity {
     }
 
     public String getPath() {
+        if(Strings.isNullOrEmpty(path))
+        {
+            path=id+"="+pid;
+        }
         return path;
     }
 
@@ -205,5 +222,48 @@ public class BannerEntity {
 
     public void setPagePath(String pagePath) {
         this.pagePath = pagePath;
+    }
+
+    public int getShowNav() {
+        return showNav;
+    }
+
+    public void setShowNav(int showNav) {
+        this.showNav = showNav;
+    }
+
+    public int getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(int orderNum) {
+        this.orderNum = orderNum;
+    }
+
+    public int getIndexOrderNum() {
+        return indexOrderNum;
+    }
+
+    public void setIndexOrderNum(int indexOrderNum) {
+        this.indexOrderNum = indexOrderNum;
+    }
+
+    public String getDetailPath() {
+        return detailPath;
+    }
+
+    public void setDetailPath(String detailPath) {
+        this.detailPath = detailPath;
+    }
+
+    public String getHtmlName() {
+        if(pid>0){
+            return htmlName;
+        }
+        return "";
+    }
+
+    public void setHtmlName(String htmlName) {
+        this.htmlName = htmlName;
     }
 }

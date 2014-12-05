@@ -7,6 +7,7 @@ import com.sz.site7road.entity.resource.ResourceEntity;
 import com.sz.site7road.framework.grid.ResultForGridForm;
 import com.sz.site7road.service.BaseService;
 import com.sz.site7road.service.ResourceService;
+import com.sz.site7road.util.BeanHelpUtil;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -239,10 +240,15 @@ public abstract class BaseController<T> {
      * @throws Exception
      */
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    protected String create(ModelMap map, int pid) throws Exception {
+    protected String create(ModelMap map, int pid,@RequestParam(required = false)int typeId) throws Exception {
         String addPagePermission = getTemplateDir() + ":create";
         if (hasPermission(addPagePermission)) {
-            map.addAttribute("entity", getService().createEmptyEntity());
+            Object emptyEntity = getService().createEmptyEntity();
+            if(BeanHelpUtil.containsProperty(emptyEntity,"typeId"))
+            {
+                BeanUtils.setProperty(emptyEntity,"typeId",typeId);
+            }
+            map.addAttribute("entity", emptyEntity);
             map.addAttribute("title", MESSAGE.getString("create")+getTitle());
             map.addAttribute("op", System.currentTimeMillis());
             map.addAttribute("entityName", getTemplateDir());

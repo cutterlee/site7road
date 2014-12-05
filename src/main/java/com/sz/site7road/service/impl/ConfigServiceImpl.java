@@ -54,42 +54,7 @@ public class ConfigServiceImpl extends AbstractBaseServiceImpl<ConfigEntity> imp
         return configDao.findEntityListByRequestGridEntity(dataGridParam);
     }
 
-    /**
-     * 获取treeGrid的树形数据
-     *
-     * @param pid 父id
-     * @return treeGrid所需树形数据
-     */
-    @Override
-    public List<ComboTreeResponse> getComboTreeListByPid(int pid) {
-        List<ComboTreeResponse> comboTreeResponseList = Lists.newLinkedList();
-        //find the whole config list
-        RequestGridEntity dataGridParam = new RequestGridEntity();
-        dataGridParam.setPage(1);
-        dataGridParam.setRows(10000);
-        List<ConfigEntity> configEntityList = configDao.findEntityListByRequestGridEntity(dataGridParam);
 
-        for (final ConfigEntity entity : configEntityList) {
-            if (entity.getPid() == 0) {
-                ComboTreeResponse comboTreeResponse = new ComboTreeResponse();
-                comboTreeResponse.setId(entity.getId());
-                comboTreeResponse.setText(entity.getConfigTitle());
-                Collection<ConfigEntity> children = Collections2.filter(configEntityList, new Predicate<ConfigEntity>() {
-                    @Override
-                    public boolean apply(ConfigEntity configEntity) {
-                        return configEntity.getPid() == entity.getId();
-                    }
-                });
-                if (children != null && !children.isEmpty()) {
-                    comboTreeResponse.setChildren(getComboTreeChildrenFromTreeNode(children));
-                } else {
-                    comboTreeResponse.setChildren(null);
-                }
-                comboTreeResponseList.add(comboTreeResponse);
-            }
-        }
-        return comboTreeResponseList;
-    }
 
     /**
      * 通过configKey获取孩子集合
@@ -103,24 +68,4 @@ public class ConfigServiceImpl extends AbstractBaseServiceImpl<ConfigEntity> imp
         return configDao.findChildrenByConfigKey(configKey);
     }
 
-    public List<ComboTreeResponse> getComboTreeChildrenFromTreeNode(Collection<ConfigEntity> treeNodeList) {
-        List<ComboTreeResponse> comboTreeResponseList = Lists.newLinkedList();
-        if (treeNodeList != null && !treeNodeList.isEmpty())
-            for (final ConfigEntity treeNode : treeNodeList) {
-                ComboTreeResponse comboTreeResponse = new ComboTreeResponse();
-                comboTreeResponse.setId(treeNode.getId());
-                comboTreeResponse.setText(treeNode.getConfigTitle());
-                Collection<ConfigEntity> children = Collections2.filter(treeNodeList, new Predicate<ConfigEntity>() {
-                    @Override
-                    public boolean apply(ConfigEntity configEntity) {
-                        return configEntity.getPid() == treeNode.getId();
-                    }
-                });
-                if (children != null && !children.isEmpty()) {
-                    comboTreeResponse.setChildren(getComboTreeChildrenFromTreeNode(children));
-                }
-                comboTreeResponseList.add(comboTreeResponse);
-            }
-        return comboTreeResponseList;
-    }
 }

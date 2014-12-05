@@ -1,0 +1,312 @@
+﻿body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,input,p,iframe{margin:0;padding:0;}
+body{font-size:12px;font-family:"宋体",Tahoma,sans-serif;color:#777;}
+html{-webkit-text-size-adjust:none;}
+img{border:0;}
+ul,ol,li{list-style:none;}
+i,em{font-style:normal;}
+a{color:#777;outline:none;_outline:expression(this.hideFocus=true);text-decoration:none;}
+input,img,button{vertical-align:middle;}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
+.screenCenter{width:960px;margin:0 auto;}
+.red{color:#f00;}
+.purple{color:#af74d6;}
+
+.newsWrap h3 a,.footerLogo,.moveLeftDot,.moveRightDot{display:block;text-indent:-999em;overflow:hidden;}
+.f_l{float:left;display:inline;}
+.f_r{float:right;display:inline;}
+.hid{display:none;}
+.clearfix{overflow:hidden;zoom:1;}
+.blank{height:40px;line-height:40px;overflow:hidden;clear:both;}
+.alignCenter{text-align:center;}
+.clear{clear:both;}
+/*顶部横条、WAN平台提示*/
+.topBarWrap{height:68px;margin-bottom:18px;background:#dfdfdb url(http://image.my.7road.com/img/topBarBg.jpg) center top no-repeat;}
+.topBar{position:relative;width:1000px;margin:0 auto;}
+.hideTopBar{position:absolute;top:48px;right:25px;width:45px;height:20px;}
+.showTopBar{display:none;position:absolute;top:18px;right:7px;width:49px;height:18px;background:url(http://image.my.7road.com/img/showTopBar.jpg) no-repeat;}
+.goWan{position:absolute;left:645px;top:13px;width:80px;height:42px;}
+.popWan{display:none;position:fixed;_position:absolute;top:50%;left:50%;margin-left:-297px;margin-top:-172px;width:595px;height:345px;z-index:999;
+    _top:expression(eval(document.documentElement.scrollTop+(document.documentElement.clientHeight-this.offsetHeight)/2));_margin-top:0;
+	background:url(http://image.my.7road.com/img/popWan.jpg) no-repeat;}
+.closePopWan{position:absolute;right:-40px;top:0;width:32px;height:30px;background:url(http://image.my.7road.com/img/closePopWan.png) no-repeat;}
+.wanLink1{position:absolute;top:195px;left:65px;width:160px;height:30px;}
+.wanLink2{position:absolute;top:223px;left:65px;width:60px;height:30px;}
+/*头部*/
+.headerWrap{width:100%;height:94px;border-top:4px solid #947dc1;border-bottom:2px solid #d6d6d6;}
+.header{position:relative;z-index:2;height:94px;}
+.header h1{position:absolute;left:0;top:0;}
+.header h1 a{display:block;width:220px;height:60px;overflow:hidden;background:url(http://image.my.7road.com/img/headerLogo.jpg) no-repeat;text-indent:-999px;}
+.slogan{position:absolute;left:220px;top:0;width:300px;height:60px;overflow:hidden;}
+.slogan img{height:60px;}
+.bannerWrap{position:relative;min-width:1000px;width:100%;height:433px;}
+.banner{/*position:absolute;left:50%;width:1920px;height:433px;margin-left:-960px;*/}
+.leftBtn,.rightBtn{position:absolute;top:180px;z-index:2;width:50px;height:55px;cursor:pointer;background:url(http://image.my.7road.com/img/bannerBtn.png) no-repeat;_background:url(http://image.my.7road.com/img/bannerBtn8.png) no-repeat;}
+.leftBtn{left:20px;background-position:10px 0;}
+.rightBtn{right:20px;background-position:-110px 0;}
+.bannerImg ul li{position:absolute;height: 433px;width: 100%;}
+.bannerImg ul li a{display: block;height: 433px;}
+.bannerImg ul li a img{width:1920px;height:433px;}
+.bannerNav{position:absolute;left:50%;bottom:10px;z-index:2;margin-left:200px;}
+.bannerNav ul li{float:left;width:33px;height:20px;margin-left:4px;text-indent:-999px;cursor:pointer;overflow:hidden;background:url(http://image.my.7road.com/img/bannerNav.png) 0 7px no-repeat;_background:url(http://image.my.7road.com/img/bannerNav8.png) 0 7px no-repeat;}
+.bannerNav ul li.curr{background-position:-33px 7px;}
+.bannerBtn{position:absolute;left:50%;bottom:70px;margin-left:-480px;}
+.bannerImg ul li .bannerBtn a{height: 30px;}
+/*菜单*/
+.menu{position:absolute;left:0;top:62px;height:32px;}
+.menu ul li{position:relative;float:left;height:32px;margin-right:42px;font-family:"Microsoft Yahei";}
+.menu ul li a{float:left;padding:0 15px;height:31px;border-bottom:1px solid #fff;line-height:30px;color:#666;text-align:center;font-size:14px;font-weight:bold;}
+.menu ul li a.active,.menu ul li.curr a{background:#a48dd1;color:#fff;}
+.menu ul li .subMenuWrap{display:none;position:absolute;top:32px;left:0;width:120px;background:#d6d6d6;}
+.menu ul li .subMenu{margin-top:2px;padding-bottom:5px;background:#fff;}
+.menu ul li .subMenu a{float:left;overflow:hidden;width:105px;height:30px;padding:0 0 0 15px;line-height:30px;text-align:left;font-size:13px;background:#fff;color:#666;font-weight:normal;}
+.menu ul li .subMenu a:hover{background:#e4e3e3;color:#9269e3;}
+/*主体*/
+.mainWrap{background:#fdfcfc;padding:50px 0 80px;overflow:hidden;}
+.main{}
+.modMain{margin:0 auto;}
+
+/*小图标*/
+.news-dot{float:left;width:10px;height:10px;overflow:hidden;background-position:0 -15px;}
+/*新闻*/
+.news{width:295px;margin:0 35px 0 0;}
+.news h3{height:35px;font-family:"Microsoft Yahei";}
+.news h3 a{float:right;width:40px;height:20px;margin:1px 0 0;background:url(http://image.my.7road.com/img/newsMore.jpg) no-repeat;}
+.news h3 span{font-weight:bold;font-size:14px;color:#454545;}
+.news h3 em{font-weight:bold;font-size:13px;color:#454545;}
+.news ul{height:135px;*height:140px;overflow:hidden;}
+.news ul li{height:27px;line-height:27px;overflow:hidden;}
+.news ul li span{float:right;}
+.news ul li i{float:left;width:3px;height:3px;margin:12px 5px 0 0;background:url(http://image.my.7road.com/img/d.png) no-repeat;overflow:hidden;}
+.news ul li a{float:left;width:215px;height:27px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;}
+.in7road ul li a{width:287px;}
+.news ul li a:hover{text-decoration:underline;}
+/*首页视频*/
+.indexVideo{width:290px;height:163px;padding:4px;border:1px solid #d7d7d7;background:#fff;}
+.indexVideo a{position:relative;display:block;width:290px;height:163px;}
+.indexVideo a img{width:290px;height:163px;}
+.indexVideoDot{display:block;position:absolute;top:0;left:0;width:290px;height:163px;background:url(http://image.my.7road.com/img/videoS.png) center center no-repeat;cursor:pointer;}
+/*底部*/
+.footerWrap{padding:15px 0 30px;border-top:1px solid #dfdfdf;}
+.footer{position:relative;line-height:22px;color:#bbb;}
+.footerNav a{margin:0 5px;color:#bbb;}
+.footerNav a:hover{text-decoration:underline;}
+.footer p{padding-left:5px;}
+.help{padding:5px 0 0 5px;_height:40px;}
+.help a{margin-right:20px;}
+.shareDot{float:left;padding:0 5px 0 17px;line-height:20px;background:url(http://image.my.7road.com/img/shareDot.jpg) 0 3px no-repeat;}
+.footerNav .bshare-custom a{margin:0 1px;}
+/*内页中间背景*/
+.pic-box{height:113px;background:url(http://image.my.7road.com/img/subBg.jpg) center top no-repeat;}
+.pic{position:relative;height:113px;font-family:"Microsoft Yahei";}
+.pic h2,.pic h3{position:absolute;left:20px;color:#fff;}
+.pic h2{top:30px;font-size:24px;}
+.pic h2 span{padding-left:8px;color:#c29eea;font-size:14px;}
+.pic h3{top:65px;font-size:14px;padding-left:50px;}
+.sub{position:absolute;right:0;top:35px;width:250px;height:172px;overflow:hidden;}
+.sub img{position:absolute;right:0;}
+/*内页左边*//*左侧导航固定*/
+.modMain{ width:730px; padding-left:230px; }
+.modMain .rightMod{ float:none; display:block;}
+.modMain .leftSideBar{float:none; display:block;}
+.leftSideBar{ background-color:#ffffff; width:195px; font-family:"Microsoft Yahei"; position:absolute; left: 50%; margin-left:-480px; top:230px;_top: expression(eval(Math.max(document.documentElement.scrollTop,230)));}
+.fixed{position: fixed;
+z-index: 999;
+left: 50%;
+top: 10px;
+margin-left:-480px;
+_position: absolute;
+_top: expression(eval(document.documentElement.scrollTop+10));
+}
+
+.leftSideBar h2{height:138px;padding-left:10px; padding-top:7px;}
+.leftSideBar h2 span{ display:block;}
+
+.leftSideBar h2 span{top:7px;font-size:22px;color:#fff;}
+
+.leftSideBar h2 em{top:35px;font-size:14px;color:#c5a9e9;}
+.leftSideBar .t1{background:url(http://image.my.7road.com/img/t1.jpg) no-repeat;}
+.leftSideBar .t2{background:url(http://image.my.7road.com/img/t2.jpg) no-repeat;}
+.leftSideBar .t3{background:url(http://image.my.7road.com/img/t3.jpg) no-repeat;}
+.leftSideBar .t4{background:url(http://image.my.7road.com/img/t4.jpg) no-repeat;}
+.leftSideBar .t5{background:url(http://image.my.7road.com/img/t5.jpg) no-repeat;}
+.leftSideBar .t6{background:url(http://image.my.7road.com/img/t6.jpg) no-repeat;}
+.leftSideBar ul{min-height:142px;_height:142px;border:1px solid #ddd;border-top:none;-moz-border-radius-bottomleft:5px;-moz-border-radius-bottomright:5px;-webkit-border-bottom-left-radius:5px;-webkit-border-bottom-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;}
+.leftSideBar ul li{*float:left;width:193px;border-bottom:1px solid #ddd;font-size:14px;overflow:hidden;}
+.leftSideBar ul li span{float:left;height:38px;padding:0 30px 0 38px;width:125px;line-height:38px;color:#333;overflow:hidden;cursor:pointer;background:url(http://image.my.7road.com/img/dot.png) 19px 14px no-repeat;}
+.leftSideBar ul li span.current{background-position:19px -47px;background-color:#ececec;}
+.leftSideBar ul li a{float:left;height:38px;padding:0 30px 0 38px;width:125px;line-height:38px;overflow:hidden;background:url(http://image.my.7road.com/img/dot.png) 23px -104px no-repeat;}
+.leftSideBar ul li a.active,.leftSideBar ul li a:hover{background-position:23px -160px;color:#cba4e4;}
+.leftSideBar ul li a.health{line-height:16px;padding:11px 30px 11px 38px;/*height:32px;background-position:23px -104px;*/}
+.leftSideBar ul li.hide a{display:none;}
+/*内页右边*/
+.rightMod{width:730px;padding:80px 0 50px 0;min-height:500px;_height:500px;}
+.rightMod h3{height:30px;line-height:30px;padding-bottom:10px;border-bottom:1px solid #dbdbdb;font-family:"Microsoft Yahei";}
+.rightMod h3 strong{font-size:22px;color:#414141;font-weight:normal;}
+.rightMod h3 em{color:#999;}
+.guide{float:right;}
+.black{color:#000;}
+
+.article{margin-top:10px;line-height:26px;_width:730px;_overflow:hidden;}
+.article h5{margin:15px 0 0;color:#2b8c01;font-family:'Microsoft Yahei';font-size:18px;font-weight:bold;border:none;}
+.article p{clear:both;}
+.article img{max-width:730px;}
+.theadBg{height:20px;line-height:20px;}
+
+/*所有游戏*/
+.allGame{}
+.allGame ul li{padding:35px 0 35px;border-bottom:1px dashed #e8e1e1;overflow:hidden;_height:190px;_overflow:visible;}
+.allGame ul li.noborder{border:none;}
+.allGame h2{line-height:33px;font-size:18px;font-family:"Microsoft Yahei";overflow:hidden;}
+.allGame h2 i{color:#af74d6;}
+.gamePic{float:left;width:280px;height:140px;margin-top:15px;overflow:hidden;background:#e9e9e9;}
+.gamePic a img{width:280px;height:140px;}
+.introduction{float:right;margin:15px 0 0;width:420px;}
+.introductionSmall{height:98px;overflow:hidden;}
+.gameDetail .introductionSmall{ height:auto;min-height:98px;}
+.linkBtn{padding-top:12px;}
+.startGameBtn,.detailBtn{float:left;width:90px;height:30px;line-height:30px;padding-left:10px;margin-right:10px;color:#fff;font-size:14px;font-family:"Microsoft Yahei";}
+.startGameBtn{background:url(http://image.my.7road.com/img/startGameBtn.jpg) no-repeat;}
+.detailBtn{background:url(http://image.my.7road.com/img/detailBtn.jpg) no-repeat;}
+.gameDetail ul li{padding:35px 0 15px;border:none;}
+.gameDetail ul li h2 em{float:left;width:5px;height:5px;margin:14px 5px 0 0;background:url(http://image.my.7road.com/img/gameDot.jpg) no-repeat;overflow:hidden;}
+.gameIntroduce{padding-top:10px;}
+/*七道生活*/
+.life{}
+.life ul li{overflow:hidden;padding:35px 0 50px;border-bottom:1px dashed #e8e1e1;_height:190px;}
+.life h2{height:33px;line-height:33px;font-size:18px;font-family:"Microsoft Yahei";}
+.life h2 i{color:#af74d6;}
+.lifePic{float:left;width:280px;height:140px;margin-top:15px;overflow:hidden;background:#e9e9e9;}
+.lifePic img{width:280px;height:140px;}
+.lifeText{float:right;margin:15px 0 0;width:400px;}
+.lifeIntroduce{float:right;width:420px;height:140px;margin:15px 0 0;line-height:24px;overflow:hidden;}
+/*招聘列表*/
+.recruitmentSearch{height:42px;padding:15px 0 0 125px;font-size:14px;}
+.recruitmentSearch p{float:left;width:253px;height:40px;padding:1px 0 1px 50px;background:url(http://image.my.7road.com/img/searchInput.jpg) no-repeat;}
+.recruitmentSearch p input{float:left;width:253px;height:40px;border:0;border:none;background:none;font-size:14px;line-height:40px;}
+.recruitmentSearch a{float:left;height:40px;padding:0 45px;margin-left:5px;border:1px solid #dbdbdb;background:#f7f7f7;text-align:center;line-height:40px;}
+.recruitmentNav{padding:30px 0;font-size:14px;line-height:25px;overflow:hidden;}
+.recruitmentNav a{display:inline-block;padding:0 20px;border:1px solid #dbdbdb;background:#f7f7f7;cursor:pointer;}
+.recruitmentNav .on{background:#af74d6;border-color:#af74d6;color:#fff;}
+
+.recruitmentTit{height:32px;line-height:32px;background:#f7f7f7; font-weight:bold;}
+.recruitmentTit span{float:left;width:205px;padding-left:40px;}
+.recruitmentTit em{float:left;text-align:center;}
+
+.recruitment{}
+.recruitment ul{background:url(http://image.my.7road.com/img/recruitment.jpg) repeat-y;*float:left;}
+.recruitment ul li{height:34px;line-height:34px;*width:730px;*overflow:hidden;*float:left;}
+.recruitment ul li a,.recruitment ul li span{float:left;height:34px;overflow:hidden;}
+.recruitment ul li span{text-align:center;}
+.recruitment ul li a span{float:none;color:#f00;}
+.nothing{padding-top:30px;}
+
+.postName{width:205px;padding-left:40px;background:url(http://image.my.7road.com/img/d.png) 30px 15px no-repeat;}
+.industry{width:240px;}
+.address{width:100px;}
+.date{width:100px;}
+/*分页*/
+.pageNum{clear:both;height:24px;margin:0 auto;padding:20px 0 10px;text-align:center;width:100%;}
+.pageNum a,.pageNum span{height:16px;line-height:16px;padding:1px 6px 3px;text-align:center;}
+/*招聘详细*/
+.recruitmentDetail{line-height:24px;}
+.recruitmentDetail h2{padding:25px 0 10px;font-size:14px;}
+.recruitmentBox{width:100%;padding:0 0 20px;overflow:hidden;}
+.recruitmentBox span{float:left;height:}
+.recruitmentAddress{width:110px;}
+.recruitmentNum{width:70px;}
+.recruitmentindustry{width:240px;}
+.recruitmentDetail h3{font-size:14px;font-family:"宋体";border:none;}
+.recruitmentEmail a{float:left;height:24px;line-height:24px;padding:0 13px;margin-top:8px;color:#fff;text-align:center;background:#bb90d7;}
+/*团队活动*/
+.welfare{width:739px;height:1%;margin-top:20px;background:#f3f5f6;border:1px solid #dce3e7;overflow:hidden;}
+.welfare h3{height:33px;line-height:33px;padding:5px 0;border-bottom:1px solid #dce3e7;text-align:center;font-size:24px;font-family:"Microsoft Yahei";font-weight:bold;}
+.welfare ul{height:1%;padding-bottom:10px;overflow:hidden;}
+.welfare ul li{float:left;width:132px;padding-left:15px;margin:5px 0 0 0;display:inline;overflow:hidden;}
+.welfare ul li a{font-size:18px;font-family:"Microsoft Yahei";outline:none;cursor:text;}
+.welfare ul li span{float:left;width:4px;height:4px;margin:14px 7px 0 0;}
+/*培训发展*/
+.train{overflow:hidden;}
+.trainTop{padding:20px 0;}
+.titleDot{float:left;width:17px;height:17px;margin:8px 10px 0 0;background:url(http://image.my.7road.com/img/trainDot.jpg) no-repeat;}
+.train h3{height:33px;line-height:33px;font-size:18px;border:none;}
+.titbit{padding-bottom:5px;margin-bottom:25px;border-bottom:1px dashed #e8e1e1;_width:730px;overflow:hidden;}
+.titbitBigImg{padding-bottom:15px;}
+.titbitContent{height:78px;overflow:hidden;}
+.lifeTitbitDetail{width:730px;overflow:hidden;}
+.backTitbit{clear:both;overflow:hidden;margin-top:20px;padding-top:5px;border-top:1px dashed #e7e1e1;}
+.backTitbit a{float:right;}
+/*合作伙伴*/
+.partners{overflow:hidden;border-bottom:1px dashed #e8e1e1;padding-bottom:30px;}
+.partners h3{height:33px;line-height:33px;font-size:18px;border:none;padding:10px 0 0;}
+.partners h3 i{float:left;width:5px;height:5px;margin:14px 5px 0 0;background:url(http://image.my.7road.com/img/gameDot.jpg) no-repeat;overflow:hidden;}
+.partners ul{overflow:hidden;position:relative;width:740px;margin-right:-30px;}
+.partners ul li{float:left;width:150px;height:97px;padding-top:15px;margin:0 35px 20px 0;display:inline;}
+.partners ul li a{display:block;width:140px;height:87px;padding:4px;border:1px solid #dbdcdd;}
+.partners ul li a:hover{border:1px solid #adadad;}
+.partners ul li a img{width:140px;height:87px;}
+/*联系我们*/
+.contactUs{width:719px;height:280px;padding:5px;margin:20px 0;border:1px solid #d1d1d1;background:#fefefe;text-align:center;}
+/*招聘职位*/
+.joyDetail{width:750px;margin-top:30px;font-size:13px;font-family:'Microsoft Yahei';line-height:30px;}
+.joyDetailTit{font-size:16px;font-weight:bold;}
+.joyDetailLeft{width:70px;vertical-align:top;}
+.joyRemark{font-weight:bold;}
+/*大事件内页*/
+.eventNav{width:100%;height:79px;margin-top:10px;overflow:hidden;}
+.eventNav span{float:left;width:49px;height:79px;margin:0 5px 0 45px;background:url(http://image.my.7road.com/img/eventDot.png) no-repeat;}
+.eventNav a{float:left;height:33px;padding:0 10px;margin:8px 0 0 8px;line-height:33px;border:1px solid #dbdbdb;text-align:center;font-size:14px;background:#fcfcfc;}
+.eventNav a.on{color:#fff;background:#af74d6;}
+.switchMain{display:none;}
+.eventList{}
+.eventList ul{margin-bottom:20px;overflow:hidden;display:none;}
+.eventList ul.on{display:block;}
+.eventList ul li{clear:both;line-height:22px;}
+.eventList ul li em{float:left;width:55px;padding:10px 0 10px 5px;color:#bcbbbb;font-size:14px;}
+.eventList ul li i{float:left;width:20px;min-height:22px;_height:22px;padding:10px 0;margin-right:30px;background:url(http://image.my.7road.com/img/eventDot.png) -15px -277px no-repeat;}
+.eventList ul li a{float:left;margin:10px 0;font-size:14px;}
+.eventList ul li .eventMain{float:left;width:606px;margin-left:69px;padding:10px 0 10px 40px;border-left:2px solid #b37bd8;display:none;}
+.eventList ul li.curr .eventMain{display:inline;}
+.eventList ul li .newsPic{width:200px;height:136px;}
+.eventList ul li .newsPic img{width:200px;height:136px;}
+.eventList ul li .eventDetail{float:left;width:380px;height:136px;margin-left:15px;overflow:hidden;}
+.eventList ul li.curr em,.eventList ul li.curr a{color:#af74d6;}
+/*视频专区*/
+.video{overflow:hidden;}
+.firstVideo{width:640px;height:360px;margin:8px auto 22px;}
+.video ul li{width:100%;padding-top:25px;margin-bottom:30px;border-top:1px dashed #e8e1e1;overflow:hidden;}
+.video ul li.first{padding-top:10px;}
+.video h2{height:33px;line-height:33px;font-size:18px;font-family:'Microsoft Yahei';}
+.videoIntro{line-height:24px;overflow:hidden;}
+.videoPic{position:relative;width:740px;overflow:hidden;}
+.videoPic a{position:relative;float:left;width:160px;height:90px;margin:30px 24px 0 0;overflow:hidden;background:#e8e6e6;}
+.videoPic a img{width:160px;height:90px;}
+.videoDot{display:block;position:absolute;top:0;left:0;width:160px;height:90px;background:url(http://image.my.7road.com/img/videoS.png) center center no-repeat;cursor:pointer;}
+.lockScreen{display:none;position:absolute;top:0;left:0;width:100%;min-width:1932px;height:100%;background:#000;opacity:0.6;filter:alpha(opacity=60);z-index:998;}
+.popVideoWrap{display:none;position:fixed;_position:absolute;top:50%;left:50%;margin-left:-300px;margin-top:-200px;width:640px;height:360px;z-index:999;
+    border:9px solid rgba(0,0,0,.1);border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;
+    _top:expression(eval(document.documentElement.scrollTop+(document.documentElement.clientHeight-this.offsetHeight)/2));_margin-top:0;}
+.popVideo{width:640px;height:360px;background:#000;overflow:hidden;}
+.closeVideo{position:absolute;right:-38px;top:-11px;width:40px;height:40px;cursor:pointer;display:block;background:url(http://image.my.7road.com/videoFlash/closeVideo.png) no-repeat;_background:url(http://image.my.7road.com/videoFlash/closeVideo8.png) no-repeat;}
+/*返回顶部*/
+.backTop{display:none;position:fixed;_position:absolute;top:50%;left:50%;margin-left:490px;margin-top:-65px;width:22px;height:130px;z-index:999;
+	_margin-top:0;background:url(http://image.my.7road.com/img/backTop.png) no-repeat;cursor:pointer;
+    _top:expression(eval(document.documentElement.scrollTop+(document.documentElement.clientHeight-this.offsetHeight)/2));}
+/*父母须知*/
+.parentsHelp{height:164px;padding:7px 0 0 60px;margin-top:15px;background:url(http://image.my.7road.com/img/parentsHelp.jpg) no-repeat;}
+.parentsHelp p{height:44px;padding-top:5px;margin-bottom:5px;line-height:22px;font-family:'Microsoft Yahei';font-size:14px;}
+.parentsHelp p span,.parentsHelp p em,.parentsHelp p a{display:block;color:#414141;}
+/*意见反馈*/
+.opinionTips{color:#b384d3;padding:0 0 30px;}
+.phoneEmail{overflow:hidden;margin-bottom:10px;}
+.phone,.email{width:355px;}
+.phoneEmail i,.phoneEmail span,.phone input,.email input{float:left;}
+.phoneEmail i{color:#b384d3;}
+.phone input,.email input{height:19px;line-height:19px;padding:0;border:none;border-bottom:1px solid #dbdbdb;background:#fff;}
+.phone input{width:150px;}
+.email input{width:280px;}
+.opinionInfo{display:block;width:670px;height:230px;margin-left:8px;padding:15px;border:1px solid #dbdbdb;color:#bb90d7;}
+.opinionSubmit{overflow:hidden;margin-top:20px;}
+.opinionSubmit span{float:right;height:24px;padding:0 15px;line-height:24px;color:#fff;background:#bb90d7;cursor:pointer;}
+.opinionSubmit img{float:right;margin:0 14px 0 5px;cursor:pointer;}
+.opinionSubmit input{float:right;width:70px;height:22px;line-height:22px;border:1px solid #dbdbdb;background:#fefdff;text-align:center;}
+.opinionSubmit em{float:right;color:#bb90d7;}

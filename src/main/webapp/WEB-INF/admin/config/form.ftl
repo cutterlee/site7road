@@ -10,7 +10,7 @@
                 <tr>
                     <td>父配置项:</td>
                     <td>
-                        <input name="pid"  class="easyui-combotree"  data-options="url:'${req.contextPath}/${entityName}/comboTree',method:'post',value:'<#if entity.pid gt 0>${entity.pid}</#if>'" style="width:50%;height:26px">
+                        <select name="pid"  class="easyui-combotree"  data-options="url:'${req.contextPath}/${entityName}/comboTree',panelHeight:'auto',method:'post'<#if entity.pid gt 0>,value:${entity.pid}</#if>" style="width:50%;height:26px"></select>
                     </td>
                 </tr>
                 <tr>

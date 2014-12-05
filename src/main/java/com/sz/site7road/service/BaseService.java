@@ -15,6 +15,8 @@ import java.util.List;
  */
 public interface BaseService <T>{
 
+    List<T> findAll();
+
     List<T> findByPage(PageEntity pageEntity);
 
     boolean remove(int id);
@@ -65,4 +67,13 @@ public interface BaseService <T>{
      * @return  删除的结果
      */
     boolean removeChildrenByPid(int pid);
+
+
+    /**
+     * 获取treeGrid的树形数据
+     * @param pid 父id
+     *  @param titleField title字段的名称
+     * @return  treeGrid所需树形数据
+     */
+    public List<ComboTreeResponse> getComboTreeListByPid(int pid,String titleField);
 }

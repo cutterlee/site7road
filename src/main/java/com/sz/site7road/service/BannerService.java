@@ -1,6 +1,9 @@
 package com.sz.site7road.service;
 
 import com.sz.site7road.entity.banner.BannerEntity;
+import com.sz.site7road.framework.combotree.ComboTreeResponse;
+
+import java.util.List;
 
 /**
  * project: 公司官网重构---李福春
@@ -8,4 +11,5 @@ import com.sz.site7road.entity.banner.BannerEntity;
  * remark: 栏目服务类
  */
 public interface BannerService extends BaseService<BannerEntity>{
+
 }

@@ -22,4 +22,6 @@ public class BannerServiceImpl extends AbstractBaseServiceImpl<BannerEntity> imp
     protected BaseDao getBaseDao() {
         return bannerDao;
     }
+
+
 }

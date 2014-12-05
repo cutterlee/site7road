@@ -19,9 +19,10 @@
                 <tr>
                     <th field="bannerName" sortable="true" width="200px" align="left"><@spring.message "banner.name"/></th>
                     <th field="isMenu" align="left"  width="100px" data-options="formatter:function(value,row,index){return initShow(value);}"><@spring.message "banner.isMenu"/></th>
+                    <th field="showNav" align="left"  width="100px" data-options="formatter:function(value,row,index){return initShow(value);}"><@spring.message "banner.nav.show"/></th>
                     <th field="orderNum"  align="left" width="100px"><@spring.message "banner.drank"/></th>
-                    <th field="isIndex"  align="left" width="100px" data-options="formatter:function(value,row,index){return initShow(value);}"><@spring.message "banner.isIndex"/></th>
-                    <th field="iRank" align="left"  width="100px"><@spring.message "banner.irank"/></th>
+                    <th field="indexShow"  align="left" width="100px" data-options="formatter:function(value,row,index){return initShow(value);}"><@spring.message "banner.isIndex"/></th>
+                    <th field="indexOrderNum" align="left"  width="100px"><@spring.message "banner.irank"/></th>
                     <th width="200px" field="id" data-options="formatter:function(value,row,index){return initBanner(row);}"><@spring.message "operate"/></th>
                 </tr>
                 </thead>
@@ -42,15 +43,15 @@
        return "<a iconCls='icon_edit'  href='javascript:void(0)' onclick='showField("+row.id+")'><span class='icon-wheel'>&nbsp;&nbsp;&nbsp;</span><@spring.message "banner.show.field"/></a>&nbsp;&nbsp;&nbsp;"+
                "<a iconCls='icon_edit'  href='javascript:void(0)' onclick='controllTemplate("+row.id+")'><span class='icon-wrench'>&nbsp;&nbsp;&nbsp;</span><@spring.message "banner.controller.template"/></a>";
     }
-    function showField(roleId)
+    function showField(bannerId)
     {
         //打开一个tab,到赋权限的页面
-        SITE_7ROAD.openTab("<@spring.message "banner.show.field"/>","${req.contextPath}/role/auth?roleId="+roleId,"icon-man",'${req.contextPath}');
+        SITE_7ROAD.openTab("<@spring.message "banner.show.field"/>","${req.contextPath}/banner/column?bannerId="+bannerId,"icon-man",'${req.contextPath}');
     }
-    function controllTemplate(roleId)
+    function controllTemplate(bannerId)
     {
         //打开一个tab,到赋权限的页面
-        SITE_7ROAD.openTab("<@spring.message "banner.controller.template"/>","${req.contextPath}/role/auth?roleId="+roleId,"icon-man",'${req.contextPath}');
+        SITE_7ROAD.openTab("<@spring.message "banner.controller.template"/>","${req.contextPath}/banner/template?bannerId="+bannerId,"icon-man",'${req.contextPath}');
     }
     $(function () {
         $(".searchEntity${entityName}").bind("click", function () {

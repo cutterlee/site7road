@@ -42,22 +42,14 @@ public class ResourceGridController extends BaseTreeController<ResourceEntity> {
         return "auth";
     }
 
+
     /**
-     * 获取comboTree的数据
+     * 获得树的title字段
      *
      * @return
      */
     @Override
-    protected List<ComboTreeResponse> getComboTreeResponse() {
-        List<ComboTreeResponse> children=resourceService.getComboTreeChildrenByPid(0);
-        ComboTreeResponse treeNode=new ComboTreeResponse();
-        treeNode.setId(0);
-        treeNode.setText("根");
-        treeNode.setChildren(children);
-        List<ComboTreeResponse> comboTreeResponseList= Lists.newLinkedList();
-        comboTreeResponseList.add(treeNode);
-        return comboTreeResponseList;
+    protected String getTreeNodeTitleField() {
+        return "resourceName";
     }
-
-
 }

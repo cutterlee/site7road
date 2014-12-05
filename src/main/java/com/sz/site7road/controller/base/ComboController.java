@@ -3,10 +3,13 @@ package com.sz.site7road.controller.base;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.io.Files;
 import com.sz.site7road.framework.combotree.ComboTreeResponse;
+import com.sz.site7road.framework.combotree.FileComboTreeResponse;
 import com.sz.site7road.framework.combotree.IconComboTree;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.WebUtils;
@@ -29,9 +32,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Controller
 @RequestMapping("/combo")
 public class ComboController {
-    private static final Logger log= Logger.getLogger(ComboController.class);
+    private static final Logger log = Logger.getLogger(ComboController.class);
 
-    String[] iconArray={
+    String[] iconArray = {
             "请选择",
             "icon-man",
             "icon-add",
@@ -68,54 +71,91 @@ public class ComboController {
     @ResponseBody
     public List<Map<String, Object>> getSexCombo() {
 
-        List<Map<String, Object>> gender= Lists.newLinkedList();
-        Map<String,Object> man=Maps.newHashMap();
-        man.put("id","0");
-        man.put("name","男");
+        List<Map<String, Object>> gender = Lists.newLinkedList();
+        Map<String, Object> man = Maps.newHashMap();
+        man.put("id", "0");
+        man.put("name", "男");
         gender.add(man);
 
-        Map<String,Object> woman=Maps.newHashMap();
-        woman.put("id","1");
-        woman.put("name","女");
+        Map<String, Object> woman = Maps.newHashMap();
+        woman.put("id", "1");
+        woman.put("name", "女");
         gender.add(woman);
-        return  gender;
+        return gender;
     }
 
 
     @RequestMapping(value = "icon")
     @ResponseBody
-    public List<ComboTreeResponse>  getIconCombo(ServletRequest request) {
+    public List<ComboTreeResponse> getIconCombo(ServletRequest request) {
 
-        /**
-         *   <input type="radio" name="l value="icon-man"       ><span class="icon-man">&nbsp;&nbsp;&nbsp;</span><br/>
-         <input type="radio" name="lang" value="icon-add"         ><span class="icon-add">&nbsp;&nbsp;&nbsp;</span><br/>
-         <input type="radio" name="lang" value="icon-remove"        ><span class="icon-remove">&nbsp;&nbsp;&nbsp;</span><br/>
-         <input type="radio" name="lang" value="icon-edit"            ><span class="icon-edit">&nbsp;&nbsp;&nbsp;</span><br/>
-         <input type="radio" name="lang" value="icon-search"          ><span class="icon-search">&nbsp;&nbsp;&nbsp;</span><br/>
-         <input type="radio" name="lang" value="icon-cancel"           ><span class="icon-cancel">&nbsp;&nbsp;&nbsp;</span><br/>
-         <input type="radio" name="lang" value="icon-cut"      ><span class="icon-cut">&nbsp;&nbsp;&nbsp;</span><br/>
-         <input type="radio" name="lang" value="icon-clear"    ><span class="icon-clear">&nbsp;&nbsp;&nbsp;</span><br/>
-         <input type="radio" name="lang" value="icon-filter"    ><span class="icon-filter">&nbsp;&nbsp;&nbsp;</span><br/>
-         <input type="radio" name="lang" value="icon-help"     ><span class="icon-help">&nbsp;&nbsp;&nbsp;</span><br/>
-         <input type="radio" name="lang" value="icon-lock"    ><span class="icon-lock">&nbsp;&nbsp;&nbsp;</span><br/>
-         <input type="radio" name="lang" value="icon-no"      ><span class="icon-no">&nbsp;&nbsp;&nbsp;</span><br/>
-         <input type="radio" name="lang" value="icon-ok>       <span class="icon-ok">&nbsp;&nbsp;&nbsp;</span><br/>
-         <input type="radio" name="lang" value="icon-print"    ><span class="icon-print">&nbsp;&nbsp;&nbsp;</span><br/>
-         <input type="radio" name="lang" value="icon-redo"    ><span class="icon-redo">&nbsp;&nbsp;&nbsp;</span><br/>
-         <input type="radio" name="lang" value="icon-reload"    ><span class="icon-reload">&nbsp;&nbsp;&nbsp;</span><br/>
-         <input type="radio" name="lang" value="icon-sum"      ><span class="icon-sum">&nbsp;&nbsp;&nbsp;</span><br/>
-         <input type="radio" name="lang" value="icon-tip"     ><span class="icon-tip">&nbsp;&nbsp;&nbsp;</span><br/>
-         <input type="radio" name="lang" value="icon-undo"    ><span class="icon-undo">&nbsp;&nbsp;&nbsp;</span><br/>
-         <input type="radio" name="lang" value="icon-save"   ><span class="icon-save">&nbsp;&nbsp;&nbsp;</span>
-         */
 
         return IconComboTree.getIconComboTreeResponseList();
     }
 
+    @RequestMapping(value = "{path}/template")
+    @ResponseBody
+    public List<FileComboTreeResponse> getTemplateComboTree(@PathVariable(value = "path") String path, ServletRequest request) {
+        //读取目录下的ftl文件,返回树形结构
+        List<FileComboTreeResponse> tree = Lists.newLinkedList();
+
+        String realPath = request.getServletContext().getRealPath("/WEB-INF/page/");
+        path = realPath +"/"+ path;
+        File templatePath = new File(path);
+        File[] templateFiles = templatePath.listFiles();
+        if(templateFiles!=null&&templateFiles.length>0) {
+            //先遍历文件夹
+            for (File file : templateFiles) {
+                if (file.isDirectory()) {
+                    FileComboTreeResponse comboTreeResponse = new FileComboTreeResponse();
+                    comboTreeResponse.setText(file.getName());
+                    comboTreeResponse.setId(file.getName());
+                    comboTreeResponse.setChildren(traverse(file.listFiles()));
+                    tree.add(comboTreeResponse);
+                }
+            }
+            //再遍历文件
+            for (File file : templateFiles) {
+                if (file.isFile()) {
+                    FileComboTreeResponse comboTreeResponse = new FileComboTreeResponse();
+                    comboTreeResponse.setText(file.getName());
+                    comboTreeResponse.setId(file.getName());
+                    comboTreeResponse.setChildren(null);
+                    tree.add(comboTreeResponse);
+                }
+            }
+        }
 
 
+        return tree;
+    }
 
 
-
+    public  List<FileComboTreeResponse> traverse(File[] templateFiles){
+        List<FileComboTreeResponse> fileComboTreeResponseList=Lists.newLinkedList();
+        if(templateFiles!=null&&templateFiles.length>0) {
+            //先遍历文件夹
+            for (File file : templateFiles) {
+                if (file.isDirectory()) {
+                    FileComboTreeResponse comboTreeResponse = new FileComboTreeResponse();
+                    comboTreeResponse.setText(file.getName());
+                    comboTreeResponse.setId( file.getName());
+                    comboTreeResponse.setChildren(traverse(file.listFiles()));
+                    fileComboTreeResponseList.add(comboTreeResponse);
+                }
+            }
+            //再遍历文件
+            for (File file : templateFiles) {
+                if (file.isFile()) {
+                    FileComboTreeResponse comboTreeResponse = new FileComboTreeResponse();
+                    comboTreeResponse.setText(file.getName());
+                    comboTreeResponse.setId(file.getParentFile().getName()+"/"+file.getName());
+                    comboTreeResponse.setChildren(null);
+                    fileComboTreeResponseList.add(comboTreeResponse);
+                }
+            }
+        }
+        return fileComboTreeResponseList;
+    }
 
 }
