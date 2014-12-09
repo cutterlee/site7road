@@ -70,10 +70,6 @@ public class UserInfoEntity implements Serializable {
      * 用户状态
      */
     private int userStatus;
-    /**
-     * 角色id
-     */
-    private int roleId;
 
     @Id
     @GeneratedValue(generator = "increment")
@@ -176,13 +172,5 @@ public class UserInfoEntity implements Serializable {
     public void setUserStatus(int userStatus) {
         this.userStatus = userStatus;
     }
-    @Column(name = "role_id")
-//    @OneToOne(targetEntity = RoleInfoEntity.class,mappedBy ="role_id" )
-    public int getRoleId() {
-        return roleId;
-    }
 
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
-    }
 }

@@ -1,8 +1,10 @@
 package com.sz.site7road.dao.roleresource;
 
 import com.sz.site7road.dao.base.BaseDao;
+import com.sz.site7road.entity.role.RoleInfoEntity;
 import com.sz.site7road.entity.role.RoleResourceEntity;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -33,4 +35,11 @@ public interface RoleResourceDao extends BaseDao<RoleResourceEntity>{
      * @return roleId对应的权限集合
      */
     List<RoleResourceEntity> findResourceByRoleId(int roleId);
+
+    /**
+     * 查找多角色用户的权限
+     * @param roleInfoEntityList 角色集合
+     * @return 用户的权限集合
+     */
+    List<RoleResourceEntity> findResourceByRoleList(Collection<RoleInfoEntity> roleInfoEntityList);
 }

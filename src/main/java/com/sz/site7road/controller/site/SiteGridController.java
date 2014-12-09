@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * User： cutter.li
@@ -38,4 +39,19 @@ public class SiteGridController extends BaseGridController<SiteEntity> {
     }
 
 
+    /**
+     * 上传文件之后,把得到的路径保存到实体的属性中去
+     *
+     * @param entity       实体
+     * @param fileUrlArray 文件的url路径列表
+     */
+    @Override
+    protected void setFilePathToEntityProperty(SiteEntity entity, List<String> fileUrlArray) {
+        if(!fileUrlArray.isEmpty())
+        {
+            String siteIcon=fileUrlArray.get(0);
+            entity.setSiteIcon(siteIcon);
+        }
+        super.setFilePathToEntityProperty(entity, fileUrlArray);
+    }
 }

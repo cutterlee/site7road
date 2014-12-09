@@ -91,7 +91,7 @@
                 success: function (data) {
                     var result = $.parseJSON(data);
                     if (result.success) {
-                        window.location.href = '${req.contextPath}/home.html';
+                        window.location.href = '${req.contextPath}/site.html';
                     } else {
                         $("#errorMsg").empty().html(result.errorMsg);
                     }

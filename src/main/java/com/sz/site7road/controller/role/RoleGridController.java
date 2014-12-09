@@ -2,16 +2,12 @@ package com.sz.site7road.controller.role;
 
 import com.sz.site7road.controller.base.BaseGridController;
 import com.sz.site7road.entity.role.RoleInfoEntity;
-import com.sz.site7road.entity.user.UserInfoEntity;
 import com.sz.site7road.framework.grid.ResultForGridForm;
 import com.sz.site7road.framework.tree.TreeNode;
 import com.sz.site7road.service.BaseService;
 import com.sz.site7road.service.ResourceService;
 import com.sz.site7road.service.RoleInfoService;
-import com.sz.site7road.service.UsrService;
 import org.apache.log4j.Logger;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

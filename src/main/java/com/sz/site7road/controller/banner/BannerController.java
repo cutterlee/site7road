@@ -1,10 +1,15 @@
 package com.sz.site7road.controller.banner;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.sz.site7road.controller.base.BaseTreeController;
+import com.sz.site7road.entity.article.ArticleEntity;
 import com.sz.site7road.entity.banner.BannerEntity;
 import com.sz.site7road.entity.system.PageEntity;
+import com.sz.site7road.framework.grid.GridQueryCondition;
+import com.sz.site7road.framework.grid.RequestGridEntity;
 import com.sz.site7road.framework.grid.ResultForGridForm;
+import com.sz.site7road.service.ArticleService;
 import com.sz.site7road.service.BannerService;
 import com.sz.site7road.service.BaseService;
 import com.sz.site7road.util.FtlUtil;
@@ -32,6 +37,8 @@ public class BannerController extends BaseTreeController<BannerEntity> {
 
     @Resource
     private BannerService bannerService;
+    @Resource
+    private ArticleService articleService;
 
 
     /**
@@ -77,6 +84,8 @@ public class BannerController extends BaseTreeController<BannerEntity> {
         map.addAttribute("setTemplatePermission", hasPermission(setTemplatePermission));
         String setColumnPermission = getTemplateDir() + ":column";
         map.addAttribute("setColumnPermission", hasPermission(setColumnPermission));
+        String generatePagePermission = getTemplateDir() + ":generate";
+        map.addAttribute("generatePagePermission", hasPermission(generatePagePermission));
         return super.index(map);
     }
 
@@ -130,7 +139,7 @@ public class BannerController extends BaseTreeController<BannerEntity> {
      * @param id 删除信息的id
      * @return 删除的结果
      */
-    @RequestMapping(value = "/{id}/generate", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/generate")
     @ResponseBody
     public ResultForGridForm removeEntity(@PathVariable(value = "id") int id) {
         ResultForGridForm resultForGridForm=new ResultForGridForm();
@@ -144,9 +153,24 @@ public class BannerController extends BaseTreeController<BannerEntity> {
                 if(bannerEntity.getIsMenu()!=1) {
                     String ftlTemplate = bannerEntity.getPagePath();
                     Map map= Maps.newConcurrentMap();
-                    map.put("entity",bannerEntity);
+                    RequestGridEntity queryParam = new RequestGridEntity();
+                    queryParam.setRows(10000);
+                    GridQueryCondition condition = new GridQueryCondition();
+                    condition.setPropertyName("typeId");
+                    condition.setPropertyValue(bannerEntity.getId());
+                    condition.setWhere("eq");
+                    queryParam.setCondition_1(condition);
+                    List<ArticleEntity> articleEntityList=articleService.findEntityListByRequestGridEntity(queryParam);
+                    map.put("articleList",articleEntityList);
+                    map.put("banner",bannerEntity);
                     try {
-                        ftlUtil.createHTML(ftlTemplate,map,bannerEntity.getHtmlName());
+                        String htmlName = bannerEntity.getHtmlName();
+                        if(Strings.isNullOrEmpty(htmlName)){
+                            htmlName=String.valueOf(bannerEntity.getId());
+                        }
+                        htmlName+=".html";
+                        ftlUtil.createHTML(ftlTemplate,map, htmlName,"dm");
+                        resultForGridForm.setSuccess();
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (TemplateException e) {

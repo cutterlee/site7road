@@ -1,44 +1,32 @@
 package com.sz.site7road.controller.home;
 
 import com.google.code.kaptcha.Producer;
+import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import com.google.common.collect.Collections2;
 import com.sz.site7road.entity.config.ConfigEntity;
 import com.sz.site7road.entity.role.RoleInfoEntity;
+import com.sz.site7road.entity.site.SiteEntity;
 import com.sz.site7road.entity.system.PageEntity;
 import com.sz.site7road.entity.user.LoginRequestEntity;
 import com.sz.site7road.entity.user.UserInfoEntity;
-import com.sz.site7road.framework.combotree.ComboTreeResponse;
-import com.sz.site7road.framework.combotree.IconComboTree;
 import com.sz.site7road.framework.config.AppConstant;
-import com.sz.site7road.framework.grid.ResponseGridEntity;
 import com.sz.site7road.framework.grid.ResultForGridForm;
 import com.sz.site7road.framework.tree.TreeNode;
-import com.sz.site7road.service.ConfigService;
-import com.sz.site7road.service.ResourceService;
-import com.sz.site7road.service.RoleInfoService;
-import com.sz.site7road.service.UsrService;
+import com.sz.site7road.service.*;
 import com.sz.site7road.util.HttpUtil;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.CredentialsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -58,7 +46,6 @@ import java.util.*;
 @RequestMapping(value = "/")
 public class HomeController {
 
-
     private Logger logger = Logger.getLogger(HomeController.class);
     public static final ResourceBundle MESSAGE = ResourceBundle.getBundle("message");
 
@@ -67,11 +54,11 @@ public class HomeController {
     @Resource
     private ResourceService resourceService;
     @Resource
-    private RoleInfoService roleInfoService;
-    @Resource
-    private UsrService usrService;
+    private UserService userService;
     @Resource
     private ConfigService configService;
+    @Resource
+    private SiteService siteService;
 
     private String PAGE_SHOW_WAY=MESSAGE.getString("page.show.way");
     private  String MENU_TYPE=MESSAGE.getString("system.menu") ;
@@ -173,8 +160,8 @@ public class HomeController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/home.html")
-    public ModelAndView loginSubmit(HttpServletRequest request) {
+    @RequestMapping(value = "/{siteId}/home.html")
+    public ModelAndView loginSubmit(HttpServletRequest request,@PathVariable(value = "siteId") final int siteId) {
 
 
         ModelAndView modelAndView = new ModelAndView();
@@ -187,15 +174,28 @@ public class HomeController {
             //判断登录的密码和用户名
             modelAndView.setViewName("common/home");
             String username = subject.getPrincipals().getPrimaryPrincipal().toString();
-            UserInfoEntity userInfoEntity = usrService.findUserInfoByUserName(username);
+            UserInfoEntity userInfoEntity = userService.findUserInfoByUserName(username);
             subjectSession.setAttribute("systemName", ResourceBundle.getBundle("message").getString("system.name"));
             subjectSession.setAttribute("userInfo", userInfoEntity);//用户信息
 
-            RoleInfoEntity roleInfoEntity = roleInfoService.findEntityById(userInfoEntity.getRoleId());
-            subjectSession.setAttribute("roleInfo", roleInfoEntity);//角色信息
 
-            List<TreeNode> treeNodeListByPid = resourceService.getUserAuthTree(userInfoEntity.getRoleId());
-            subjectSession.setAttribute("authList", treeNodeListByPid);//权限列表
+            List<RoleInfoEntity> roleInfoEntityList= userService.findRoleList(userInfoEntity.getId());
+            int roleSize = roleInfoEntityList.size();
+            if(roleSize == 0)
+            {
+                modelAndView.setViewName("redirect:/noRight");
+            }else{
+                    Collection<RoleInfoEntity> currentSiteRoleInfoList= Collections2.filter(roleInfoEntityList,new Predicate<RoleInfoEntity>() {
+                        @Override
+                        public boolean apply(RoleInfoEntity roleInfoEntity) {
+                            boolean acceptFlag = (siteId == roleInfoEntity.getSiteId());
+                            return acceptFlag;
+                        }
+                    });
+                List<TreeNode>   treeNodeListByPid = resourceService.getUserAuthTree(currentSiteRoleInfoList);
+                subjectSession.setAttribute("authList", treeNodeListByPid);//权限列表
+            }
+
 
             //加载系统的新增和编辑页面的交互方式,放到session和application中
             subjectSession.setAttribute("page_show_way",PAGE_SHOW_WAY);
@@ -204,7 +204,7 @@ public class HomeController {
             userInfoEntity.setLastLoginIp(HttpUtil.getIpAddress(request));
             userInfoEntity.setLastLoginTime(new Date(System.currentTimeMillis()));
             userInfoEntity.setLoginTimes(userInfoEntity.getLoginTimes() + 1);
-            usrService.modify(userInfoEntity);
+            userService.modify(userInfoEntity);
 
             subjectSession.setAttribute("menu", MENU_TYPE);
 
@@ -216,12 +216,15 @@ public class HomeController {
             subjectSession.setAttribute("javaHome", properties.getProperty("java.home"));
             subjectSession.setAttribute("host",request.getRemoteHost()+request.getRemotePort());
             subjectSession.setAttribute("ip", request.getRemoteAddr());
+            subjectSession.setAttribute("sid",siteId);
 
             PageEntity pageEntity = new PageEntity();
             pageEntity.setPageIndex(1);
             pageEntity.setPageSize(10000);
             List<ConfigEntity> configEntityList= configService.findByPage(pageEntity);
             subjectSession.setAttribute("configList",configEntityList);
+
+            }
 
 //            List<ComboTreeResponse> comboTreeResponseList=Lists.newLinkedList();
 //            for(ComboTreeResponse treeResponse:IconComboTree.getIconComboTreeResponseList())
@@ -234,11 +237,32 @@ public class HomeController {
 //                }
 //            }
 //            subjectSession.setAttribute("icons", comboTreeResponseList);
-
-        }
-
         return modelAndView;
     }
+
+    @RequestMapping(value = "/site.html")
+    public ModelAndView site(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("common/site");
+        Subject subject = SecurityUtils.getSubject();
+        subjectSession = SecurityUtils.getSubject().getSession(true);
+        if (!subject.isAuthenticated()) {
+            modelAndView.setViewName("redirect:/login.html");
+        } else {
+
+            String username = subject.getPrincipals().getPrimaryPrincipal().toString();
+            UserInfoEntity userInfoEntity = userService.findUserInfoByUserName(username);
+            subjectSession.setAttribute("systemName", ResourceBundle.getBundle("message").getString("system.name"));
+            subjectSession.setAttribute("userInfo", userInfoEntity);//用户信息
+            List<RoleInfoEntity> roleInfoEntityList = userService.findRoleList(userInfoEntity.getId());
+
+            List<SiteEntity> siteEntityList = siteService.findSiteListByRoleList(roleInfoEntityList);
+            subjectSession.setAttribute("siteList", siteEntityList);
+        }
+        return modelAndView;
+    }
+
+
 
     @RequestMapping("/captchaImage")
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {

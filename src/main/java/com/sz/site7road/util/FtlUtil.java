@@ -1,6 +1,8 @@
 package com.sz.site7road.util;
 
 import com.google.common.base.Charsets;
+import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
 import freemarker.template.*;
 
 import java.io.*;
@@ -17,57 +19,67 @@ public final class FtlUtil {
 
     public static final String ENCODING = Charsets.UTF_8.displayName();
     private static Configuration configuration = new Configuration();
-    private static FtlUtil instance=new FtlUtil();
+    private static FtlUtil instance;
     private static ResourceBundle message = ResourceBundle.getBundle("message");
+    private static File currentFile= new File(FtlUtil.class.getResource("/").getPath());;
 
 
     public static void setMessage(ResourceBundle message) {
         FtlUtil.message = message;
     }
 
-    public static boolean init() throws TemplateModelException, IOException {
+    public static void  init() throws TemplateModelException {
 
         //2,setSharedVariable
 
-        Set<String> keySet = message.keySet();
+        Set<String> keySet = Sets.newHashSet();
+        if(null!=message)
+        {
+            keySet= message.keySet();
+        }
         if (!keySet.isEmpty()) {
             for (String key : keySet) {
                 configuration.setSharedVariable(key, message.getString(key));
             }
         }
         //3,setSettings
-        File currentFile = new File(FtlUtil.class.getResource("/").getPath());
-
-        String templateFilePath=currentFile.getParent()+"/site7road/WEB-INF/page/";
-
-        configuration.setDirectoryForTemplateLoading(new File(templateFilePath));//set directory for ftl
-
-
-
-
-        configuration.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
-        //setDefaultEncoding
-        configuration.setDefaultEncoding(ENCODING);
-        configuration.setObjectWrapper(new DefaultObjectWrapper());
-        return false;
+        if(null==currentFile)
+        {
+            currentFile=new File(FtlUtil.class.getResource("/").getPath());
+        }
+        String templateFilePath=currentFile.getParent()+"/page/";
+        File templatePath = new File(templateFilePath);
+        if(!templatePath.exists())
+        {
+            String templateFilePath2=currentFile.getParent()+"/page/";
+            templatePath = new File(templateFilePath2);
+        }
+        try {
+            configuration.setDirectoryForTemplateLoading(templatePath);//set directory for ftl
+        } catch (IOException e) {
+           e.printStackTrace();
+        }finally {
+            configuration.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
+            //setDefaultEncoding
+            configuration.setDefaultEncoding(ENCODING);
+            configuration.setObjectWrapper(new DefaultObjectWrapper());
+        }
     }
 
     public static FtlUtil getInstance(){
         if(null==instance)
         {
             instance=new FtlUtil();
+            try {
+                init();
+            } catch (TemplateModelException e) {
+                e.printStackTrace();
+            }
         }
         return instance;
     }
 
      private FtlUtil(){
-        try {
-            init();
-        } catch (TemplateModelException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -76,17 +88,43 @@ public final class FtlUtil {
      * @param ftlFile 模板文件
      * @param data    封装的数据
      * @param file    html文件
+     * @param siteAlias  所属站点的简称
      * @throws IOException
      * @throws TemplateException
      */
-    public void createHTML(String ftlFile, Map data, String file)
+    public  void createHTML(String ftlFile, Map data, String file,String siteAlias)
             throws IOException, TemplateException {
         Writer out = null;
         FileOutputStream output = null;
         try {
-            Template template = configuration.getTemplate(ftlFile);
+            String ftlFilePath="/"+siteAlias+"/"+ftlFile;
+            Template template = configuration.getTemplate(ftlFilePath);
             String htmlSavePath= message.getString("html.save.path");
-            output = new FileOutputStream(htmlSavePath+file+".html");
+            File htmlSavePathFile=null;
+            if(Strings.isNullOrEmpty(htmlSavePath))
+            {
+                htmlSavePath=currentFile.getParent()+"/static/html/"+siteAlias+"/";
+                if(!htmlSavePathFile.exists())
+                {
+                    htmlSavePath=currentFile.getParent()+"/site7road/static/html/"+siteAlias+"/";
+                }
+            }else{
+                htmlSavePath+="/"+siteAlias+"/";
+            }
+             htmlSavePathFile=new File(htmlSavePath);
+
+            if(!htmlSavePathFile.exists())
+            {
+                htmlSavePathFile.mkdirs();
+            }
+            String htmlSaveName = htmlSavePath + file ;
+            if(file.contains("/")) {
+                File htmlFile = new File(htmlSavePath+file.substring(0,file.lastIndexOf("/")));
+                if (!htmlFile.exists()) {
+                    htmlFile.mkdirs();
+                }
+            }
+            output = new FileOutputStream(htmlSaveName);
             out = new OutputStreamWriter(output, ENCODING);
             template.process(data, out);
         } catch (Exception ex) {
@@ -168,6 +206,11 @@ public final class FtlUtil {
             }
         }
         return os;
+    }
+
+
+    public static void main(String[] args) throws IOException, TemplateException {
+       FtlUtil.getInstance().createHTML("index.ftl", null, "/bak/test/index.html", "dm");
     }
 
 }

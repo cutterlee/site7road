@@ -1,9 +1,11 @@
 package com.sz.site7road.service;
 
 import com.sz.site7road.entity.resource.ResourceEntity;
+import com.sz.site7road.entity.role.RoleInfoEntity;
 import com.sz.site7road.framework.combotree.ComboTreeResponse;
 import com.sz.site7road.framework.tree.TreeNode;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -69,4 +71,11 @@ public interface ResourceService extends BaseService<ResourceEntity>{
      * @return 权限信息
      */
     ResourceEntity findResourceByPermission(String permission);
+
+    /**
+     * 多角色获得用户的操作权限
+     * @param roleInfoEntityList 角色集合
+     * @return 多角色的用户对应的权限集合
+     */
+    List<TreeNode> getUserAuthTree( Collection<RoleInfoEntity> roleInfoEntityList);
 }

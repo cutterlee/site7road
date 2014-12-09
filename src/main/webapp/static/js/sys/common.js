@@ -268,6 +268,15 @@ SITE_7ROAD = {
     transGridDate:function (value) {
         var unixTimestamp = new Date(value);
         return unixTimestamp.format('yyyy'+MSGTIP.year+'MM'+MSGTIP.month+'dd'+MSGTIP.day);
+    },
+    generatePage:function(siteId,contextPath){
+        $.post(contextPath+"/banner/"+siteId+"/generate",function(data){
+            var msg= $.parseJSON(data);
+            if(msg.success())
+            {
+                $.messager.alert("生成页面","生成成功","info");
+            }
+        });
     }
 
 }

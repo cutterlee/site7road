@@ -22,9 +22,10 @@
                         </tr>
                         <tr>
                             <td><label><@spring.message "site.icon"/>:</label></td>
-                            <td>
-                                <input name="siteIcon"  value="${entity.siteIcon!''}" class="easyui-validatebox"  validType="url" required="true" style="width: 400px;">
+                            <td><input type="hidden" name="siteIcon" value="${entity.siteIcon!''}"/>
+                                <input class="easyui-filebox" name="files" data-options="prompt:'<@spring.message "file.choose.prompt"/>'" style="width:400px;">
                             </td>
+
                         </tr>
                         <tr>
                             <td><label><@spring.message "site.url"/>:</label></td>

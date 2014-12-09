@@ -11,6 +11,14 @@
             </tr>
 
             <tr>
+                <td style="width: 100px;"><label><@spring.message "banner.html.name"/>:</label></td>
+                <td>
+                   <input class="easyui-validatebox" name="htmlName" required="true" validType="remote">
+                </td>
+            </tr>
+
+
+            <tr>
                 <td style="width: 100px;"><label><@spring.message "banner.list.template"/>:</label></td>
                 <td>
                     <input class="easyui-combotree"

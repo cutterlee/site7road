@@ -1,0 +1,55 @@
+/* ============产品图片列表============== */
+
+div.productlist_diy{
+margin:6px 10px 2px;
+text-align:center;
+float:left;
+}
+
+div.productlist_diy div.fang{
+background: #fff;
+padding:0px;
+text-align:center;
+}
+
+div.productlist_diy div.picFit{
+overflow: hidden;
+}
+
+div.productlist_diy div.picFit img{
+}
+
+div.productlist_diy div.title{
+text-align:center;
+overflow: hidden;
+white-space:nowrap;
+}
+
+div.productlist_diy a:link,div.productlist_diy a:visited,div.productlist_diy a:active{
+color:#333;
+font:12px/25px arial,simsun;
+text-decoration: none;
+}
+
+div.productlist_diy a:hover{
+color:#ff0000;
+text-decoration: underline;
+font:12px/25px arial,simsun;
+}
+
+
+.stepcarousel {
+position: relative;
+width: 365px;
+height: 126px;
+}
+.stepcarousel .belt {
+position: absolute;
+left: 0;
+top: 0;
+}
+.stepcarousel .panel {
+float: left;
+overflow: hidden;
+width: 110px;
+}

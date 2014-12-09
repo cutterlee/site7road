@@ -30,7 +30,7 @@ public class FtlUtilTest {
         String htmlName="/dm/index.html";
         Map map= Maps.newConcurrentMap();
         map.put("dmSystemName","大米系统");
-        ftlUtil.createHTML(ftlTemplate,map,htmlName);
+        ftlUtil.createHTML(ftlTemplate,map,htmlName,"dm");
     }
 
     @Test

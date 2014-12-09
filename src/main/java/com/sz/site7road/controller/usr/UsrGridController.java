@@ -3,7 +3,7 @@ package com.sz.site7road.controller.usr;
 import com.sz.site7road.controller.base.BaseGridController;
 import com.sz.site7road.entity.user.UserInfoEntity;
 import com.sz.site7road.service.BaseService;
-import com.sz.site7road.service.UsrService;
+import com.sz.site7road.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -20,11 +20,11 @@ import java.util.ResourceBundle;
 public class UsrGridController extends BaseGridController<UserInfoEntity> {
 
     @Resource
-    private UsrService usrService;
+    private UserService userService;
 
     @Override
     protected BaseService getService() {
-        return usrService;
+        return userService;
     }
 
     @Override

@@ -2,9 +2,10 @@ package com.sz.site7road.framework.auth;
 
 import com.google.common.base.Strings;
 import com.sz.site7road.entity.resource.ResourceEntity;
+import com.sz.site7road.entity.role.RoleInfoEntity;
 import com.sz.site7road.entity.user.UserInfoEntity;
 import com.sz.site7road.service.RoleInfoService;
-import com.sz.site7road.service.UsrService;
+import com.sz.site7road.service.UserService;
 import org.apache.log4j.Logger;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationException;
@@ -12,12 +13,10 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.util.ByteSource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Set;
 
 /**
  * User： cutter.li
@@ -30,7 +29,7 @@ public class MyReal extends AuthorizingRealm {
     private static final Logger log = Logger.getLogger(MyReal.class);
 
     @Resource
-    private UsrService userInfoService;
+    private UserService userInfoService;
 
     @Resource
     private RoleInfoService roleInfoService;
@@ -58,11 +57,16 @@ public class MyReal extends AuthorizingRealm {
         //查找到用户的角色集合
         UserInfoEntity userInfoEntity = userInfoService.findUserInfoByUserName(username);
 
-        //查找到用户的资源操作集合
-        List<ResourceEntity> resourceEntityList = roleInfoService.findRolePerssionSet(userInfoEntity.getRoleId());
+        List<RoleInfoEntity> roleInfoEntityList= userInfoService.findRoleList(userInfoEntity.getId());
+
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        authorizationInfo.addRole(String.valueOf(userInfoEntity.getRoleId()));
+        for(RoleInfoEntity roleInfoEntity:roleInfoEntityList)
+        {
+            authorizationInfo.addRole(String.valueOf(roleInfoEntity.getId()));
+        }
+        //查找到用户的资源操作集合
+        List<ResourceEntity> resourceEntityList = roleInfoService.findRolePerssions(roleInfoEntityList);
         for (ResourceEntity resourceEntity : resourceEntityList) {
 
             String resourceUrl = resourceEntity.getResourceUrl();

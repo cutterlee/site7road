@@ -11,6 +11,7 @@ import com.sz.site7road.dao.resource.ResourceDao;
 import com.sz.site7road.dao.roleresource.RoleResourceDao;
 import com.sz.site7road.entity.config.ConfigEntity;
 import com.sz.site7road.entity.resource.ResourceEntity;
+import com.sz.site7road.entity.role.RoleInfoEntity;
 import com.sz.site7road.entity.role.RoleResourceEntity;
 import com.sz.site7road.framework.combotree.ComboTreeResponse;
 import com.sz.site7road.framework.grid.GridQueryCondition;
@@ -358,6 +359,69 @@ public class ResourceServiceImpl extends AbstractBaseServiceImpl<ResourceEntity>
             return  resourceEntityList.get(0);
         }
         return null;
+    }
+
+    /**
+     * 多角色获得用户的操作权限
+     *
+     * @param roleInfoEntityList 角色集合
+     * @return 多角色的用户对应的权限集合
+     */
+    @Override
+    public List<TreeNode> getUserAuthTree( Collection<RoleInfoEntity> roleInfoEntityList) {
+        Preconditions.checkArgument(null!=roleInfoEntityList);
+        Preconditions.checkArgument(!roleInfoEntityList.isEmpty());
+
+        List<TreeNode> treeNodeList = Lists.newLinkedList();
+        //find the role auth list
+        List<RoleResourceEntity> roleResourceEntityList = roleResourceDao.findResourceByRoleList(roleInfoEntityList);
+        //build the auth map
+        final Map<Integer, Integer> resourceIdMap = Maps.newHashMap();
+        if (null != roleResourceEntityList && !roleResourceEntityList.isEmpty()) {
+            for (RoleResourceEntity roleResourceEntity : roleResourceEntityList) {
+                resourceIdMap.put(roleResourceEntity.getResourceId(), roleResourceEntity.getResourceId());
+            }
+        }
+        //find the complete resource list
+        RequestGridEntity dataGridParam = new RequestGridEntity();
+        dataGridParam.setPage(1);
+        dataGridParam.setRows(10000);
+        dataGridParam.setSort("orderNum");
+        dataGridParam.setOrder("asc");
+        List<ResourceEntity> resourceEntityList = resourceDao.findEntityListByRequestGridEntity(dataGridParam);
+
+        if (resourceEntityList != null && !resourceEntityList.isEmpty()) {
+            for (final ResourceEntity resourceEntity : resourceEntityList) {
+                if (resourceIdMap.containsKey(resourceEntity.getId())&&resourceEntity.getResourceType()== MENU_TYPE_ID) {
+                    TreeNode treeNode = new TreeNode();
+                    treeNode.setId(resourceEntity.getId());
+                    treeNode.setText(resourceEntity.getResourceName());
+                    treeNode.setIconCls(resourceEntity.getResourceIcon());
+                    treeNode.setPath(resourceEntity.getResourceUrl());
+
+                    Collection<ResourceEntity> children = Collections2.filter(resourceEntityList, new Predicate<ResourceEntity>() {
+                        @Override
+                        public boolean apply(ResourceEntity resource) {
+                            return resourceEntity.getId() == resource.getPid() && resourceIdMap.containsKey(resource.getId());
+                        }
+                    });
+                    // add the first level treenode
+                    if (children != null && !children.isEmpty()&&resourceEntity.getPid()==0) {
+                        //递归,构造子节点
+                        List<TreeNode> childrenNode = recursionResource(children, resourceIdMap, resourceEntityList);
+                        treeNode.setChildren(childrenNode);
+                        treeNodeList.add(treeNode);
+
+                    }
+
+                }
+
+
+            }
+
+
+        }
+        return treeNodeList;
     }
 
     /**

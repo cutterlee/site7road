@@ -20,7 +20,7 @@
                         <option value="peppergrinder">peppergrinder</option>
                         <option value="sunny">sunny</option>
                     </select>
-                    <span class="realName"></span>你好,<#if userInfo??>${userInfo.nickName}</#if> ,您是<span class="roleName"><#if roleInfo??><#if roleInfo.roleName??>${roleInfo.roleName!''}</#if></#if></span>&nbsp;&nbsp;<span
+                    <span class="realName"></span>你好,<sapn class="icon-man">&nbsp;&nbsp;&nbsp;&nbsp;</sapn><#if userInfo??>${userInfo.nickName}</#if> ,<span
                         class="logout c1">注销</span>
                 </td>
             </tr>

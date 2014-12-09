@@ -1,5 +1,6 @@
 package com.sz.site7road.service.impl;
 
+import com.google.common.base.Preconditions;
 import com.sz.site7road.dao.base.BaseDao;
 import com.sz.site7road.dao.role.RoleInfoDao;
 import com.sz.site7road.entity.resource.ResourceEntity;
@@ -31,6 +32,19 @@ public class RoleInfoServiceImpl extends AbstractBaseServiceImpl<RoleInfoEntity>
     @Override
     public List<ResourceEntity> findRolePerssionSet(int roleId) {
         return dao.findRolePermissionSet(roleId);
+    }
+
+    /**
+     * 查找角色集合对应的权限
+     *
+     * @param roleInfoEntityList 角色集合
+     * @return 对应的资源信息
+     */
+    @Override
+    public List<ResourceEntity> findRolePerssions(List<RoleInfoEntity> roleInfoEntityList) {
+        Preconditions.checkArgument(null!=roleInfoEntityList);
+        Preconditions.checkArgument(!roleInfoEntityList.isEmpty());
+        return dao.findRolePermissions(roleInfoEntityList);
     }
 
     @Override

@@ -4,6 +4,9 @@
             <div id="${entityName}tb" style="padding:2px;height:auto;">
                 <div style="margin-bottom:2px">
                   <#include "*/common/tree_button.ftl"/>
+                  <#if generatePagePermission>
+                      <a href="#" class="easyui-linkbutton" iconCls="icon-wrench" onclick="SITE_7ROAD.generatePage('${sid}','${req.contextPath}')"><@spring.message "generate"/></a>
+                  </#if>
                   <@spring.message "banner.name"/>:<input class="easyui-textbox" style="width:120px"  id="bannerName"   propertyName="bannerName" where="like">
                       <a href="#" class="easyui-linkbutton searchEntity${entityName}" iconCls="icon-search"><@spring.message "search"/></a>
                 </div>

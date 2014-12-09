@@ -1,0 +1,78 @@
+/* ============ËÑË÷±íµ¥============== */
+div.newssearchformzone{
+	padding:25px 0px 50px 27px;
+	height:100%;
+	margin:0px;
+}
+
+div.newssearchformzone div.newssearchform{
+	height: 20px;
+	line-height:19px;
+	margin-top:4px;
+}
+
+div.newssearchformzone div.newssearchform .inputtext{
+	border:1px #ddd solid;
+	height:18px;
+	line-height:17px;
+}
+div.newssearchformzone div.newssearchform2{
+	height: 20px;
+	line-height:19px;
+	margin-top:3px;
+	padding:0px;
+}
+
+div.newssearchformzone div.newssearchform .box{
+    BORDER: #e3e9ef 1px solid;
+	FONT-SIZE: 10pt;
+	color:#505050;
+	FONT-FAMILY: "verdna";
+		
+}
+
+div.newssearchformzone div.newssearchform .selectBoxSelectedArea {
+    PADDING-LEFT: 3px;
+	FONT-SIZE: 12px;
+	COLOR: #505050;
+	LINE-HEIGHT: 17px;
+	PADDING-TOP: 1px;
+	BACKGROUND-COLOR:#ffffff;
+}
+div.newssearchformzone div.newssearchform .selectBoxSelectedAreaFocus {
+    PADDING-LEFT: 3px;
+	FONT-SIZE: 12px;
+	COLOR: #333333;
+	LINE-HEIGHT: 17px; 
+	PADDING-TOP: 1px;  
+	BACKGROUND-COLOR: #ffffff
+}
+div.newssearchformzone div.newssearchform .selectBoxOption {
+    PADDING-LEFT: 3px; 
+	FONT-SIZE: 12px; 
+	COLOR: #505050; 
+	LINE-HEIGHT: 17px; 
+	PADDING-TOP: 2px;  
+	BACKGROUND-COLOR: #ffffff;
+	
+}
+div.newssearchformzone div.newssearchform .selectBoxOptionOver {
+    PADDING-LEFT: 3px; 
+	FONT-SIZE: 12px; 
+	COLOR: #333333; 
+	LINE-HEIGHT: 17px; 
+	PADDING-TOP: 2px;  
+	BACKGROUND-COLOR: #ffffff
+}
+div.newssearchformzone div.newssearchform .selectBoxOptionInnerLayer {
+    BORDER: #e3e9ef 1px solid; 
+	SCROLLBAR-FACE-COLOR: #ffffff; 
+	SCROLLBAR-HIGHLIGHT-COLOR: #b4b4b4; 
+	OVERFLOW: auto;
+	SCROLLBAR-SHADOW-COLOR: #b4b4b4; 
+	SCROLLBAR-3DLIGHT-COLOR: #ffffff; 
+	SCROLLBAR-ARROW-COLOR: #838383; 
+	SCROLLBAR-TRACK-COLOR: #eaeaea; 
+	SCROLLBAR-DARKSHADOW-COLOR: #ffffff; 
+	BACKGROUND-COLOR: #ffffff;
+}

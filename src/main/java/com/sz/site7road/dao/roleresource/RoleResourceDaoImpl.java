@@ -1,6 +1,9 @@
 package com.sz.site7road.dao.roleresource;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.sz.site7road.dao.base.BaseDaoImpl;
+import com.sz.site7road.entity.role.RoleInfoEntity;
 import com.sz.site7road.entity.role.RoleResourceEntity;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -12,6 +15,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 
@@ -105,5 +109,38 @@ public class RoleResourceDaoImpl extends BaseDaoImpl<RoleResourceEntity> impleme
         transaction.commit();
         session.close();
         return entityList;
+    }
+
+    /**
+     * 查找多角色用户的权限
+     *
+     * @param roleInfoEntityList 角色集合
+     * @return 用户的权限集合
+     */
+    @Override
+    public List<RoleResourceEntity> findResourceByRoleList(Collection<RoleInfoEntity> roleInfoEntityList) {
+        Preconditions.checkArgument(null!=roleInfoEntityList);
+        Preconditions.checkArgument(!roleInfoEntityList.isEmpty());
+        Object[] paramList= new Object[roleInfoEntityList.size()];
+        int i=0;
+        for(RoleInfoEntity roleInfoEntity:roleInfoEntityList)
+        {
+            paramList[i]=roleInfoEntity.getId();
+            i++;
+        }
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            Query query = session.createQuery("  from RoleResourceEntity entity where entity.roleId in (:roleIdArray)");
+            query.setParameterList("roleIdArray",paramList);
+            transaction.commit();
+            return query.list();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            transaction.rollback();
+        }finally {
+            session.close();
+        }
+        return null;
     }
 }

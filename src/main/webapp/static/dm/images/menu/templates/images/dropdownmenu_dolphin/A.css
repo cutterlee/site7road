@@ -1,0 +1,115 @@
+.dropdownmenu_dolphin{
+   clear:both;
+   padding:0px;
+   white-space:nowrap;
+   overflow:hidden;
+   width:100%;
+   color:#fff;
+   background:url(menubg.jpg) 0px 0px repeat-x;
+}
+
+.wall{
+   margin:0px 0px 0px -2px;
+   white-space:nowrap;
+   overflow:hidden;
+   color:#fff;
+}
+
+.dorpmenu_dolphin{
+   float:left;
+   color:#fff;
+   width:120px;
+   height:73px;
+   text-align:center;
+   padding:0px;
+   margin:0px;
+}
+
+a.dorpmenu_dolphin:link,a.dorpmenu_dolphin:visited,a.dorpmenu_dolphin:active {
+   color: #2e2e2e; 
+   text-decoration: none;
+   height:73px;
+   background:url(menu.jpg) 0px 0px no-repeat;
+   font:14px/73px 'SimSun',Arial,Sans-Serif;
+   margin:0px;
+}
+
+a.dorpmenu_dolphin:hover {
+   color: #fff; 
+   text-decoration: none;
+   height:73px;
+   background:url(menunow.jpg) 0px 0px no-repeat;
+   font:14px/73px 'SimSun',Arial,Sans-Serif;
+} 
+
+a.dorpmenu_dolphin_current {
+   display:block;
+   color: #fff; 
+   text-decoration: none;
+   height:73px;
+   background:url(menunow.jpg) 0px 0px no-repeat;
+   font:14px/73px 'SimSun',Arial,Sans-Serif;
+} 
+
+a.dorpmenu_dolphin1:link,a.dorpmenu_dolphin1:visited,a.dorpmenu_dolphin1:active {
+   display:block;
+   color: #2e2e2e; 
+   text-decoration: none;
+   height:73px;
+   background:url(menu.jpg) 0px 0px no-repeat;
+   font:14px/73px 'SimSun',Arial,Sans-Serif;
+   margin:0px;
+}
+
+a.dorpmenu_dolphin1:hover {
+   color: #fff; 
+   text-decoration: none;
+   height:73px;
+   background:url(menunow.jpg) 0px 0px no-repeat;
+   font:14px/73px 'SimSun',Arial,Sans-Serif;
+}
+
+div.subdorpmenu_dolphin{
+   display:none;
+   position:absolute;
+}
+
+div.subdorpmenu_dolphin ul{
+   width:118px;
+   color:#2e2e2e;
+   background:#152534;
+   margin:0px;
+   padding:9px 0px;
+}
+
+div.subdorpmenu_dolphin li{
+   padding:0px;
+   list-style-type:none;
+   text-align:center; 
+   height:27px;
+   color:#fff;
+}
+
+div.subdorpmenu_dolphin li.current{
+   color:#2e2e2e;
+   height:27px;
+   display:block;
+}
+
+a.subdorpmenu_dolphin:link,a.subdorpmenu_dolphin:visited,a.subdorpmenu_dolphin:active{
+   display:block;
+   color:#3e3e3e; 
+   text-decoration: none;
+   font:12px/27px 'SimSun',Arial,Sans-Serif;
+   margin:0px;
+   background:url(li.jpg) 0px 0px no-repeat;
+}
+
+a.subdorpmenu_dolphin:hover {
+   display:block;
+   color:#f8f9f9; 
+   text-decoration: none;
+   font:12px/27px 'SimSun',Arial,Sans-Serif;
+   margin:0px;
+   background:url(linow.jpg) 0px 0px no-repeat;
+}
